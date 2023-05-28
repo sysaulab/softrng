@@ -50,3 +50,17 @@ m4/lt~obsolete.m4
 # can automatically generate from config.status script
 # (which is called by configure script))
 Makefile
+*.o
+src/softrng
+src/sr_sleepinfo
+src/srf_bench
+src/srf_hex
+src/srf_limitsize
+src/srf_multixor
+src/srf_void
+src/srg_qxo64
+src/srg_roxo64
+src/srs_icm64
+src/srs_icm64mix
+src/srt_bspec32
+src/srt_bspec32_ref

@@ -20,7 +20,7 @@ inline uint64_t rot64(uint64_t i, int s)
 
 void* prng(void * raw)
 {
-    uint64_t buffer[_SSRNG_BUFLEN_LONG];
+    uint64_t* buffer = malloc(_SSRNG_BUFLEN_LONG);
     uint64_t prng_state[4][256];
     uint64_t index = 0;
     int64_t fresh = 0;
@@ -45,6 +45,7 @@ void* prng(void * raw)
         }
         fwrite(buffer, sizeof(uint64_t), _SSRNG_BUFLEN_LONG, stdout);
     }
+    free(buffer);
     return NULL;
 }
 

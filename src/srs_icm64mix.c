@@ -18,7 +18,7 @@
 
 int main(int argc, const char * argv[])
 {
-    uint64_t buffer[_SSRNG_BUFLEN];
+    uint64_t* buffer = malloc(_SSRNG_BUFLEN);
     icm_state_t state;
     icm_init(&state);
     while(1)
@@ -27,6 +27,7 @@ int main(int argc, const char * argv[])
         icm_mix64(&state, buffer, _SSRNG_BUFLEN);
         fwrite(buffer, sizeof(uint64_t), _SSRNG_BUFLEN, stdout);
     }
+    free(buffer);
     icm_stop(&state);
     return EXIT_SUCCESS;
 }

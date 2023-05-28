@@ -14,7 +14,7 @@
 
 void* prng(void* raw)
 {
-    uint64_t buffer[_SSRNG_BUFLEN];
+    uint64_t* buffer = malloc(_SSRNG_BUFLEN);
     uint64_t* cache = calloc(4*65536, sizeof(uint64_t));
     if(!cache) exit(EXIT_FAILURE);
     uint64_t index = 0;
@@ -31,6 +31,7 @@ void* prng(void* raw)
         }
         fwrite(buffer, sizeof(uint64_t), _SSRNG_BUFLEN, stdout);
     }
+    free(buffer);
     return NULL;
 }
 

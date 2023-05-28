@@ -12,6 +12,4 @@
 #define _SSRNG_BUFLEN       1024                    // buffer size in number of uint64_t (apparent size of pipe buffers in macos)
 #define _SSRNG_FPS          5                      // FPS in ui
 
-//#define _SRG_PRODUCTION     1                     // remove all non-necessary code for production distribution, mostly disables printf's and the seed options
-
 #define _SSRNG_BUFSIZE      (_SSRNG_BUFLEN*8)       // buffer size in bytes for support commands, meant to match muffer of generators

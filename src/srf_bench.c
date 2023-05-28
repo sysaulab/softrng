@@ -50,7 +50,7 @@ void* live(void* unused)
 int main(int argc, char** argv)
 {
     uint64_t bytes_readed = 0;
-    char buffer[_SSRNG_BUFSIZE];
+    char* buffer = malloc(_SSRNG_BUFSIZE);
     start = ftime();
     pthread_t thr;
     pthread_create(&thr, NULL, &live, NULL);
@@ -61,5 +61,6 @@ int main(int argc, char** argv)
         bytes_readed += buf_received;
         bytes_written += fwrite(&buffer, sizeof(char), buf_received, stdout);
     }
+    free(buffer);
     return EXIT_SUCCESS;
 }

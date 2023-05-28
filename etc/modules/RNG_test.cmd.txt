@@ -1,5 +1,5 @@
-PRAT RNG_test stdin
-PRAT8 RNG_test stdin8
-PRAT16 RNG_test stdin16
-PRAT32 RNG_test stdin32
-PRAT64 RNG_test stdin64
+PRAT RNG_test\ stdin
+PRAT8 RNG_test\ stdin8
+PRAT16 RNG_test\ stdin16
+PRAT32 RNG_test\ stdin32
+PRAT64 RNG_test\ stdin64

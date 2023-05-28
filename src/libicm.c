@@ -36,9 +36,9 @@ int ___libicm_modify( volatile uint64_t* in, volatile uint64_t* out )
         *in = (*in << 13) | (*in >> (64 - 13));         /* source is rotated by 13 bits... */
         acc = (acc << x) | (acc >> (64 - x));           /* smooth out bit distribution in acc */
         acc *= primes[(2 * x)+(1 & *in)];               /* accumulate a unique prime for this run... */
-        *out ^= acc;                                    /* add uncertainty in the sink too as we go... */
+        *out += acc ^ *in;                                    /* add uncertainty in the sink too as we go... */
     }
-    //*out ^= acc;                                      /* finally XOR the accumulated product to the sink */
+    *out ^= acc;                                      /* finally XOR the accumulated product to the sink */
     return 0;
 }
 

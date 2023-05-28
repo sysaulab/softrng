@@ -59,6 +59,7 @@ int main(int argc, char** argv)
         if(readed != min_readed) 
             exit(EXIT_FAILURE);
     }
-
+    free(buffers);
+    free(inputs);
     return EXIT_SUCCESS;
 }

@@ -9,8 +9,9 @@
 
 int main(int argc, char** argv)
 {
-    char* buffer = malloc(_SSRNG_BUFSIZE);
-    if(!buffer) exit(EXIT_FAILURE);
-    while(fread(&buffer, sizeof(char), _SSRNG_BUFSIZE, stdin));
+    char* buffer = calloc(_SSRNG_BUFSIZE, sizeof(char));
+    if(buffer == NULL) exit(EXIT_FAILURE);
+    while(fread(buffer, sizeof(char), _SSRNG_BUFSIZE, stdin));
+    free(buffer);
     return EXIT_SUCCESS;
 }
