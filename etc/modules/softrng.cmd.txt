@@ -1,0 +1,11 @@
+HEX	    srf_hex
+INFO	srf_bench
+MIXOR	srf_multixor
+PRNG	srg_roxo64
+RAND	cat /dev/random
+RNG	    SEED|PRNG
+SEEDY	srs_icm64mix
+SEED	srs_icm64
+STOP	srf_limitsize
+ZERO	cat /dev/zero
+VOID	srs_void

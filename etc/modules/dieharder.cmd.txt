@@ -1,0 +1,3 @@
+DIET dieharder -a -g 200
+DIET-DEST dieharder -a -y 2 -k -g 200
+DIET-RESOLVE dieharder -a -y 1 -g 200

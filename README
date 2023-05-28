@@ -1,0 +1,5 @@
+DFEK is a USG(user-space seed generator) based on an unstable algorithm. 
+At its core, it is 3 threads running a simple hashing algorithm that share its 
+memory with neighbour threads. The result is complete chaos inside this small memory area
+and allows to generate interesting random numbers to seed other algorithms 
+using only userspace facilities.
