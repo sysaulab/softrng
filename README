@@ -1,5 +1,4 @@
-DFEK is a USG(user-space seed generator) based on an unstable algorithm. 
-At its core, it is 3 threads running a simple hashing algorithm that share its 
-memory with neighbour threads. The result is complete chaos inside this small memory area
-and allows to generate interesting random numbers to seed other algorithms 
-using only userspace facilities.
+Softrng is a collections of tools used to explore random number generators. Is is built following the UN*X philosophy: do one thing right. The tools are combined together to create custom solutions. It requires no coding to get started, the simplicity of the framework allow amateurs to explore with ease.
+
+To install it, type these commands in the terminal:
+make && sudo make install && sudo softrng setup && softrng manual

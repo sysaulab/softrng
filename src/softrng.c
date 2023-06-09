@@ -9,41 +9,73 @@
 * @section DESCRIPTION *
 * Main program */
 
-#include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include "sr_default.h"
 
-#include "libicm.h"
-#include "common.h"
-#include "sr_config.h"
+char dir_softrand[] = "/etc/softrng/";
+char dir_bin[] = "/usr/local/bin/";
+char dir_help[] = "/etc/softrng/help/";
+char dir_modules[] = "/etc/softrng/modules/";
 
+int file_exist(char* path)
+{
+    if(access(path, F_OK) == 0) return 1;
+    else return 0;
+}
 
-int cmd_exist(char* c){
-    char cmd[1024] = "command -v ";
-    strncat(cmd, c, 1000);
-    FILE* out = popen(cmd, "r");
-    fread(&cmd, 1023, sizeof(uint8_t), out);
-    pclose(out);
-    if( cmd[0] == '\0' ) return 0;
-    if( cmd[0] == '/' ) return 1;
-    return -1;
+int dir_exist(char* path)
+{
+    DIR* d = opendir(path);
+    if (d)
+    {
+        return 1;
+        closedir(d);
+    }
+    return 0;
+}
+
+int cmd_exist(char* c)
+{
+    char string_buf[1024] = "";
+    strcpy(string_buf, "command -v ");
+    strncat(string_buf, c, 1000);
+
+    FILE* command_output = popen(string_buf, "r");
+    fread(string_buf, sizeof(uint8_t), 1023, command_output);
+    pclose(command_output);
+
+    if( string_buf[0] == '/' )
+    {
+        return 1;
+    }
+    return 0;
 }
 
 void manual()
 {
-    system("less</etc/softrng/manual.txt");
+    char command[256] = "less<";
+    strcat(command, dir_softrand);
+    strcat(command, "manual.txt");
+    system(command);
 }
 
-int alias(char* a, char* c)
+int alias(char* alias_name, char* alias_command)
 {
     char cmd[201];
-    char local_bin[200] = "/usr/local/bin/";
-    strncat(local_bin, a, 200);
+    char local_bin[200] = "";
+    strncpy(local_bin, dir_bin, 200);
+    strncat(local_bin, alias_name, 200);
+    
     FILE* alias_file = fopen(local_bin, "w");
     if(!alias_file) return 0;
-    fprintf(alias_file, "#!/bin/sh\n%s $@ ", c);
+
+    fprintf(alias_file, "#!/bin/sh\n%s $@", alias_command);
+
     fclose(alias_file);
     strncpy(cmd, "sudo chmod +x ", 200);
     strncat(cmd, local_bin, 200);
@@ -54,32 +86,47 @@ int alias(char* a, char* c)
 int rem(char* a)
 {
     char cmd[201];
-    strncpy(cmd, "/usr/local/bin/", 200);
+    strncpy(cmd, dir_bin, 200);
     strncat(cmd, a, 200);
     return remove(cmd);
 }
 
-int scan(char* target_cmd, FILE* db_file)
+int scan_one_db(char* target_cmd, FILE* db_file)
 {
-    if(!db_file) return 1;
+    if(!db_file)
+    {
+        printf("Database file not open.\n");
+        return 0;
+    }
     int errors = 0;
     size_t len = 4096;
     char* line = malloc(len + 1);
     if(!line) return 2;
-    char* alias_name = calloc(len + 1, sizeof(char)); if(!alias_name) exit(EXIT_FAILURE);
-    char* alias_cmd  = calloc(len + 1, sizeof(char)); if(!alias_cmd) exit(EXIT_FAILURE);
+    char* short_name = calloc(len + 1, sizeof(char)); if(!short_name) exit(EXIT_FAILURE);
+    char* short_cmd  = calloc(len + 1, sizeof(char)); if(!short_cmd)  exit(EXIT_FAILURE);
     if(!cmd_exist(target_cmd))
     {
+        free(short_name);
+        free(short_cmd);
+        printf("Missing: %s\n\n", target_cmd);
         return 0;
     }
     else 
     {
-        printf("%s: ", target_cmd);
-        while ((getline(&line, &len, db_file)) != -1)
+        printf("Found: %s\n", target_cmd);
+        while((getline(&line, &len, db_file)) != -1)
         {
-            fscanf(db_file, "%s %s", alias_name, alias_cmd);
-            if(!alias(alias_name, alias_cmd)) errors++;
-            else printf("%s ", alias_name);
+            fscanf(db_file, "%s %4096[^\n]", short_name, short_cmd);
+
+            if(!alias(short_name, short_cmd))
+            {
+                printf("cannot create: %s\n", short_name);
+                errors++;
+            }
+            else
+            {
+                printf("created: %s\n", short_name);
+            }
         }
         printf("\n");
     }
@@ -90,78 +137,136 @@ int scan(char* target_cmd, FILE* db_file)
         printf("Retry using administrator privileges (sudo softrng install).\n");
     }
 
-    free(alias_name);
-    free(alias_cmd);
+    free(short_name);
+    free(short_cmd);
     free(line);
     fclose(db_file);
     return 0;
 }
 
-int unscan(char* target_cmd, FILE* db_file)
+void autoscan(char* path)
 {
-    if(!db_file) return 1;
-    int errors = 0;
-    size_t len = 4096;
-    char* line = malloc(len + 1);
-    if(!line) return 2;
-    char* alias_name = calloc(len + 1, sizeof(char)); if(!alias_name) exit(EXIT_FAILURE);
-    char* alias_cmd  = calloc(len + 1, sizeof(char)); if(!alias_cmd) exit(EXIT_FAILURE);
-    printf("%s: ", target_cmd);
-    if(!cmd_exist(target_cmd))
+    DIR* d = opendir(path);
+    struct dirent *e;
+
+    if(d != NULL)
     {
-        printf(" NOT FOUND\n");
-        return 0;
-    }
-    else 
-    {
-        while ((getline(&line, &len, db_file)) != -1)
+        while((e = readdir(d)))
         {
-            fscanf(db_file, "%s %s", alias_name, alias_cmd);
-            if(!rem(alias_name)) errors++;
-            else printf("%s ", alias_name);
-            fflush(stdout);
+            if(e->d_name[0] == '.')
+                continue;
+            char filename[1025] = "";
+            strncpy(filename, path, 1024);
+            strncat(filename, e->d_name, 1024);
+            FILE* file = fopen(filename, "r");
+            
+            scan_one_db(e->d_name, file);
+            fclose(file);
         }
-        printf("\n");
     }
+}
 
-    if(errors)
-    {
-        printf("%i errors occured\n", errors);
-        printf("Retry using administrator privileges (sudo softrng remove).\n");
-    }
-
-    free(alias_name);
-    free(alias_cmd);
-    free(line);
-    fclose(db_file);
+int mkfile(char* path, char* content)
+{
+    FILE* file = fopen(path, "w");
+    if(file == NULL) return 1;
+    fprintf(file, "%s", content);
+    fclose(file);
     return 0;
+}
+
+void cfg_dir(char* path)
+{
+    if(!dir_exist(path))
+    {
+        if(mkdir(path, 0755))
+        {
+            printf("Error, cannot create folder: %s\n", path);
+        }
+    }
+}
+
+void cfg_file(char* path, char* content)
+{
+    char fullpath[1025];
+    strncpy(fullpath, dir_softrand, 1024);
+    strncat(fullpath, path, 1024);
+    if(!file_exist(fullpath))
+    {
+        printf("%s\n", fullpath);
+        if(mkfile(fullpath, content))
+            printf("Error, cannot write to file: %s\n", fullpath);
+    }
+}
+
+void force_cfg_file(char* path, char* content)
+{
+    char fullpath[1025];
+    strncpy(fullpath, dir_softrand, 1024);
+    strncat(fullpath, path, 1024);
+    printf("%s\n", fullpath);
+    if(mkfile(fullpath, content))
+        printf("Error, cannot write to file: %s\n", fullpath);
+}
+
+void verify_config()
+{
+    cfg_dir(dir_softrand);
+    cfg_dir(dir_help);
+    cfg_dir(dir_modules);
+//    cfg_dir(dir_bin);
+    cfg_file("manual.txt", _files_manual);
+    cfg_file("modules/softrng", _files_module_softrng);
+    cfg_file("modules/dieharder", _files_module_dieharder);
+    cfg_file("modules/RNG_test", _files_module_RNG_test);
+    cfg_file("modules/RNG_output", _files_module_RNG_output);
+}
+
+void force_verify_config()
+{
+    cfg_dir(dir_softrand);
+    cfg_dir(dir_help);
+    cfg_dir(dir_modules);
+//    cfg_dir(dir_bin);
+    force_cfg_file("manual.txt", _files_manual);
+    force_cfg_file("modules/softrng", _files_module_softrng);
+    force_cfg_file("modules/dieharder", _files_module_dieharder);
+    force_cfg_file("modules/RNG_test", _files_module_RNG_test);
+    force_cfg_file("modules/RNG_output", _files_module_RNG_output);
 }
 
 int main(int argc, const char * argv[])
 {
-    for(int x = 1; x < argc; x ++)
+    for(int x = 1; x < argc; x++)
     {
-        if(!strcmp(argv[x], "install"))
+        if(0 == strcmp("open", argv[x]))
         {
-            scan("softrng", fopen("/etc/softrng/modules/softrng.cmd.txt", "r"));
-            scan("RNG_test", fopen("/etc/softrng/modules/RNG_test.cmd.txt", "r"));
-            scan("RNG_output", fopen("/etc/softrng/modules/RNG_output.cmd.txt", "r"));
-            scan("dieharder", fopen("/etc/softrng/modules/dieharder.cmd.txt", "r"));
-            scan("missing", fopen("/etc/softrng/modules/missing.cmd.txt", "r"));
+            system("open /etc/softrng");
             return EXIT_SUCCESS;
         }
-
-        if(!strcmp(argv[x], "remove"))
+        else if(0 == strcmp("setup", argv[x]))
         {
-            unscan("softrng", fopen("/etc/softrng/modules/softrng.cmd.txt", "r"));
-            unscan("RNG_test", fopen("/etc/softrng/modules/RNG_test.cmd.txt", "r"));
-            unscan("RNG_output", fopen("/etc/softrng/modules/RNG_output.cmd.txt", "r"));
-            unscan("dieharder", fopen("/etc/softrng/modules/dieharder.cmd.txt", "r"));
-            unscan("missing", fopen("/etc/softrng/modules/missing.cmd.txt", "r"));
+            verify_config();
+            autoscan(dir_modules);
+            return EXIT_SUCCESS;
+        }
+        else if(0 == strcmp("force", argv[x]))
+        {
+            force_verify_config();
+            return EXIT_SUCCESS;
+        }
+        
+        else if(0 == strcmp("manual", argv[x]))
+        {
+            manual();
             return EXIT_SUCCESS;
         }
     }
-    manual();
-    return EXIT_SUCCESS;
+
+    printf("usage: sudo softrng setup     Install configuration and commands. Run as root.\n");
+    printf("       softrng open      Open the configuration folder.\n");
+    printf("       softrng manual      Open the configuration folder.\n");
+
+    return EXIT_FAILURE;
 }
 

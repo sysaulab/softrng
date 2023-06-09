@@ -68,9 +68,9 @@ int main(int argc, char** argv)
     {
         uint64_t remains = (bytes_requested - bytes_written);
         if(!remains) break;
-        uint64_t have = fread(&buffer, sizeof(uint8_t), _SSRNG_BUFSIZE, stdin);
+        uint64_t have = fread(buffer, sizeof(uint8_t), _SSRNG_BUFSIZE, stdin);
         if(!have) break;
-        bytes_written += fwrite(&buffer, sizeof(uint8_t), have > remains ? remains : have, stdout);
+        bytes_written += fwrite(buffer, sizeof(uint8_t), have > remains ? remains : have, stdout);
     }
     free(buffer);
     return EXIT_SUCCESS;

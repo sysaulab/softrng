@@ -15,9 +15,10 @@
 
 int main(int argc, char** argv){
     uint8_t* buffer = malloc(_SSRNG_BUFSIZE);
+    if(!buffer) exit(EXIT_FAILURE);
     while(1)
     {
-        uint64_t buf_received = fread(&buffer, sizeof(char), _SSRNG_BUFSIZE, stdin);
+        uint64_t buf_received = fread(buffer, sizeof(char), _SSRNG_BUFSIZE, stdin);
 
         if(!buf_received)
             break;

@@ -11,7 +11,7 @@
 #define PACKAGE_NAME "softrng"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "softrng 0.1.0-BETA"
+#define PACKAGE_STRING "softrng 0.1.0-RELEASE"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "softrng"
@@ -20,7 +20,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "0.1.0-BETA"
+#define PACKAGE_VERSION "0.1.0-RELEASE"
 
 /* Version number of package */
-#define VERSION "0.1.0-BETA"
+#define VERSION "0.1.0-RELEASE"

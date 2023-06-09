@@ -1,8 +1,20 @@
-bin_PROGRAMS = srs_icm64 softrng srs_icm64mix srt_bspec32 sr_sleepinfo srf_limitsize srf_multixor srf_bench srf_void srf_hex srg_roxo64 srg_qxo64 srt_bspec32_ref
+bin_PROGRAMS = srs_getent srs_icm64 srg_zeros srf_ask softrng srs_icm64mix srf_fread srf_fwrite srt_bspec32 sr_sleepinfo srf_limitsize srf_xor srf_bench srf_void srf_hex srg_roxo64 srg_qxo64 srt_bspec32_ref
 
 softrngdir = ./
 softrng_SOURCES = softrng.c
-softrng_HEADERS = 
+softrng_HEADERS = sr_default.h
+
+srg_zerosdir = ./
+srg_zeros_SOURCES = srg_zeros.c
+srg_zeros_HEADERS = sr_config.h
+
+srf_askdir = ./
+srf_ask_SOURCES = srf_ask.c
+srf_ask_HEADERS = sr_config.h
+
+srs_getentdir = ./
+srs_getent_SOURCES = srs_getent.c libicm.c
+srs_getent_HEADERS = libicm.h primes.txt primes.large.txt sr_config.h
 
 srs_icm64dir = ./
 srs_icm64_SOURCES = srs_icm64.c libicm.c
@@ -19,6 +31,14 @@ srt_bspec32_HEADERS = common.h sr_config.h
 sr_sleepinfodir = ./
 sr_sleepinfo_SOURCES = sr_sleepinfo.c common.c 
 sr_sleepinfo_HEADERS = common.h sr_config.h
+
+srf_freaddir = ./
+srf_fread_SOURCES = srf_fread.c
+srf_fread_HEADERS = sr_config.h
+
+srf_fwritedir = ./
+srf_fwrite_SOURCES = srf_fwrite.c
+srf_fwrite_HEADERS = sr_config.h
 
 srf_limitsizedir = ./
 srf_limitsize_SOURCES = srf_limitsize.c
@@ -48,8 +68,8 @@ srf_benchdir = ./
 srf_bench_SOURCES = srf_bench.c common.c
 srf_bench_HEADERS = common.h sr_config.h
 
-srf_multixordir = ./
-srf_multixor_SOURCES = srf_multixor.c common.c
-srf_multixor_HEADERS = common.h sr_config.h
+srf_xordir = ./
+srf_xor_SOURCES = srf_xor.c common.c
+srf_xor_HEADERS = common.h sr_config.h
 
 LIBS = -lpthread

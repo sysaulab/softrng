@@ -15,18 +15,18 @@
 void* prng(void* raw)
 {
     uint64_t* buffer = malloc(_SSRNG_BUFLEN);
-    uint64_t* cache = calloc(4*65536, sizeof(uint64_t));
-    if(!cache) exit(EXIT_FAILURE);
+    uint64_t* pool = calloc(4*65536, sizeof(uint64_t));
+    if(!pool) exit(EXIT_FAILURE);
     uint64_t index = 0;
     uint16_t* indexes = (uint16_t*)&index;
 
-    fread( cache, sizeof(uint64_t), 4 * 256 * 256, stdin);
+    fread( pool, sizeof(uint64_t), 4 * 256 * 256, stdin);
 
     while(1)
     {
         for( uint64_t y = 0; y < _SSRNG_BUFLEN; y++ )
         {
-            buffer[y] = (cache[indexes[0]] ^ cache[indexes[1]]) ^ (cache[indexes[2]] ^ cache[indexes[3]]);
+            buffer[y] = (pool[indexes[0]] ^ pool[indexes[1]]) ^ (pool[indexes[2]] ^ pool[indexes[3]]);
             index = index + 7776210437768060567ULL;
         }
         fwrite(buffer, sizeof(uint64_t), _SSRNG_BUFLEN, stdout);

@@ -1,4 +1,4 @@
-AC_INIT([softrng], [0.1.0-BETA], [sylvain@sysau.com])
+AC_INIT([softrng], [0.1.0-RELEASE], [sylvain@sysau.com])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AC_PROG_CC
 CFLAGS="$CFLAGS "

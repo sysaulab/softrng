@@ -1,5 +1,5 @@
 /**
-* @file seedier.c
+* @file seedy.c
 * @author Sylvain Saucier <sylvain@sysau.com>
 * @version 0.4.0
 * @section LICENSE *
@@ -7,28 +7,20 @@
 * modify it under the terms of the Affero GNU Public Licence version 3.
 * Other licences available upon request.
 * @section DESCRIPTION *
-* ICM seed mixer */
+* Wrapper for getentropy() */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
-#include "libicm.h"
-#include "sr_config.h"
+#include <unistd.h>
+#include <sys/random.h>
 
 int main(int argc, const char * argv[])
 {
-    uint64_t* buffer = malloc(_SSRNG_BUFLEN);
-    icm_state_t state;
-    icm_init(&state);
+    char out[256];
     while(1)
     {
-        fread(buffer, sizeof(uint64_t), _SSRNG_BUFLEN, stdin);
-        icm_mix64(&state, buffer, _SSRNG_BUFLEN);
-        fwrite(buffer, sizeof(uint64_t), _SSRNG_BUFLEN, stdout);
+        getentropy(out, 256);
+        fwrite(out, sizeof(char), 256, stdout);
     }
-    free(buffer);
-    icm_stop(&state);
     return EXIT_SUCCESS;
 }
-    

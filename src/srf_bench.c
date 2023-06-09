@@ -1,5 +1,5 @@
 /**
-* @file bench.c
+* @file srf_bench.c
 * @author Sylvain Saucier <sylvain@sysau.com>
 * @version 0.4.0
 * @section LICENSE *
@@ -56,10 +56,10 @@ int main(int argc, char** argv)
     pthread_create(&thr, NULL, &live, NULL);
     while(1)
     {   
-        uint64_t buf_received = fread(&buffer, sizeof(char), _SSRNG_BUFSIZE, stdin);
+        uint64_t buf_received = fread(buffer, sizeof(char), _SSRNG_BUFSIZE, stdin);
         if(!buf_received) break;
         bytes_readed += buf_received;
-        bytes_written += fwrite(&buffer, sizeof(char), buf_received, stdout);
+        bytes_written += fwrite(buffer, sizeof(char), buf_received, stdout);
     }
     free(buffer);
     return EXIT_SUCCESS;

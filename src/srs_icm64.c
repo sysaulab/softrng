@@ -19,15 +19,14 @@
 
 int main(int argc, const char * argv[])
 {
-    uint64_t* buffer = calloc(_SSRNG_BUFLEN, sizeof(uint64_t));
+    uint64_t out;
     icm_state_t state;
     icm_init(&state);
     while(1)
     {
-        icm_fill64(&state, buffer, _SSRNG_BUFLEN);
-        fwrite(buffer, sizeof(uint64_t), _SSRNG_BUFLEN, stdout);
+        icm_fill64(&state, &out, 1);
+        fwrite(&out, sizeof(uint64_t), 1, stdout);
     }
-    free(buffer);
     icm_stop(&state);
     return EXIT_SUCCESS;
 }
