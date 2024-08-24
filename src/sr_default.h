@@ -108,6 +108,27 @@ s-zeros     source of infinite zeros (/dev/zero)\n\
 s-icm64     portable, software entropy collector ( libICM )\n\
 s-getent    native entropy source ( getentropy() )\n\
 t-bspec32   32 bit completeness test\n\
+               _ Type (Filter, Generator, Test, Source)\n\
+             /  _ Input\n\
+            | /  _ Output\n\
+            || /\n\
+COMMAND     TIO  DESCRIPTION\n\
+----------  ---  ----------------------------------------------------------------\n\
+f-ask       F O  get user input and pass it to output\n\
+f-bench     FIO  display live information about the stream\n\
+f-hex       FI   convert binary input to hexadecimal\n\
+s-read F    S O  read file F and send it to the output pipe\n\
+f-size X    FIO  close a stream after X bytes\n\
+f-void      TI   dummy target, sink to nothing, useful when benchmarking\n\
+f-write     F O  duplicate the stream and save a copy to file F\n\
+f-xor X     FIO  mix the stream with output of command chain X using XOR\n\
+g-rand      S O  default system generator (/dev/random)\n\
+g-qxo64 T   GIO  very fast, require very large seed. T = multi-threaded.\n\
+g-roxo64    GIO  1GB/sec, 512PT period, 8kb seed required.\n\
+s-zeros     G O  source of infinite zeros (/dev/zero)\n\
+s-icm64     S O  portable, software entropy collector ( libICM )\n\
+s-getent    S O  native entropy source ( getentropy() )\n\
+t-bspec32   TI   basic 32 bit distribution test\n\
 \n\
 \n\
 \n\

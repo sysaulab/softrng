@@ -27,7 +27,7 @@ void* prng(void* raw)
         for( uint64_t y = 0; y < _SSRNG_BUFLEN; y++ )
         {
             buffer[y] = (pool[indexes[0]] ^ pool[indexes[1]]) ^ (pool[indexes[2]] ^ pool[indexes[3]]);
-            index = index + 7776210437768060567ULL;
+            index = index + 7776210437768060567ULL;// *MUST* be prime and close to 2^63
         }
         fwrite(buffer, sizeof(uint64_t), _SSRNG_BUFLEN, stdout);
     }

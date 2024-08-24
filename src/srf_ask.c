@@ -15,23 +15,18 @@
 #include <string.h>
 #include "sr_config.h"
 
-
-
 int main(int argc, char** argv)
 {
-    uint64_t hash = 0;
-    if ( argc < 2 ) while(1) fwrite(&hash, sizeof(hash), 1, stdout);
-    int length = strlen(argv[0]);
-    while(1) {
-        for ( int x = 0; x < length; x++ ) {
-            hash = (hash << 7) | (hash >> (64-7));
-            hash = hash ^ argv[0][x];
-        }
-        if ( !fwrite(&hash, sizeof(hash), 1, stdout) )
-        {
-            fprintf(stderr, "s-password: Write error.");
-            exit(EXIT_FAILURE);
-        }
+    char buffer[256];
+    fprintf(stderr, "Please type something : ");
+
+    fgets(buffer, 256, stdin);
+    int len = strnlen(buffer, 256) - 1;
+    int written = fwrite(buffer, sizeof(char), len, stdout);
+    if(len != written)
+    {
+        fprintf(stderr, "len=%i, written=%i", len, written);
+        exit(EXIT_FAILURE);
     }
     return EXIT_SUCCESS;
 }
