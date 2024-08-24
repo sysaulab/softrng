@@ -20,6 +20,7 @@
 #include <unistd.h>
 
 #include "common.h"
+#include "common.c"
 #include "sr_config.h"
 
 int max_stage = 0;
@@ -80,36 +81,57 @@ int main(int argc, const char * argv[]){
     while(1){
         readed = fread(buffer, sizeof(uint64_t), _SSRNG_BUFLEN, stdin);
         if(!readed) break;
-        for(int x = 0; x < readed; x++) add_u64(dist, buffer[x]);
+
+        for(int x = 0; x < readed; x++) 
+            add_u64(dist, buffer[x]);
+
         switch (stage){
             case 0: //pre 1.0x
-                if((dist->count/(double)0x100000000) >= 1.0){
+                if( (dist -> count / (double) 0x100000000) >= 1.0 ) {
                     update_score(dist);
-                    printf("stage 0 : %0.9f\n", dist->score_unique);
+                    printf("\nstage 0 : %0.9f\n", dist->score_unique);
+                    fflush(stdout);
+                    fprintf(resultfile, "stage 0 : %0.9f\n", dist->score_unique);
+                    fflush(resultfile);
                     stage_start = ftime();
-                    if(++stage >= max_stage) readed = 0;}
+                    stage++;
+                    if(stage > max_stage) {
+                        goto leave;
+                    }
+                }
                 break;
-            case 1: stop = 0.9; goto end;
-            case 2: stop = 0.99; goto end;
-            case 3: stop = 0.999; goto end;
-            case 4: stop = 0.9999; goto end;
-            case 5: stop = 0.99999; goto end;
-            case 6: stop = 0.999999; goto end;
-            case 7: stop = 0.9999999; goto end;
-            case 8: stop = 0.99999999; goto end;
-            case 9: stop = 0.999999999; goto end;
+            case 1: stop = 0.9; goto result;
+            case 2: stop = 0.99; goto result;
+            case 3: stop = 0.999; goto result;
+            case 4: stop = 0.9999; goto result;
+            case 5: stop = 0.99999; goto result;
+            case 6: stop = 0.999999; goto result;
+            case 7: stop = 0.9999999; goto result;
+            case 8: stop = 0.99999999; goto result;
+            case 9: stop = 0.999999999; goto result;
             case 10:
-                if( dist->unique == 0x100000000 ){
-                    printf("stage %u : %0.9f\n", stage, (double)(dist->count / (double)0x100000000));
-                    goto leave;}
+                if( dist->unique == 0x100000000 ) {
+                    printf("\nstage %u : %0.9f\n", stage, (double)(dist->count / (double)0x100000000));
+                    fflush(stdout);
+                    fprintf(resultfile, "stage %u : %0.9f\n", stage, (double)(dist->count / (double)0x100000000));
+                    fflush(resultfile);
+                    goto leave;
+                }
                 break;
-            end:
-                if( dist->score_unique > stop ){
-                    printf("stage %u : %0.9f\n", stage, (double)(dist->count / (double)0x100000000));
+            result:
+                if( dist->score_unique > stop ) {
+                    printf("\nstage %u : %0.9f\n", stage, (double)(dist->count / (double)0x100000000));
+                    fflush(stdout);
+                    fprintf(resultfile, "stage %u : %0.9f\n", stage, (double)(dist->count / (double)0x100000000));
+                    fflush(resultfile);
                     stage_start = ftime();
                     stage++;
                     if(stage > max_stage)
-                        goto leave;}}}
+                        goto leave;
+                }
+        }
+    }
     leave:
     free(buffer);
-    return EXIT_SUCCESS;}
+    return EXIT_SUCCESS;
+}

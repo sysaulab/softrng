@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "common.h"
+#include "common.c"
 #include "sr_config.h"
 
 double start = 0;
@@ -34,11 +35,11 @@ void* live(void* unused)
         usleep(1000000/_SSRNG_FPS);
         fprintf(stderr, "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
         double speed = bytes_written / (ftime() - start);
-        if(speed > 1000000000000)   fprintf(stderr, "%0.3f tb/s (%llu)   ", speed / 1000000000000, bytes_written);
-        else if(speed > 1000000000) fprintf(stderr, "%0.3f gb/s (%llu)   ", speed / 1000000000, bytes_written);
-        else if(speed > 1000000)    fprintf(stderr, "%0.2f mb/s (%llu)   ", speed / 1000000, bytes_written);
-        else if(speed > 1000)       fprintf(stderr, "%0.1f kb/s (%llu)   ", speed / 1000, bytes_written);
-        else                        fprintf(stderr, "%0.0f b/s (%llu)    ", speed, bytes_written);
+        if     (speed > 1000000000000)  fprintf(stderr, "[%016llx] %0.3f tb/s (%llu)   ", *(uint64_t*)unused, speed / 1000000000000, bytes_written);
+        else if(speed > 1000000000)     fprintf(stderr, "[%016llx] %0.3f gb/s (%llu)   ", *(uint64_t*)unused, speed / 1000000000, bytes_written);
+        else if(speed > 1000000)        fprintf(stderr, "[%016llx] %0.2f mb/s (%llu)   ", *(uint64_t*)unused, speed / 1000000, bytes_written);
+        else if(speed > 1000)           fprintf(stderr, "[%016llx] %0.1f kb/s (%llu)   ", *(uint64_t*)unused, speed / 1000, bytes_written);
+        else                            fprintf(stderr, "[%016llx] %0.0f b/s (%llu)    ", *(uint64_t*)unused, speed, bytes_written);
     }
 }
 
@@ -51,9 +52,13 @@ int main(int argc, char** argv)
 {
     uint64_t bytes_readed = 0;
     char* buffer = malloc(_SSRNG_BUFSIZE);
+    if(buffer == NULL) {
+        return EXIT_FAILURE;
+    }
+
     start = ftime();
     pthread_t thr;
-    pthread_create(&thr, NULL, &live, NULL);
+    pthread_create(&thr, NULL, &live, buffer);
     while(1)
     {   
         uint64_t buf_received = fread(buffer, sizeof(char), _SSRNG_BUFSIZE, stdin);

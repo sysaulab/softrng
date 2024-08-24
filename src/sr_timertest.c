@@ -16,6 +16,7 @@
 #include <string.h>
 #include <time.h>
 #include "common.h"
+#include "common.c"//Single stage build... I know bad practice. Easier than maintaining autotools for small commands.
 
 double get_minimum_nanosleep_delay()
 {
@@ -29,9 +30,6 @@ double get_minimum_nanosleep_delay()
 
 double get_minimum_usleep_delay()
 {
-    struct timespec t;
-    t.tv_sec = 0;
-    t.tv_nsec = 1;
     double start = ftime();
     usleep(1);
     return ftime() - start;
@@ -39,7 +37,7 @@ double get_minimum_usleep_delay()
 
 int main(int argc, char** argv)
 {
-    printf("Distributed under Affero GNU Public Licence version 3\n\n");
+    printf("Timer resolution test.\n\n");
     fstat_t stats;
 
     fstat_init(&stats);

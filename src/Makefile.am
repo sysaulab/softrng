@@ -1,4 +1,4 @@
-bin_PROGRAMS = srs_getent srs_icm64 srg_zeros srf_ask softrng srs_icm64mix srf_fread srf_fwrite srt_bspec32 sr_sleepinfo srf_limitsize srf_xor srf_bench srf_void srf_hex srg_roxo64 srg_qxo64 srt_bspec32_ref
+bin_PROGRAMS = srs_getent srs_icm64 srg_zeros srs_password softrng srs_icm64mix srf_fread srf_fwrite srt_bspec32 sr_sleepinfo srf_limitsize srf_xor srf_bench srf_void srf_hex srg_roxo64 srg_qxo64 srt_bspec32_ref
 
 softrngdir = ./
 softrng_SOURCES = softrng.c
@@ -8,9 +8,9 @@ srg_zerosdir = ./
 srg_zeros_SOURCES = srg_zeros.c
 srg_zeros_HEADERS = sr_config.h
 
-srf_askdir = ./
-srf_ask_SOURCES = srf_ask.c
-srf_ask_HEADERS = sr_config.h
+srs_passworddir = ./
+srs_password_SOURCES = srs_password.c
+srs_password_HEADERS = sr_config.h
 
 srs_getentdir = ./
 srs_getent_SOURCES = srs_getent.c libicm.c

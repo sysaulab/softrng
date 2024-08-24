@@ -22,6 +22,8 @@ char dir_bin[] = "/usr/local/bin/";
 char dir_help[] = "/etc/softrng/help/";
 char dir_modules[] = "/etc/softrng/modules/";
 
+void install_config_if_not_exist();
+
 int file_exist(char* path)
 {
     if(access(path, F_OK) == 0) return 1;
@@ -64,7 +66,7 @@ void manual()
     system(command);
 }
 
-int alias(char* alias_name, char* alias_command)
+int create_shortcut(char* alias_name, char* alias_command)
 {
     char cmd[201];
     char local_bin[200] = "";
@@ -83,7 +85,7 @@ int alias(char* alias_name, char* alias_command)
     return 1;
 }
 
-int rem(char* a)
+int remove_shortcut(char* a)
 {
     char cmd[201];
     strncpy(cmd, dir_bin, 200);
@@ -91,41 +93,86 @@ int rem(char* a)
     return remove(cmd);
 }
 
+int rem_etc()
+{
+    printf("Remove all file at %s\n", dir_softrand);
+    char cmd[201];
+    strncpy(cmd, dir_softrand, 200);
+    strncat(cmd, "help/", 200);
+    remove(cmd);
+
+    strncpy(cmd, dir_softrand, 200);
+    strncat(cmd, "modules/RNG_test", 200);
+    remove(cmd);
+
+    strncpy(cmd, dir_softrand, 200);
+    strncat(cmd, "modules/RNG_output", 200);
+    remove(cmd);
+
+    strncpy(cmd, dir_softrand, 200);
+    strncat(cmd, "modules/softrng", 200);
+    remove(cmd);
+
+    strncpy(cmd, dir_softrand, 200);
+    strncat(cmd, "modules/dieharder", 200);
+    remove(cmd);
+
+    strncpy(cmd, dir_softrand, 200);
+    strncat(cmd, "modules/", 200);
+    remove(cmd);
+
+    strncpy(cmd, dir_softrand, 200);
+    strncat(cmd, "manual.txt", 200);
+    remove(cmd);
+
+    remove(dir_softrand);
+    
+    return 0;
+}
+
 int scan_one_db(char* target_cmd, FILE* db_file)
 {
     if(!db_file)
     {
-        printf("Database file not open.\n");
+        printf("Error, file not open.\n");
         return 0;
     }
     int errors = 0;
     size_t len = 4096;
     char* line = malloc(len + 1);
     if(!line) return 2;
-    char* short_name = calloc(len + 1, sizeof(char)); if(!short_name) exit(EXIT_FAILURE);
-    char* short_cmd  = calloc(len + 1, sizeof(char)); if(!short_cmd)  exit(EXIT_FAILURE);
-    if(!cmd_exist(target_cmd))
-    {
-        free(short_name);
-        free(short_cmd);
-        printf("Missing: %s\n\n", target_cmd);
+    char* short_name = calloc(len + 1, sizeof(char));
+        if(!short_name)
+            exit(EXIT_FAILURE);
+    char* short_cmd  = calloc(len + 1, sizeof(char));
+        if(!short_cmd)
+            exit(EXIT_FAILURE);
+    if(!cmd_exist(target_cmd)) {
+        printf("Cleaning %s ", target_cmd);
+        fflush(stdout);
+        while((getline(&line, &len, db_file)) != -1) {
+            fscanf(db_file, "%s %4096[^\n]", short_name, short_cmd);
+            if(remove_shortcut(short_name)) {
+                printf("!");
+                fflush(stdout);
+            } else {
+                printf(".");
+                fflush(stdout);
+            }
+        }
+        printf("\n");
         return 0;
-    }
-    else 
-    {
-        printf("Found: %s\n", target_cmd);
+    } else {
+        printf("Adding %s ", target_cmd);
+        fflush(stdout);
         while((getline(&line, &len, db_file)) != -1)
         {
             fscanf(db_file, "%s %4096[^\n]", short_name, short_cmd);
-
-            if(!alias(short_name, short_cmd))
-            {
-                printf("cannot create: %s\n", short_name);
+            if(!create_shortcut(short_name, short_cmd)) {
+                printf("!");fflush(stdout);
                 errors++;
-            }
-            else
-            {
-                printf("created: %s\n", short_name);
+            } else {
+                printf(".");fflush(stdout);
             }
         }
         printf("\n");
@@ -133,8 +180,7 @@ int scan_one_db(char* target_cmd, FILE* db_file)
 
     if(errors)
     {
-        printf("%i errors occured\n", errors);
-        printf("Retry using administrator privileges (sudo softrng install).\n");
+        printf("%i errors occured.\n", errors);
     }
 
     free(short_name);
@@ -144,8 +190,45 @@ int scan_one_db(char* target_cmd, FILE* db_file)
     return 0;
 }
 
-void autoscan(char* path)
+int delete_one_db(char* target_cmd, FILE* db_file)
 {
+    printf("Uninstall shortcuts for %s", target_cmd);
+    fflush(stdout);
+    if(!db_file) {
+        printf("Error: file not open.\n");
+        return 0;
+    }
+    size_t len = 4096;
+    char* line = malloc(len + 1);
+    if(!line) return 2;
+    
+    char* short_name = calloc(len + 1, sizeof(char)); 
+    if(!short_name) 
+        exit(EXIT_FAILURE);
+    char* short_cmd  = calloc(len + 1, sizeof(char));
+        if(!short_cmd)
+            exit(EXIT_FAILURE);
+
+    while((getline(&line, &len, db_file)) != -1)
+    {
+        fscanf(db_file, "%s %4096[^\n]", short_name, short_cmd);
+        if(remove_shortcut(short_name)) {
+            printf("!");fflush(stdout);
+        } else {
+            printf(".");fflush(stdout);
+        }
+    }
+    printf("\n");fflush(stdout);
+
+    free(short_name);
+    free(line);
+    fclose(db_file);
+    return 0;
+}
+
+void refresh(char* path)
+{
+    install_config_if_not_exist();
     DIR* d = opendir(path);
     struct dirent *e;
 
@@ -164,6 +247,31 @@ void autoscan(char* path)
             fclose(file);
         }
     }
+}
+
+void uninstall(char* path)
+{
+    printf("Uninstall\n");
+    DIR* d = opendir(path);
+    struct dirent *e;
+
+    if(d != NULL)
+    {
+        while((e = readdir(d)))
+        {
+            if(e->d_name[0] == '.')
+                continue;
+            char filename[1025] = "";
+            strncpy(filename, path, 1024);
+            strncat(filename, e->d_name, 1024);
+            FILE* file = fopen(filename, "r");
+
+            delete_one_db(e->d_name, file);
+            fclose(file);
+        }
+    }
+
+    rem_etc();
 }
 
 int mkfile(char* path, char* content)
@@ -191,11 +299,13 @@ void cfg_file(char* path, char* content)
     char fullpath[1025];
     strncpy(fullpath, dir_softrand, 1024);
     strncat(fullpath, path, 1024);
-    if(!file_exist(fullpath))
-    {
-        printf("%s\n", fullpath);
-        if(mkfile(fullpath, content))
-            printf("Error, cannot write to file: %s\n", fullpath);
+    if(!file_exist(fullpath)) {
+        if(mkfile(fullpath, content)) {
+            printf("!");fflush(stdout);
+        } else {
+            printf(".");fflush(stdout);
+        }
+            
     }
 }
 
@@ -204,69 +314,71 @@ void force_cfg_file(char* path, char* content)
     char fullpath[1025];
     strncpy(fullpath, dir_softrand, 1024);
     strncat(fullpath, path, 1024);
-    printf("%s\n", fullpath);
-    if(mkfile(fullpath, content))
-        printf("Error, cannot write to file: %s\n", fullpath);
+    if(mkfile(fullpath, content)) {
+        printf("!");fflush(stdout);
+    } else {
+        printf(".");fflush(stdout);
+    }
 }
 
-void verify_config()
+void install_config_if_not_exist()
 {
+    printf("Missing files ");
     cfg_dir(dir_softrand);
     cfg_dir(dir_help);
     cfg_dir(dir_modules);
-//    cfg_dir(dir_bin);
     cfg_file("manual.txt", _files_manual);
     cfg_file("modules/softrng", _files_module_softrng);
     cfg_file("modules/dieharder", _files_module_dieharder);
     cfg_file("modules/RNG_test", _files_module_RNG_test);
     cfg_file("modules/RNG_output", _files_module_RNG_output);
+    printf("\n");
 }
 
-void force_verify_config()
+void install()
 {
+    printf("All files ");
     cfg_dir(dir_softrand);
     cfg_dir(dir_help);
     cfg_dir(dir_modules);
-//    cfg_dir(dir_bin);
     force_cfg_file("manual.txt", _files_manual);
     force_cfg_file("modules/softrng", _files_module_softrng);
     force_cfg_file("modules/dieharder", _files_module_dieharder);
     force_cfg_file("modules/RNG_test", _files_module_RNG_test);
     force_cfg_file("modules/RNG_output", _files_module_RNG_output);
+    printf("\n");
+    refresh(dir_modules);
 }
 
 int main(int argc, const char * argv[])
 {
+    char opencmd[1024] = "open ";
+    strcat(opencmd, dir_softrand);
+    if(argc < 2) goto fail;
     for(int x = 1; x < argc; x++)
-    {
-        if(0 == strcmp("open", argv[x]))
-        {
-            system("open /etc/softrng");
-            return EXIT_SUCCESS;
-        }
-        else if(0 == strcmp("setup", argv[x]))
-        {
-            verify_config();
-            autoscan(dir_modules);
-            return EXIT_SUCCESS;
-        }
-        else if(0 == strcmp("force", argv[x]))
-        {
-            force_verify_config();
-            return EXIT_SUCCESS;
-        }
-        
-        else if(0 == strcmp("manual", argv[x]))
-        {
-            manual();
-            return EXIT_SUCCESS;
-        }
-    }
-
-    printf("usage: sudo softrng setup     Install configuration and commands. Run as root.\n");
-    printf("       softrng open      Open the configuration folder.\n");
-    printf("       softrng manual      Open the configuration folder.\n");
-
+        if(     0 == strcmp("open",       argv[x])) system(opencmd);
+        else if(0 == strcmp("install",    argv[x])) install();
+        else if(0 == strcmp("uninstall",  argv[x])) uninstall(dir_modules);
+        else if(0 == strcmp("refresh",    argv[x])) refresh(dir_modules);
+        else if(0 == strcmp("manual",     argv[x])) manual();
+        else goto fail;
+    return EXIT_SUCCESS;
+    fail:
+    printf("\nSoftRNG\n\nusage:\n");
+    printf("\n");
+    printf("  softrng manual    - Read the manual.\n");
+    printf("\n");
+    printf("  softrng install   - Overwrite default configuration files.\n");
+    printf("                    - Refresh shortcuts.\n");
+    printf("\n");
+    printf("  softrng refresh   - Write missing configuration files.\n");
+    printf("                    - Ajust shortcuts according to installed supported modules.\n");
+    printf("\n");
+    printf("  softrng uninstall - Remove all shortcuts.\n");
+    printf("                    - Remove all configuration files.\n");
+    printf("\n");
+    printf("  softrng open      - Open the configuration folder.\n");
+    printf("\n");
     return EXIT_FAILURE;
 }
 

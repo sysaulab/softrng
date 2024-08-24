@@ -14,6 +14,7 @@
 #include <string.h>
 
 #include "libicm.h"
+#include "libicm.c"
 #include "common.h"
 #include "sr_config.h"
 

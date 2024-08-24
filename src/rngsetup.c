@@ -46,7 +46,7 @@ int soft_alias(char* a, char* c)
     return 1;
 }
 
-int alias(char* a, char* c)
+int create_shortcut(char* a, char* c)
 {
     if(!hard_alias(a, c))
         return soft_alias(a, c);
@@ -64,7 +64,6 @@ int cmd_exist(char* c){
     return -1;
 }
 
-
 void escape_space(char* str, char* dest)
 {
     int x, y = 0;
@@ -76,7 +75,6 @@ void escape_space(char* str, char* dest)
     }
     dest[y] = '\0';
 }
-
 
 int main(int argc, const char** argv){
     printf("rngsetup #VERSION 0.4.0 #LICENCE ");

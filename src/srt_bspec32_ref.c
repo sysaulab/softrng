@@ -11,7 +11,7 @@
 #ifdef _Float128
 typedef _Float128 curve_t;
 #else
-typedef long double curve_t; //on mac yields 64bit, not 128...
+typedef long double curve_t; //on mac yields 64bit, not 128... 128 bits of precision are needed for this very naive algorithm to complete sorry I was too lazy to work around this.
 #endif
 
 int main(int argc, char** argv)

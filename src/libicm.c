@@ -48,10 +48,14 @@ int ___libicm_modify( volatile uint64_t* in, volatile uint64_t* out )
 * @param icm Pointer to an ICM struct
 * This function pause all the ICM threads
 */
-void __icm_pause(icm_state_t* icm){
-    for(int x = 0; x < _ICM_MAX_THREADS; x++){
+void __icm_pause(icm_state_t* icm)
+{
+    for(int x = 0; x < _ICM_MAX_THREADS; x++)
+    {
         pthread_mutex_lock(&(icm->threads[x].mutx));
-        icm->threads[x].pause = 1;}}
+        icm->threads[x].pause = 1;
+    }
+}
 
 
 /**
@@ -60,9 +64,13 @@ void __icm_pause(icm_state_t* icm){
 * @param icm Pointer to an ICM struct
 * This function pause all the ICM threads
 */
-void __icm_start(icm_state_t* icm){
-    for(int x = 0; x < _ICM_MAX_THREADS; x++){
-        pthread_mutex_unlock(&(icm->threads[x].mutx));}}
+void __icm_start(icm_state_t* icm)
+{
+    for(int x = 0; x < _ICM_MAX_THREADS; x++)
+    {
+        pthread_mutex_unlock(&(icm->threads[x].mutx));
+    }
+}
 
 /**
 * @brief ICM Thread Function
@@ -78,11 +86,13 @@ void* ___libicm_threadwork(void* raw)
         ___libicm_modify(state->source, state->sink);
         if(state->pause)
         {
-            if(!state->run) pthread_exit(NULL);
+            if(!state->run)
+                pthread_exit(NULL);
+
             state->pause = 0;
             pthread_mutex_lock(&state->mutx);               //waiting for restart
             pthread_mutex_unlock(&state->mutx);             //unlocking the mutex right away...
-            }
+        }
     }
     return NULL;
 }
@@ -95,7 +105,8 @@ void* ___libicm_threadwork(void* raw)
 */
 void icm_init(icm_state_t* state)
 {
-    for( int i = 0; i < _ICM_MAX_THREADS; i++ ){
+    for( int i = 0; i < _ICM_MAX_THREADS; i++ )
+    {
         state->nodes[i] = 0;
         state->threads[i].source = &(state->nodes[i]);
         state->threads[i].sink = &(state->nodes[(i + 1) % _ICM_MAX_THREADS]);
@@ -103,10 +114,12 @@ void icm_init(icm_state_t* state)
         state->threads[i].pause = 1;
         pthread_mutex_init(&(state->threads[i].mutx), NULL);
         pthread_mutex_lock(&(state->threads[i].mutx));
-        pthread_create(&(state->threads[i].thr), NULL, &___libicm_threadwork, &(state->threads[i]));}
+        pthread_create(&(state->threads[i].thr), NULL, &___libicm_threadwork, &(state->threads[i]));
+    }
     __icm_start(state);
     usleep(_ICM_WARMUP);
-    __icm_pause(state);}
+    __icm_pause(state);
+}
 
 /**
 * @brief ICM Stop function, stops all threads
@@ -116,9 +129,13 @@ void icm_init(icm_state_t* state)
 */
 void icm_stop(icm_state_t* state)
 {
-    for(int x = 0; x < _ICM_MAX_THREADS; x++) state->threads[x].run = 0;
-    __icm_pause(state);
-    for(int x = 0; x < _ICM_MAX_THREADS; x++) pthread_join(state->threads[x].thr, NULL);
+    for(int x = 0; x < _ICM_MAX_THREADS; x++)
+        state->threads[x].run = 0;
+
+    __icm_pause(state); // To avoid checking two variables, the stop is verified when entering the pause branch
+
+    for(int x = 0; x < _ICM_MAX_THREADS; x++)
+        pthread_join(state->threads[x].thr, NULL);
 }
 
 /**
@@ -129,15 +146,19 @@ void icm_stop(icm_state_t* state)
 * @param count uint64_t how many uint64_t to wriye
 * This function fills n bytes in a buffer
 */
-void icm_fill64(icm_state_t* state, uint64_t* buffer, uint64_t count){
+void icm_fill64(icm_state_t* state, uint64_t* buffer, uint64_t count)
+{
     __icm_start(state);
     uint64_t answer = 0;
-    for( int i = 0; i < count; i++ ){
+    for( int i = 0; i < count; i++ )
+    {
         usleep(_ICM_WAIT);
         for( int y = 0; y < _ICM_MAX_THREADS; y++ )
             answer ^= state->nodes[y];
-        buffer[i] = answer;}
-    __icm_pause(state);}
+        buffer[i] = answer;
+    }
+    __icm_pause(state);
+}
 
 /**
 * @brief ICM XOR Mix Function
@@ -145,12 +166,17 @@ void icm_fill64(icm_state_t* state, uint64_t* buffer, uint64_t count){
 * @param raw void* pointer to an icm_thread_t
 * Like icm_fill but with ^= instead of =.
 */
-void icm_mix64(icm_state_t* state, uint64_t* destination, uint64_t count){
+void icm_mix64(icm_state_t* state, uint64_t* destination, uint64_t count)
+{
     __icm_start(state);
     uint64_t answer = 0;
-    for( int i = 0; i < count; i++ ){
+    for( int i = 0; i < count; i++ )
+    {
         usleep(_ICM_WAIT);
         for( int y = 0; y < _ICM_MAX_THREADS; y++ )
             answer = state->nodes[y];
-        destination[i] ^= answer;}
-    __icm_pause(state);}
+            
+        destination[i] ^= answer;
+    }
+    __icm_pause(state);
+}

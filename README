@@ -1,4 +1,0 @@
-Softrng is a collections of tools used to explore random number generators. Is is built following the UN*X philosophy: do one thing right. The tools are combined together to create custom solutions. It requires no coding to get started, the simplicity of the framework allow amateurs to explore with ease.
-
-To install it, type these commands in the terminal:
-make && sudo make install && sudo softrng setup && softrng manual
