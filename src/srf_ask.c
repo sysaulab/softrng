@@ -14,13 +14,15 @@
 #include <string.h>
 #include "sr_config.h"
 
+#define buf_size 256
+
 int main(int argc, char** argv)
 {
-    char buffer[256];
+    char buffer[buf_size];
     fprintf(stderr, "Please type something : ");
 
-    fgets(buffer, 256, stdin);
-    int len = strnlen(buffer, 256) - 1;
+    fgets(buffer, buf_size, stdin);
+    int len = strnlen(buffer, buf_size) - 1;
     int written = fwrite(buffer, sizeof(char), len, stdout);
     if(len != written)
     {
