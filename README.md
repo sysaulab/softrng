@@ -1,34 +1,38 @@
 # SoftRNG
 
-Softrng is a collection of basic portable tools that can be used to explore random number generators and cryptography. It comes with basic algorithms and integrates with other software (nicely named alias). SoftRNG does not fetch and compile third party software. If you wish to use practrand or dieharder, you have to install it yourself.
+Softrng is a collection of basic portable tools that can be used to explore random number generators and cryptography. It comes with basic algorithms and integrates with other software packages such as dieharder and practrand. The manual is designed to help the user ease into the principles of basic cryptography building blocks. The information database will contain extensive documentation about the algorithms, their flaws and strengths, their history...
 
-Is is built following the UN*X philosophy: do one thing and do it right. 
+It follows the UN*X philosophy, each tool have a very specific function.
+
 - Generator's output are all endless and binary. 
 - Filters are used to manipulate the stream(s).
-- Easy to remember syntax. Every command start with one of three letters and a dash (s- f- t-).
+- Simple syntax. Every command start with one of three letters and a dash (s- f- t-).
 
-The tools combine together to let the user explore solutions. It requires no coding to get started and the simplicity of the commands means most of the code is small and focused on the task, reducing the level en entry for newcomers to explore the principles of algorithms and cryptography for themselves.
+The tools combine together to let the user create their own solutions or observe different algorithms. It requires no knowledge of coding to get started. Commands themselves are small and focused.
 
 ## Build
 
-SoftRNG assumes a Unix-like environment. If you are using Windows, please install Linux first. It has been developed and tested primarily under macOS.
+SoftRNG assumes a Unix-like environment. It requires a C compiler to build and the curl command to install the extra PractRand package. If you are using Windows, please install Linux first. SoftRNG has been developed and tested primarily under macOS, I tried to remain as close to standard as possible. 
+
+If you encounter compilation errors or bugs on different platforms please me us know.
 
 1. Run "./build.sh" to compile the commands.
 2. The programs will be created in the "Release" directory
 
 ## Install
+***Running this script as regular user will delete the Release folder without installing the programs properly. If this happens to you, run the build.sh script before trying again as root.***
 
-1. Run "./install.sh" to install the commands.
-2. This will move the programs to /usr/local/bin and call "softrng install" to do the initial setup.
-3. "./install.sh" must run as root. Use sudo or other facilities to do so.
+1. Run as root "./install.sh" to install the commands. 
+2. This will move the programs to /usr/local/bin and run "softrng install" to proceed with the initial setup.
+
+The "softrng install" command will create the default support files in /etc/softrng before scanning for installed packages listed in /etc/softrng/modules and creating shell scripts that handle .
+
+## To do
+
+Document every available command in a text file placed in the help directory (s-system.txt...).
 
 ## Future developments
 
-A graphical command builder could be a good teaching aid. 
-Something online maybe?
+A graphical command builder could be a good teaching aid. Something online maybe? A portable GUI app that handles the piping internally?. Games where you have to solve cryptographic challenges, match a specific sequence maybe?
 
-A portable GUI app that handles the piping internally could be a great learning tool too.
-
-What about games where you have to solve cryptographic challenges, mimic a sequence maybe?
-
-If you want to help, start a discussion.
+Anyone can help, drop a message in the discusison board with your comments or suggestions.

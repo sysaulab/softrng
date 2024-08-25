@@ -20,8 +20,6 @@ srs_fread ./test.bin | srf_hex
 echo
 echo
 
-rm ./test.bin
-
 echo "srs_fread ./test.bin | srf_xor "srs_fread ./test.bin" | srf_hex"
 srs_fread ./test.bin | srf_xor "srs_fread ./test.bin" | srf_hex
 echo
@@ -52,12 +50,7 @@ s-system | f-qxo64 | srf_limit 20 | srf_hex
 echo
 echo
 
-
-
-
-
-
-
+rm ./test.bin
 
 echo "srs_icm64 | srf_bench | srf_limit 1000000 | srt_hole"
 srs_icm64 | srf_bench | srf_limit 1000000 | srt_hole

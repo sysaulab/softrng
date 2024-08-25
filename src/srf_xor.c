@@ -17,16 +17,24 @@
 #include "sr_config.h"
 
 int main(int argc, char** argv) {
-    if(argc < 2 || argc > 2) {
-        fprintf(stderr, "f-xor: must supply 1 argument\n");
+    if(argc < 2) {
+        fprintf(stderr, "f-xor: must supply arguments\n");
         exit(EXIT_FAILURE);
     }
     int left_readed;
     int right_readed;
     uint64_t left_buffer[_SSRNG_BUFLEN];
     uint64_t right_buffer[_SSRNG_BUFLEN];
+    char command[4097];
+    strncpy(command, argv[1], 256 );
+    for (int x = 2; x < argc; x++)
+    {
+        strncpy(command, " ", 1 );
+        strncpy(command, argv[x], 256 );
+    }
+printf("command:%s\n", command);
 
-    FILE* input = popen(argv[1], "r");
+    FILE* input = popen(command, "r");
     if(!input) {
         fprintf(stderr, "f-xor: cannot open %s\n", argv[1]);
         exit(EXIT_FAILURE);
