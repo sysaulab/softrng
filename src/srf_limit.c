@@ -1,32 +1,12 @@
-/**
-* @file keep.c
-* @author Sylvain Saucier <sylvain@sysau.com>
-* @version 0.4.0
-* @section LICENSE *
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the Affero GNU Public Licence version 3.
-* Other licences available upon request.
-* @section DESCRIPTION *
-* Keep filter, relay at most n bytes from stdin to stdout */
-
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include "sr_config.h"
 
-/**
-* @brief Parse a string containing a size
-* @author Sylvain Saucier
-* @param in
-* @param out
-* Parse strings such as "15kb" or "1.375TB" and return byte value as double 
-*/
-double parseSize(char* text)
-{
+double parseSize(char* text) {
     double answer = atof(text);
-    for(int x = 0; text[x] ; x++)
-    {
+    for(int x = 0; text[x] ; x++) {
         switch (text[x]){
             case 'k': return answer * 1000.0;
             case 'm': return answer * 1000000.0;
@@ -49,10 +29,8 @@ double parseSize(char* text)
     return answer;
 }
 
-int main(int argc, char** argv)
-{
-    if(argc < 2)
-    {
+int main(int argc, char** argv){
+    if(argc < 2) {
         printf("Distributed under Affero GNU Public Licence version 3\n\n");
         printf("usage : | STOP {size} | \n");
         printf("    size is a fractional number with a suffix\n");
@@ -63,15 +41,13 @@ int main(int argc, char** argv)
     }
     uint64_t bytes_requested = parseSize(argv[1]);
     uint64_t bytes_written = 0;
-    uint8_t* buffer = malloc(_SSRNG_BUFSIZE);
-    while(1)
-    {
+    uint8_t buffer[_SSRNG_BUFSIZE];
+    while(1) {
         uint64_t remains = (bytes_requested - bytes_written);
         if(!remains) break;
-        uint64_t have = fread(buffer, sizeof(uint8_t), _SSRNG_BUFSIZE, stdin);
+        uint64_t have = fread(&buffer, sizeof(uint8_t), _SSRNG_BUFSIZE, stdin);
         if(!have) break;
-        bytes_written += fwrite(buffer, sizeof(uint8_t), have > remains ? remains : have, stdout);
+        bytes_written += fwrite(&buffer, sizeof(uint8_t), have > remains ? remains : have, stdout);
     }
-    free(buffer);
     return EXIT_SUCCESS;
 }

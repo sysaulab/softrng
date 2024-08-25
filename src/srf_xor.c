@@ -16,59 +16,43 @@
 #include <string.h>
 #include "sr_config.h"
 
-int main(int argc, char** argv)
-{
-    if(argc < 2 || argc > 2)
-    {
-        fprintf(stderr, "XOR NEED 1 ARGUMENT\n");
+int main(int argc, char** argv) {
+    if(argc < 2 || argc > 2) {
+        fprintf(stderr, "f-xor: must supply 1 argument\n");
         exit(EXIT_FAILURE);
     }
-    int readed;
-    int min_readed;
-
-    uint64_t* buffers = malloc(_SSRNG_BUFLEN * sizeof(uint8_t));
-    if(!buffers)
-    {
-        fprintf(stderr, "XOR IS OUT OF MEMORY\n");
-        exit(EXIT_FAILURE);
-    }
+    int left_readed;
+    int right_readed;
+    uint64_t left_buffer[_SSRNG_BUFLEN];
+    uint64_t right_buffer[_SSRNG_BUFLEN];
 
     FILE* input = popen(argv[1], "r");
-    if(!input)
-    {
-        fprintf(stderr, "XOR CANNOT OPEN %s\n", argv[1]);
+    if(!input) {
+        fprintf(stderr, "f-xor: cannot open %s\n", argv[1]);
         exit(EXIT_FAILURE);
     }
 
-    while(1)
-    {
-        min_readed = 0x0fffffff;
+    while(1) {
+        left_readed = fread(&left_buffer, sizeof(uint64_t), _SSRNG_BUFLEN, stdin);
+        right_readed = fread(&right_buffer, sizeof(uint64_t), _SSRNG_BUFLEN, input);
 
-        readed = fread(&(buffers[0]), sizeof(uint64_t), _SSRNG_BUFLEN, stdin);
-        min_readed = readed;
-
-        readed = fread(&(buffers[_SSRNG_BUFLEN]), sizeof(uint64_t), _SSRNG_BUFLEN, input);
-        min_readed = (readed < min_readed) ? readed : min_readed;
-
-        if(!min_readed)
-        {
-            exit(EXIT_SUCCESS);
+        if (left_readed != right_readed) {
+            fprintf(stderr, "f-xor: read mismatch\n");
+            exit(EXIT_FAILURE);
         }
 
-        for(int y = 0; y < _SSRNG_BUFLEN; y++)
-        {
-            buffers[y] ^= buffers[_SSRNG_BUFLEN+y];
+        if(left_readed == 0) exit(EXIT_SUCCESS);
+        
+        for(int y = 0; y < _SSRNG_BUFLEN; y++) {
+            left_buffer[y] ^= right_buffer[y];
         }
 
-        //output buffers
-        int readed = fwrite(&buffers[0], sizeof(uint64_t), min_readed, stdout);
-        if(readed ^ min_readed) 
-        {
-            fprintf(stderr, "XOR IS HAVING A PROBLEM WITH OUTPUT\n");
+        int readed = fwrite(&left_buffer, sizeof(uint64_t), left_readed, stdout);
+        if( readed != left_readed ) {
+            fprintf(stderr, "f-xor: output problem\n");
             exit(EXIT_FAILURE);
         }
     }
-    free(buffers);
     pclose(input);
     return EXIT_SUCCESS;
 }

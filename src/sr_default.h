@@ -2,7 +2,7 @@ char _files_module_softrng[] = "\n\
 s-password   srs_password\n\
 f-hex        srf_hex\n\
 f-bench      srf_bench\n\
-f-size       srf_limitsize\n\
+f-limit      srf_limit\n\
 t-hole       srt_hole\n\
 s-read       srs_fread\n\
 f-write      srf_fwrite\n\
@@ -11,7 +11,7 @@ s-zeros      srs_zeros\n\
 f-roxo64     srg_roxo64\n\
 f-qxo64      srg_qxo64\n\
 s-system     s-read /dev/random\n\
-s-icm64      srs_icm64\n\
+s-synth      srs_icm64\n\
 t-bspec32    srt_bspec32\n\
 s-getent     srs_getent";
 
@@ -89,46 +89,30 @@ COMMANDS INCLUDED WITH SOFTRNG\n\
 \n\
 The type of command tells you about \n\
 \n\
-   _ type\n\
+   _ Type\n\
  /\n\
-|  COMMAND  DESCRIPTION\n\
-----------  ----------------------------------------------------------------\n\
-s-password  get user input and pass it to output\n\
-f-bench     display live information about the stream\n\
-f-hex       convert binary input to hexadecimal\n\
-s-read F    read file F and send it to the output pipe\n\
-f-size X    close a stream after X bytes\n\
-t-void      dummy target, sink to nothing, useful when benchmarking\n\
-f-write     duplicate the stream and save a copy to file F\n\
-f-xor X     mix the stream with output of command chain X using XOR\n\
-s-random    default system generator (/dev/random)\n\
-f-qxo64     very fast, require very large seed.\n\
-f-roxo64    1GB/sec, 512PT period, 8kb seed required.\n\
-s-zeros     source of infinite zeros (/dev/zero)\n\
-s-icm64     portable, software entropy collector ( libICM )\n\
-s-getent    native entropy source ( getentropy() )\n\
-t-bspec32   32 bit completeness test\n\
-               _ Type (Filter, Generator, Test, Source)\n\
-             /  _ Input\n\
-            | /  _ Output\n\
-            || /\n\
-COMMAND     TIO  DESCRIPTION\n\
-----------  ---  ----------------------------------------------------------------\n\
-f-ask       F O  get user input and pass it to output\n\
-f-bench     FIO  display live information about the stream\n\
-f-hex       FI   convert binary input to hexadecimal\n\
-s-read F    S O  read file F and send it to the output pipe\n\
-f-size X    FIO  close a stream after X bytes\n\
-f-void      TI   dummy target, sink to nothing, useful when benchmarking\n\
-f-write     F O  duplicate the stream and save a copy to file F\n\
-f-xor X     FIO  mix the stream with output of command chain X using XOR\n\
-g-rand      S O  default system generator (/dev/random)\n\
-g-qxo64 T   GIO  very fast, require very large seed. T = multi-threaded.\n\
-g-roxo64    GIO  1GB/sec, 512PT period, 8kb seed required.\n\
-s-zeros     G O  source of infinite zeros (/dev/zero)\n\
-s-icm64     S O  portable, software entropy collector ( libICM )\n\
-s-getent    S O  native entropy source ( getentropy() )\n\
-t-bspec32   TI   basic 32 bit distribution test\n\
+|   s = Source (Nothing in, something out)\n\
+|   f = Filter (Something in, something out)\n\
+|   t = Target (Something in, nothing out)\n\
+|       s | f | t\n\
+|\n\
+|  COMMAND      DESCRIPTION\n\
+----------      ----------------------------------------------------------------\n\
+s-password P    Use a password to generate a sequence.\n\
+s-zeros         Portable source of infinite zeros. (/dev/zero)\n\
+s-synth         Portable source of synthetic entropy.\n\
+s-random        Read from the default system generator. (/dev/random)\n\
+s-getent        Native quality entropy source ( getentropy() )\n\
+s-read F        Read file F to output.\n\
+f-bench         Display statistics about the stream.\n\
+f-hex           Convert input to hexadecimal.\n\
+f-limit N       Limit the size of a stream to N bytes\n\
+f-write F       Save a copy of the the stream to file F.\n\
+f-xor S         Insert stream S using XOR.\n\
+f-qxo64         2gb/sec, 2mb entropy, 140eb.\n\
+f-roxo64        1gb/sec, 8kb entropy, 512pt.\n\
+t-hole          Bottomless pit en lost data. (portable /dev/null)\n\
+t-bspec32       32 bit completeness test.\n\
 \n\
 \n\
 \n\
