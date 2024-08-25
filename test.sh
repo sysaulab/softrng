@@ -42,6 +42,16 @@ s-system | srf_limit 10 | srf_hex
 echo
 echo
 
+echo "s-system | f-roxo64 | srf_limit 10 | srf_hex"
+s-system | f-roxo64 | srf_limit 10 | srf_hex
+echo
+echo
+
+echo "s-system | f-qxo64 | srf_limit 10 | srf_hex"
+s-system | f-qxo64 | srf_limit 20 | srf_hex
+echo
+echo
+
 
 
 
