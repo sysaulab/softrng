@@ -111,20 +111,16 @@ int rem_etc() {
 }
 
 int scan_one_db(char* target_cmd, FILE* db_file){
-    if(!db_file){
+    if(db_file == NULL){
         printf("Error, file not open.\n");
         return 0;
     }
     int errors = 0;
     size_t len = 4096;
-    char* line = malloc(len + 1);
-    if(!line) return 2;
-    char* short_name = calloc(len + 1, sizeof(char));
-        if(!short_name)
-            exit(EXIT_FAILURE);
-    char* short_cmd  = calloc(len + 1, sizeof(char));
-        if(!short_cmd)
-            exit(EXIT_FAILURE);
+    char realline[len + 1];
+    char* line = &realline[0];
+    char short_name[len + 1];
+    char short_cmd[len + 1];
     if(!cmd_exist(target_cmd)) {
         printf("Cleaning %s ", target_cmd);
         fflush(stdout);
@@ -158,11 +154,6 @@ int scan_one_db(char* target_cmd, FILE* db_file){
     if(errors) {
         printf("%i errors occured.\n", errors);
     }
-
-    free(short_name);
-    free(short_cmd);
-    free(line);
-    fclose(db_file);
     return 0;
 }
 
@@ -174,14 +165,10 @@ int delete_one_db(char* target_cmd, FILE* db_file) {
         return 0;
     }
     size_t len = 4096;
-    char* line = malloc(len + 1);
-    if(!line) return 2;
-    char* short_name = calloc(len + 1, sizeof(char)); 
-    if(!short_name) 
-        exit(EXIT_FAILURE);
-    char* short_cmd  = calloc(len + 1, sizeof(char));
-        if(!short_cmd)
-            exit(EXIT_FAILURE);
+    char realline[len + 1];
+    char* line = &realline[0];
+    char short_name[len + 1];
+    char short_cmd[len + 1];
     while((getline(&line, &len, db_file)) != -1) {
         fscanf(db_file, "%s %4096[^\n]", short_name, short_cmd);
         if(remove_shortcut(short_name)) {
@@ -191,9 +178,6 @@ int delete_one_db(char* target_cmd, FILE* db_file) {
         }
     }
     printf("\n");fflush(stdout);
-    free(short_name);
-    free(line);
-    fclose(db_file);
     return 0;
 }
 
