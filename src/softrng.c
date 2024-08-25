@@ -61,7 +61,7 @@ void manual() {
 
 int create_shortcut(char* alias_name, char* alias_command) {
     char cmd[201];
-    char local_bin[200] = "";
+    char local_bin[201] = "";
     strncpy(local_bin, dir_bin, 200);
     strncat(local_bin, alias_name, 200);
     FILE* alias_file = fopen(local_bin, "w");
