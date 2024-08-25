@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 char _files_module_softrng[] = "\n\
 s-password   srs_password\n\
 f-hex        srf_hex\n\
