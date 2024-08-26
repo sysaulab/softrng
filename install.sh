@@ -53,35 +53,6 @@ cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-bigcrush   s
 
 
 
-echo "DieHarder"
-echo "DIEHARDER INSTALL LOG (stdout)" > logs/dieharder.std.txt
-echo "DIEHARDER ERROR LOG (stderr)" > logs/dieharder.err.txt
-INPUT_STRING=$(uname -s)
-  case $INPUT_STRING in
-	"Darwin")
-    unzip -u external/dieharder-master.zip >> logs/dieharder.std.txt 2>> logs/dieharder.err.txt
-    cd dieharder-master >> logs/dieharder.std.txt 2>> logs/dieharder.err.txt
-    ./autogen.sh >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
-    ./configure >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
-    make >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
-    make install >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
-    cd .. >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
-		break
-		;;
-  "Linux")
-    if [ -x "$(command -v apk)" ];       then sudo apk add --no-cache dieharder
-    elif [ -x "$(command -v apt-get)" ]; then sudo apt-get install dieharder
-    elif [ -x "$(command -v dnf)" ];     then sudo dnf install dieharder
-    elif [ -x "$(command -v zypper)" ];  then sudo zypper install dieharder
-    else echo "Please install dieharder manually.">&2; fi
-    ;;
-	*)
-		echo "Please install dieharder manually."
-		;;
-  esac
-
-
-
 cp -f bin/* /usr/local/bin/
 cp -Rf softrng /etc
 rm -Rf PractRand-master bin dieharder-master TestU01-1.2.3
