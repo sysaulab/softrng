@@ -1,0 +1,6 @@
+
+t-pract      RNG_test stdin
+t-pract8     RNG_test stdin8
+t-pract16    RNG_test stdin16
+t-pract32    RNG_test stdin32
+t-pract64    RNG_test stdin64

@@ -1,0 +1,1071 @@
+TESTU01 INSTALL LOG (stdout)
+Archive:  external/TestU01.zip
+   creating: TestU01-1.2.3/
+   creating: TestU01-1.2.3/mylib/
+  inflating: TestU01-1.2.3/mylib/tcode.tex  
+  inflating: TestU01-1.2.3/mylib/addstr.c  
+  inflating: TestU01-1.2.3/mylib/chrono.tex  
+  inflating: TestU01-1.2.3/mylib/util.tex  
+  inflating: TestU01-1.2.3/mylib/gdef.tex  
+  inflating: TestU01-1.2.3/mylib/titre.tex  
+  inflating: TestU01-1.2.3/mylib/num2.tex  
+  inflating: TestU01-1.2.3/mylib/guidemylib.pdf  
+  inflating: TestU01-1.2.3/mylib/num.tex  
+  inflating: TestU01-1.2.3/mylib/annexea.tex  
+  inflating: TestU01-1.2.3/mylib/bitset.c  
+  inflating: TestU01-1.2.3/mylib/tcode.c  
+  inflating: TestU01-1.2.3/mylib/chrono.c  
+  inflating: TestU01-1.2.3/mylib/tables.tex  
+  inflating: TestU01-1.2.3/mylib/num2.c  
+  inflating: TestU01-1.2.3/mylib/bitset.tex  
+  inflating: TestU01-1.2.3/mylib/Makefile.in  
+  inflating: TestU01-1.2.3/mylib/gdef.c  
+  inflating: TestU01-1.2.3/mylib/tables.c  
+  inflating: TestU01-1.2.3/mylib/guidemylib.tex  
+  inflating: TestU01-1.2.3/mylib/num.h  
+  inflating: TestU01-1.2.3/mylib/num.c  
+  inflating: TestU01-1.2.3/mylib/guidemylib.bbl  
+  inflating: TestU01-1.2.3/mylib/addstr.tex  
+  inflating: TestU01-1.2.3/mylib/Makefile.am  
+  inflating: TestU01-1.2.3/mylib/util.c  
+  inflating: TestU01-1.2.3/mylib/mystr.tex  
+  inflating: TestU01-1.2.3/mylib/mystr.c  
+  inflating: TestU01-1.2.3/configure.ac  
+   creating: TestU01-1.2.3/testu01/
+  inflating: TestU01-1.2.3/testu01/swrite.tex  
+  inflating: TestU01-1.2.3/testu01/fnpair.tex  
+  inflating: TestU01-1.2.3/testu01/scomp.c  
+  inflating: TestU01-1.2.3/testu01/udeng.c  
+  inflating: TestU01-1.2.3/testu01/fintro.tex  
+  inflating: TestU01-1.2.3/testu01/uvaria.c  
+  inflating: TestU01-1.2.3/testu01/guidetestu01.bbl  
+  inflating: TestU01-1.2.3/testu01/ftab.c  
+  inflating: TestU01-1.2.3/testu01/uquad.c  
+  inflating: TestU01-1.2.3/testu01/umrg.tex  
+  inflating: TestU01-1.2.3/testu01/uwu.tex  
+  inflating: TestU01-1.2.3/testu01/snpair.tex  
+  inflating: TestU01-1.2.3/testu01/uknuth.tex  
+  inflating: TestU01-1.2.3/testu01/fmultin.tex  
+  inflating: TestU01-1.2.3/testu01/tu01_sha1.tex  
+  inflating: TestU01-1.2.3/testu01/fspectral.tex  
+  inflating: TestU01-1.2.3/testu01/ucarry.tex  
+  inflating: TestU01-1.2.3/testu01/ucryptoIS.c  
+  inflating: TestU01-1.2.3/testu01/tu01_sha1.c  
+  inflating: TestU01-1.2.3/testu01/swalk.c  
+  inflating: TestU01-1.2.3/testu01/ulec.c  
+  inflating: TestU01-1.2.3/testu01/vectorsF2.c  
+  inflating: TestU01-1.2.3/testu01/unumrec.c  
+  inflating: TestU01-1.2.3/testu01/ucarry.c  
+  inflating: TestU01-1.2.3/testu01/utaus.c  
+  inflating: TestU01-1.2.3/testu01/ulcg.c  
+  inflating: TestU01-1.2.3/testu01/uknuth.c  
+  inflating: TestU01-1.2.3/testu01/unumrec.tex  
+  inflating: TestU01-1.2.3/testu01/fmarsa.c  
+  inflating: TestU01-1.2.3/testu01/copyright.tex  
+  inflating: TestU01-1.2.3/testu01/fstring.tex  
+  inflating: TestU01-1.2.3/testu01/unif01.tex  
+  inflating: TestU01-1.2.3/testu01/ugranger.c  
+  inflating: TestU01-1.2.3/testu01/uquad.tex  
+  inflating: TestU01-1.2.3/testu01/scomp.tex  
+  inflating: TestU01-1.2.3/testu01/fmarsa.tex  
+  inflating: TestU01-1.2.3/testu01/ugfsr.tex  
+  inflating: TestU01-1.2.3/testu01/fcho.tex  
+  inflating: TestU01-1.2.3/testu01/fknuth.tex  
+  inflating: TestU01-1.2.3/testu01/fcho.c  
+  inflating: TestU01-1.2.3/testu01/fstring.c  
+  inflating: TestU01-1.2.3/testu01/uxorshift.c  
+  inflating: TestU01-1.2.3/testu01/sknuth.c  
+  inflating: TestU01-1.2.3/testu01/uvaria.tex  
+  inflating: TestU01-1.2.3/testu01/fmultin.c  
+  inflating: TestU01-1.2.3/testu01/usoft.c  
+  inflating: TestU01-1.2.3/testu01/umarsa.tex  
+  inflating: TestU01-1.2.3/testu01/swalk.tex  
+  inflating: TestU01-1.2.3/testu01/sstring.tex  
+  inflating: TestU01-1.2.3/testu01/fspectral.c  
+  inflating: TestU01-1.2.3/testu01/ulcg.tex  
+  inflating: TestU01-1.2.3/testu01/sentrop.c  
+  inflating: TestU01-1.2.3/testu01/ubrent.tex  
+  inflating: TestU01-1.2.3/testu01/ffam.c  
+  inflating: TestU01-1.2.3/testu01/fres.c  
+  inflating: TestU01-1.2.3/testu01/guideshorttestu01.pdf  
+  inflating: TestU01-1.2.3/testu01/bbattery.tex  
+  inflating: TestU01-1.2.3/testu01/fres.tex  
+  inflating: TestU01-1.2.3/testu01/uxorshift.tex  
+  inflating: TestU01-1.2.3/testu01/vectorsF2.tex  
+  inflating: TestU01-1.2.3/testu01/uinv.tex  
+  inflating: TestU01-1.2.3/testu01/fvaria.c  
+  inflating: TestU01-1.2.3/testu01/smultin.tex  
+  inflating: TestU01-1.2.3/testu01/snpair.c  
+  inflating: TestU01-1.2.3/testu01/uinv.c  
+  inflating: TestU01-1.2.3/testu01/rijndael-alg-fst.tex  
+  inflating: TestU01-1.2.3/testu01/unif01.c  
+  inflating: TestU01-1.2.3/testu01/smarsa.tex  
+  inflating: TestU01-1.2.3/testu01/fftc.c  
+  inflating: TestU01-1.2.3/testu01/guidetestu01.ind  
+  inflating: TestU01-1.2.3/testu01/uxorshift.h  
+  inflating: TestU01-1.2.3/testu01/fcong.c  
+  inflating: TestU01-1.2.3/testu01/sresshort.tex  
+  inflating: TestU01-1.2.3/testu01/ubrent.c  
+  inflating: TestU01-1.2.3/testu01/svaria.tex  
+  inflating: TestU01-1.2.3/testu01/intro.tex  
+  inflating: TestU01-1.2.3/testu01/utouzin.c  
+  inflating: TestU01-1.2.3/testu01/TestU01.h  
+  inflating: TestU01-1.2.3/testu01/fresshort.tex  
+  inflating: TestU01-1.2.3/testu01/fwalk.c  
+  inflating: TestU01-1.2.3/testu01/sres.tex  
+  inflating: TestU01-1.2.3/testu01/uintro.tex  
+  inflating: TestU01-1.2.3/testu01/uweyl.c  
+  inflating: TestU01-1.2.3/testu01/ugranger.tex  
+  inflating: TestU01-1.2.3/testu01/swrite.c  
+  inflating: TestU01-1.2.3/testu01/sspectral.c  
+  inflating: TestU01-1.2.3/testu01/ufile.tex  
+  inflating: TestU01-1.2.3/testu01/smultin.c  
+  inflating: TestU01-1.2.3/testu01/uautomata.c  
+  inflating: TestU01-1.2.3/testu01/guidelongtestu01.pdf  
+  inflating: TestU01-1.2.3/testu01/Makefile.in  
+  inflating: TestU01-1.2.3/testu01/umarsa.c  
+  inflating: TestU01-1.2.3/testu01/sspacings.c  
+  inflating: TestU01-1.2.3/testu01/sstring.c  
+  inflating: TestU01-1.2.3/testu01/sintro.tex  
+  inflating: TestU01-1.2.3/testu01/fvaria.tex  
+  inflating: TestU01-1.2.3/testu01/sspectral.tex  
+  inflating: TestU01-1.2.3/testu01/sentrop.tex  
+  inflating: TestU01-1.2.3/testu01/utouzin.tex  
+  inflating: TestU01-1.2.3/testu01/ffsr.c  
+  inflating: TestU01-1.2.3/testu01/ufile.c  
+  inflating: TestU01-1.2.3/testu01/uweyl.tex  
+  inflating: TestU01-1.2.3/testu01/ftab.tex  
+  inflating: TestU01-1.2.3/testu01/smarsa.c  
+  inflating: TestU01-1.2.3/testu01/fwalk.tex  
+  inflating: TestU01-1.2.3/testu01/ucubic.tex  
+  inflating: TestU01-1.2.3/testu01/ffsr.tex  
+  inflating: TestU01-1.2.3/testu01/bintro.tex  
+  inflating: TestU01-1.2.3/testu01/guidetestu01.tex  
+  inflating: TestU01-1.2.3/testu01/scatter.tex  
+  inflating: TestU01-1.2.3/testu01/usoft.tex  
+  inflating: TestU01-1.2.3/testu01/umrg.c  
+  inflating: TestU01-1.2.3/testu01/ucrypto.tex  
+  inflating: TestU01-1.2.3/testu01/sres.c  
+  inflating: TestU01-1.2.3/testu01/udeng.tex  
+  inflating: TestU01-1.2.3/testu01/ulec.tex  
+  inflating: TestU01-1.2.3/testu01/rijndael-alg-fst.c  
+  inflating: TestU01-1.2.3/testu01/sknuth.tex  
+  inflating: TestU01-1.2.3/testu01/uautomata.tex  
+  inflating: TestU01-1.2.3/testu01/scatter.c  
+  inflating: TestU01-1.2.3/testu01/fcong.tex  
+  inflating: TestU01-1.2.3/testu01/svaria.c  
+  inflating: TestU01-1.2.3/testu01/fknuth.c  
+  inflating: TestU01-1.2.3/testu01/uwu.c  
+  inflating: TestU01-1.2.3/testu01/bbattery.c  
+  inflating: TestU01-1.2.3/testu01/utaus.tex  
+  inflating: TestU01-1.2.3/testu01/ucrypto.c  
+  inflating: TestU01-1.2.3/testu01/ucubic.c  
+  inflating: TestU01-1.2.3/testu01/Makefile.am  
+  inflating: TestU01-1.2.3/testu01/sspacings.tex  
+  inflating: TestU01-1.2.3/testu01/ffam.tex  
+  inflating: TestU01-1.2.3/testu01/ugfsr.c  
+  inflating: TestU01-1.2.3/testu01/title.tex  
+  inflating: TestU01-1.2.3/testu01/scatfig.tex  
+  inflating: TestU01-1.2.3/testu01/fnpair.c  
+  inflating: TestU01-1.2.3/testu01/utezuka.tex  
+  inflating: TestU01-1.2.3/testu01/utezuka.c  
+   creating: TestU01-1.2.3/bin/
+   creating: TestU01-1.2.3/examples/
+  inflating: TestU01-1.2.3/examples/my16807.h  
+  inflating: TestU01-1.2.3/examples/bat2.res  
+  inflating: TestU01-1.2.3/examples/ex3.c  
+  inflating: TestU01-1.2.3/examples/bat1.res  
+  inflating: TestU01-1.2.3/examples/vax.bin  
+  inflating: TestU01-1.2.3/examples/scat.c  
+  inflating: TestU01-1.2.3/examples/fcoll.res2.tex  
+  inflating: TestU01-1.2.3/examples/ex1.c  
+  inflating: TestU01-1.2.3/examples/bat3.c  
+  inflating: TestU01-1.2.3/examples/scat2.c  
+  inflating: TestU01-1.2.3/examples/bat1.c  
+  inflating: TestU01-1.2.3/examples/birth1.c  
+  inflating: TestU01-1.2.3/examples/fcoll.res1.tex  
+  inflating: TestU01-1.2.3/examples/excel.dat  
+  inflating: TestU01-1.2.3/examples/mrg32k3a.c  
+  inflating: TestU01-1.2.3/examples/Makefile.in  
+  inflating: TestU01-1.2.3/examples/birth2.c  
+  inflating: TestU01-1.2.3/examples/ex3.res  
+  inflating: TestU01-1.2.3/examples/fcoll.c  
+  inflating: TestU01-1.2.3/examples/fbirth.res2.tex  
+  inflating: TestU01-1.2.3/examples/xorshift.c  
+  inflating: TestU01-1.2.3/examples/Makefile.am  
+  inflating: TestU01-1.2.3/examples/fbirth.res1.tex  
+  inflating: TestU01-1.2.3/examples/fbirth.c  
+  inflating: TestU01-1.2.3/examples/ex7.c  
+  inflating: TestU01-1.2.3/examples/bat2.c  
+  inflating: TestU01-1.2.3/examples/birth1.res  
+  inflating: TestU01-1.2.3/examples/my16807.c  
+  inflating: TestU01-1.2.3/examples/ex4.c  
+   creating: TestU01-1.2.3/include/
+  inflating: TestU01-1.2.3/include/gdefconf.h.in  
+  inflating: TestU01-1.2.3/include/makedef  
+  inflating: TestU01-1.2.3/include/config.h.in  
+  inflating: TestU01-1.2.3/include/Makefile.in  
+  inflating: TestU01-1.2.3/include/Makefile.def  
+  inflating: TestU01-1.2.3/include/Makefile.am  
+  inflating: TestU01-1.2.3/configure  
+   creating: TestU01-1.2.3/probdist/
+  inflating: TestU01-1.2.3/probdist/gofw.c  
+  inflating: TestU01-1.2.3/probdist/fmass.tex  
+  inflating: TestU01-1.2.3/probdist/fdist.c  
+  inflating: TestU01-1.2.3/probdist/fmass.c  
+  inflating: TestU01-1.2.3/probdist/wdist.c  
+  inflating: TestU01-1.2.3/probdist/fdist.tex  
+  inflating: TestU01-1.2.3/probdist/guideprobdist.pdf  
+  inflating: TestU01-1.2.3/probdist/copyright.tex  
+  inflating: TestU01-1.2.3/probdist/gofs.c  
+  inflating: TestU01-1.2.3/probdist/finv.tex  
+  inflating: TestU01-1.2.3/probdist/titre.tex  
+  inflating: TestU01-1.2.3/probdist/finv.c  
+  inflating: TestU01-1.2.3/probdist/fbar.tex  
+  inflating: TestU01-1.2.3/probdist/wdist.tex  
+  inflating: TestU01-1.2.3/probdist/gofw.tex  
+  inflating: TestU01-1.2.3/probdist/guideprobdist.tex  
+  inflating: TestU01-1.2.3/probdist/fbar.c  
+  inflating: TestU01-1.2.3/probdist/gofs.tex  
+  inflating: TestU01-1.2.3/probdist/Makefile.in  
+  inflating: TestU01-1.2.3/probdist/statcoll.c  
+  inflating: TestU01-1.2.3/probdist/statcoll.tex  
+  inflating: TestU01-1.2.3/probdist/guideprobdist.bbl  
+  inflating: TestU01-1.2.3/probdist/Makefile.am  
+  inflating: TestU01-1.2.3/COPYING   
+ extracting: TestU01-1.2.3/INSTALL   
+ extracting: TestU01-1.2.3/ChangeLog  
+  inflating: TestU01-1.2.3/config.guess  
+   creating: TestU01-1.2.3/param/
+  inflating: TestU01-1.2.3/param/LCGPow2.par  
+  inflating: TestU01-1.2.3/param/InvExpl2b.par  
+  inflating: TestU01-1.2.3/param/CombL2.par  
+  inflating: TestU01-1.2.3/param/LCGGood.par  
+  inflating: TestU01-1.2.3/param/LFSR2.par  
+  inflating: TestU01-1.2.3/param/InvImpl2b.par  
+  inflating: TestU01-1.2.3/param/LCGBad2.par  
+  inflating: TestU01-1.2.3/param/MRG3.par  
+  inflating: TestU01-1.2.3/param/InvImpl.par  
+  inflating: TestU01-1.2.3/param/Cubic1.par  
+  inflating: TestU01-1.2.3/param/LCGWu2.par  
+  inflating: TestU01-1.2.3/param/MRG2.par  
+  inflating: TestU01-1.2.3/param/LFSR1.par  
+  inflating: TestU01-1.2.3/param/InvExpl.par  
+  inflating: TestU01-1.2.3/param/Makefile.in  
+  inflating: TestU01-1.2.3/param/CombCubic2.par  
+  inflating: TestU01-1.2.3/param/LCGGranger.par  
+  inflating: TestU01-1.2.3/param/TausLCG2.par  
+  inflating: TestU01-1.2.3/param/InvExpl2a.par  
+  inflating: TestU01-1.2.3/param/CombWH2.par  
+  inflating: TestU01-1.2.3/param/Makefile.am  
+  inflating: TestU01-1.2.3/param/InvImpl2a.par  
+  inflating: TestU01-1.2.3/param/CombCubLCG.par  
+  inflating: TestU01-1.2.3/param/LFSR3.par  
+  inflating: TestU01-1.2.3/install-sh  
+  inflating: TestU01-1.2.3/Makefile.in  
+  inflating: TestU01-1.2.3/ltmain.sh  
+  inflating: TestU01-1.2.3/depcomp   
+  inflating: TestU01-1.2.3/config.sub  
+  inflating: TestU01-1.2.3/NEWS      
+  inflating: TestU01-1.2.3/README    
+  inflating: TestU01-1.2.3/aclocal.m4  
+  inflating: TestU01-1.2.3/Makefile.am  
+  inflating: TestU01-1.2.3/missing   
+  inflating: TestU01-1.2.3/mkinstalldirs  
+ extracting: TestU01-1.2.3/AUTHORS   
+   creating: TestU01-1.2.3/doc/
+  inflating: TestU01-1.2.3/doc/myarticle.sty  
+  inflating: TestU01-1.2.3/doc/Makefile.in  
+  inflating: TestU01-1.2.3/doc/lmac.tex  
+ extracting: TestU01-1.2.3/doc/Makefile.am  
+  inflating: TestU01-1.2.3/bootstrap  
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... ./install-sh -c -d
+checking for gawk... no
+checking for mawk... no
+checking for nawk... nawk
+checking whether make sets $(MAKE)... yes
+checking build system type... arm-apple-darwin23.6.0
+checking host system type... arm-apple-darwin23.6.0
+checking for gcc... gcc
+checking for C compiler default output file name... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for style of include used by make... GNU
+checking dependency style of gcc... gcc3
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether ln -s works... yes
+checking whether make sets $(MAKE)... (cached) yes
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ld used by gcc... /Library/Developer/CommandLineTools/usr/bin/ld
+checking if the linker (/Library/Developer/CommandLineTools/usr/bin/ld) is GNU ld... no
+checking for /Library/Developer/CommandLineTools/usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking how to recognise dependent libraries... pass_all
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking for g++... g++
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking dependency style of g++... gcc3
+checking how to run the C++ preprocessor... g++ -E
+checking for g77... no
+checking for xlf... no
+checking for f77... no
+checking for frt... no
+checking for pgf77... no
+checking for cf77... no
+checking for fort77... no
+checking for fl32... no
+checking for af77... no
+checking for xlf90... no
+checking for f90... no
+checking for pgf90... no
+checking for pghpf... no
+checking for epcf90... no
+checking for gfortran... gfortran
+checking whether we are using the GNU Fortran 77 compiler... yes
+checking whether gfortran accepts -g... yes
+checking the maximum length of command line arguments... 786432
+checking command to parse /usr/bin/nm -B output from gcc object... ok
+checking for objdir... .libs
+checking for ar... ar
+checking for ranlib... ranlib
+checking for strip... strip
+checking if gcc supports -fno-rtti -fno-exceptions... yes
+checking for gcc option to produce PIC... -fno-common
+checking if gcc PIC flag -fno-common works... yes
+checking if gcc static flag -static works... no
+checking if gcc supports -c -o file.o... yes
+checking whether the gcc linker (/Library/Developer/CommandLineTools/usr/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... darwin23.6.0 dyld
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... yes
+configure: creating libtool
+appending configuration tag "CXX" to libtool
+checking for ld used by g++... /Library/Developer/CommandLineTools/usr/bin/ld
+checking if the linker (/Library/Developer/CommandLineTools/usr/bin/ld) is GNU ld... no
+checking whether the g++ linker (/Library/Developer/CommandLineTools/usr/bin/ld) supports shared libraries... yes
+checking for g++ option to produce PIC... -fno-common
+checking if g++ PIC flag -fno-common works... yes
+checking if g++ static flag -static works... no
+checking if g++ supports -c -o file.o... yes
+checking whether the g++ linker (/Library/Developer/CommandLineTools/usr/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... darwin23.6.0 dyld
+checking how to hardcode library paths into programs... immediate
+appending configuration tag "F77" to libtool
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... yes
+checking for gfortran option to produce PIC... -fno-common
+checking if gfortran PIC flag -fno-common works... yes
+checking if gfortran static flag -static works... no
+checking if gfortran supports -c -o file.o... yes
+checking whether the gfortran linker (/Library/Developer/CommandLineTools/usr/bin/ld) supports shared libraries... yes
+checking dynamic linker characteristics... darwin23.6.0 dyld
+checking how to hardcode library paths into programs... immediate
+checking for math... no
+checking for ANSI C header files... (cached) yes
+checking sys/utsname.h usability... yes
+checking sys/utsname.h presence... yes
+checking for sys/utsname.h... yes
+checking for unistd.h... (cached) yes
+checking windows.h usability... no
+checking windows.h presence... no
+checking for windows.h... no
+checking gmp.h usability... no
+checking gmp.h presence... no
+checking for gmp.h... no
+checking for stdint.h... (cached) yes
+checking for an ANSI C-conforming const... yes
+checking for size_t... yes
+checking whether byte ordering is bigendian... no
+checking for long long... yes
+checking for uint32_t... yes
+checking for uint8_t... yes
+checking for random... yes
+checking for erf... yes
+checking for lgamma... yes
+checking for log1p... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating include/Makefile
+config.status: creating mylib/Makefile
+config.status: creating probdist/Makefile
+config.status: creating testu01/Makefile
+config.status: creating examples/Makefile
+config.status: creating doc/Makefile
+config.status: creating param/Makefile
+config.status: creating include/config.h
+config.status: creating include/gdefconf.h
+config.status: executing depfiles commands
+Making all in .
+gcc -DHAVE_CONFIG_H -I. -I./include -I.    -g -O2 -MT tcode.o -MD -MP -MF .deps/tcode.Tpo -c -o tcode.o `test -f './mylib/tcode.c' || echo './'`./mylib/tcode.c
+mv -f .deps/tcode.Tpo .deps/tcode.Po
+/bin/sh ./libtool --tag=CC   --mode=link gcc  -g -O2   -o tcode tcode.o  
+mkdir .libs
+gcc -g -O2 -o tcode tcode.o   
+Making all in include
+/Library/Developer/CommandLineTools/usr/bin/make  all-am
+../tcode ../mylib/gdef.tex gdef.h
+../tcode ../mylib/addstr.tex addstr.h
+../tcode ../mylib/bitset.tex bitset.h
+../tcode ../mylib/chrono.tex chrono.h
+../tcode ../mylib/mystr.tex mystr.h
+../tcode ../mylib/num.tex num.h
+../tcode ../mylib/num2.tex num2.h
+../tcode ../mylib/tables.tex tables.h
+../tcode ../mylib/util.tex util.h
+../tcode ../probdist/fmass.tex fmass.h
+../tcode ../probdist/fdist.tex fdist.h
+../tcode ../probdist/fbar.tex fbar.h
+../tcode ../probdist/finv.tex finv.h
+../tcode ../probdist/gofs.tex gofs.h
+../tcode ../probdist/gofw.tex gofw.h
+../tcode ../probdist/statcoll.tex statcoll.h
+../tcode ../probdist/wdist.tex wdist.h
+../tcode ../testu01/unif01.tex unif01.h
+../tcode ../testu01/ulcg.tex ulcg.h
+../tcode ../testu01/umrg.tex umrg.h
+../tcode ../testu01/ucarry.tex ucarry.h
+../tcode ../testu01/utaus.tex utaus.h
+../tcode ../testu01/ugfsr.tex ugfsr.h
+../tcode ../testu01/uinv.tex uinv.h
+../tcode ../testu01/uquad.tex uquad.h
+../tcode ../testu01/ucubic.tex ucubic.h
+../tcode ../testu01/ulec.tex ulec.h
+../tcode ../testu01/utezuka.tex utezuka.h
+../tcode ../testu01/umarsa.tex umarsa.h
+../tcode ../testu01/uweyl.tex uweyl.h
+../tcode ../testu01/uknuth.tex uknuth.h
+../tcode ../testu01/uwu.tex uwu.h
+../tcode ../testu01/unumrec.tex unumrec.h
+../tcode ../testu01/uvaria.tex uvaria.h
+../tcode ../testu01/usoft.tex usoft.h
+../tcode ../testu01/ugranger.tex ugranger.h
+../tcode ../testu01/ucrypto.tex ucrypto.h
+../tcode ../testu01/ufile.tex ufile.h
+../tcode ../testu01/udeng.tex udeng.h
+../tcode ../testu01/utouzin.tex utouzin.h
+../tcode ../testu01/uautomata.tex uautomata.h
+../tcode ../testu01/uxorshift.tex uxorshift.h
+../tcode ../testu01/ubrent.tex ubrent.h
+../tcode ../testu01/rijndael-alg-fst.tex rijndael-alg-fst.h
+../tcode ../testu01/tu01_sha1.tex tu01_sha1.h
+../tcode ../testu01/scatter.tex scatter.h
+../tcode ../testu01/swrite.tex swrite.h
+../tcode ../testu01/sres.tex sres.h
+../tcode ../testu01/smultin.tex smultin.h
+../tcode ../testu01/sknuth.tex sknuth.h
+../tcode ../testu01/smarsa.tex smarsa.h
+../tcode ../testu01/sstring.tex sstring.h
+../tcode ../testu01/svaria.tex svaria.h
+../tcode ../testu01/snpair.tex snpair.h
+../tcode ../testu01/swalk.tex swalk.h
+../tcode ../testu01/sentrop.tex sentrop.h
+../tcode ../testu01/sspectral.tex sspectral.h
+../tcode ../testu01/scomp.tex scomp.h
+../tcode ../testu01/sspacings.tex sspacings.h
+../tcode ../testu01/vectorsF2.tex vectorsF2.h
+../tcode ../testu01/bbattery.tex bbattery.h
+../tcode ../testu01/ffam.tex ffam.h
+../tcode ../testu01/fcong.tex fcong.h
+../tcode ../testu01/ffsr.tex ffsr.h
+../tcode ../testu01/ftab.tex ftab.h
+../tcode ../testu01/fres.tex fres.h
+../tcode ../testu01/fcho.tex fcho.h
+../tcode ../testu01/fmultin.tex fmultin.h
+../tcode ../testu01/fmarsa.tex fmarsa.h
+../tcode ../testu01/fknuth.tex fknuth.h
+../tcode ../testu01/fwalk.tex fwalk.h
+../tcode ../testu01/fstring.tex fstring.h
+../tcode ../testu01/fspectral.tex fspectral.h
+../tcode ../testu01/fvaria.tex fvaria.h
+../tcode ../testu01/fnpair.tex fnpair.h
+Making all in mylib
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT gdef.lo -MD -MP -MF .deps/gdef.Tpo -c -o gdef.lo gdef.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT addstr.lo -MD -MP -MF .deps/addstr.Tpo -c -o addstr.lo addstr.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT bitset.lo -MD -MP -MF .deps/bitset.Tpo -c -o bitset.lo bitset.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT chrono.lo -MD -MP -MF .deps/chrono.Tpo -c -o chrono.lo chrono.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT mystr.lo -MD -MP -MF .deps/mystr.Tpo -c -o mystr.lo mystr.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT num.lo -MD -MP -MF .deps/num.Tpo -c -o num.lo num.c
+mkdir .libs
+mkdir .libs
+mkdir .libs
+mkdir .libs
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT chrono.lo -MD -MP -MF .deps/chrono.Tpo -c chrono.c  -fno-common -DPIC -o .libs/chrono.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT gdef.lo -MD -MP -MF .deps/gdef.Tpo -c gdef.c  -fno-common -DPIC -o .libs/gdef.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT bitset.lo -MD -MP -MF .deps/bitset.Tpo -c bitset.c  -fno-common -DPIC -o .libs/bitset.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT num.lo -MD -MP -MF .deps/num.Tpo -c num.c  -fno-common -DPIC -o .libs/num.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT addstr.lo -MD -MP -MF .deps/addstr.Tpo -c addstr.c  -fno-common -DPIC -o .libs/addstr.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT mystr.lo -MD -MP -MF .deps/mystr.Tpo -c mystr.c  -fno-common -DPIC -o .libs/mystr.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT gdef.lo -MD -MP -MF .deps/gdef.Tpo -c gdef.c -o gdef.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT bitset.lo -MD -MP -MF .deps/bitset.Tpo -c bitset.c -o bitset.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT chrono.lo -MD -MP -MF .deps/chrono.Tpo -c chrono.c -o chrono.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT addstr.lo -MD -MP -MF .deps/addstr.Tpo -c addstr.c -o addstr.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT num.lo -MD -MP -MF .deps/num.Tpo -c num.c -o num.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT mystr.lo -MD -MP -MF .deps/mystr.Tpo -c mystr.c -o mystr.o >/dev/null 2>&1
+mv -f .deps/bitset.Tpo .deps/bitset.Plo
+mv -f .deps/gdef.Tpo .deps/gdef.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT num2.lo -MD -MP -MF .deps/num2.Tpo -c -o num2.lo num2.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT tables.lo -MD -MP -MF .deps/tables.Tpo -c -o tables.lo tables.c
+mv -f .deps/chrono.Tpo .deps/chrono.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT util.lo -MD -MP -MF .deps/util.Tpo -c -o util.lo util.c
+mv -f .deps/addstr.Tpo .deps/addstr.Plo
+mv -f .deps/num.Tpo .deps/num.Plo
+mv -f .deps/mystr.Tpo .deps/mystr.Plo
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT num2.lo -MD -MP -MF .deps/num2.Tpo -c num2.c  -fno-common -DPIC -o .libs/num2.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT tables.lo -MD -MP -MF .deps/tables.Tpo -c tables.c  -fno-common -DPIC -o .libs/tables.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT util.lo -MD -MP -MF .deps/util.Tpo -c util.c  -fno-common -DPIC -o .libs/util.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT util.lo -MD -MP -MF .deps/util.Tpo -c util.c -o util.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT num2.lo -MD -MP -MF .deps/num2.Tpo -c num2.c -o num2.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT tables.lo -MD -MP -MF .deps/tables.Tpo -c tables.c -o tables.o >/dev/null 2>&1
+mv -f .deps/util.Tpo .deps/util.Plo
+mv -f .deps/num2.Tpo .deps/num2.Plo
+mv -f .deps/tables.Tpo .deps/tables.Plo
+/bin/sh ../libtool --tag=CC   --mode=link gcc  -g -O2 -no-undefined -version-info 0:1:0  -o libmylib.la -rpath /usr/local/lib gdef.lo addstr.lo bitset.lo chrono.lo mystr.lo num.lo num2.lo tables.lo util.lo  
+gcc -dynamiclib  -o .libs/libmylib.0.0.1.dylib  .libs/gdef.o .libs/addstr.o .libs/bitset.o .libs/chrono.o .libs/mystr.o .libs/num.o .libs/num2.o .libs/tables.o .libs/util.o   -install_name  /usr/local/lib/libmylib.0.dylib -Wl,-compatibility_version -Wl,1 -Wl,-current_version -Wl,1.1
+(cd .libs && rm -f libmylib.0.dylib && ln -s libmylib.0.0.1.dylib libmylib.0.dylib)
+(cd .libs && rm -f libmylib.dylib && ln -s libmylib.0.0.1.dylib libmylib.dylib)
+ar cru .libs/libmylib.a  gdef.o addstr.o bitset.o chrono.o mystr.o num.o num2.o tables.o util.o
+ranlib .libs/libmylib.a
+creating libmylib.la
+(cd .libs && rm -f libmylib.la && ln -s ../libmylib.la libmylib.la)
+Making all in probdist
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fmass.lo -MD -MP -MF .deps/fmass.Tpo -c -o fmass.lo fmass.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fdist.lo -MD -MP -MF .deps/fdist.Tpo -c -o fdist.lo fdist.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fbar.lo -MD -MP -MF .deps/fbar.Tpo -c -o fbar.lo fbar.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT finv.lo -MD -MP -MF .deps/finv.Tpo -c -o finv.lo finv.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT gofs.lo -MD -MP -MF .deps/gofs.Tpo -c -o gofs.lo gofs.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT gofw.lo -MD -MP -MF .deps/gofw.Tpo -c -o gofw.lo gofw.c
+mkdir .libs
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT gofw.lo -MD -MP -MF .deps/gofw.Tpo -c gofw.c  -fno-common -DPIC -o .libs/gofw.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fdist.lo -MD -MP -MF .deps/fdist.Tpo -c fdist.c  -fno-common -DPIC -o .libs/fdist.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT gofs.lo -MD -MP -MF .deps/gofs.Tpo -c gofs.c  -fno-common -DPIC -o .libs/gofs.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT finv.lo -MD -MP -MF .deps/finv.Tpo -c finv.c  -fno-common -DPIC -o .libs/finv.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fmass.lo -MD -MP -MF .deps/fmass.Tpo -c fmass.c  -fno-common -DPIC -o .libs/fmass.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fbar.lo -MD -MP -MF .deps/fbar.Tpo -c fbar.c  -fno-common -DPIC -o .libs/fbar.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT gofw.lo -MD -MP -MF .deps/gofw.Tpo -c gofw.c -o gofw.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT gofs.lo -MD -MP -MF .deps/gofs.Tpo -c gofs.c -o gofs.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fmass.lo -MD -MP -MF .deps/fmass.Tpo -c fmass.c -o fmass.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT finv.lo -MD -MP -MF .deps/finv.Tpo -c finv.c -o finv.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fbar.lo -MD -MP -MF .deps/fbar.Tpo -c fbar.c -o fbar.o >/dev/null 2>&1
+mv -f .deps/gofw.Tpo .deps/gofw.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT statcoll.lo -MD -MP -MF .deps/statcoll.Tpo -c -o statcoll.lo statcoll.c
+mv -f .deps/gofs.Tpo .deps/gofs.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT wdist.lo -MD -MP -MF .deps/wdist.Tpo -c -o wdist.lo wdist.c
+mv -f .deps/finv.Tpo .deps/finv.Plo
+mv -f .deps/fmass.Tpo .deps/fmass.Plo
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT statcoll.lo -MD -MP -MF .deps/statcoll.Tpo -c statcoll.c  -fno-common -DPIC -o .libs/statcoll.o
+mv -f .deps/fbar.Tpo .deps/fbar.Plo
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT wdist.lo -MD -MP -MF .deps/wdist.Tpo -c wdist.c  -fno-common -DPIC -o .libs/wdist.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT wdist.lo -MD -MP -MF .deps/wdist.Tpo -c wdist.c -o wdist.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fdist.lo -MD -MP -MF .deps/fdist.Tpo -c fdist.c -o fdist.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT statcoll.lo -MD -MP -MF .deps/statcoll.Tpo -c statcoll.c -o statcoll.o >/dev/null 2>&1
+mv -f .deps/wdist.Tpo .deps/wdist.Plo
+mv -f .deps/statcoll.Tpo .deps/statcoll.Plo
+mv -f .deps/fdist.Tpo .deps/fdist.Plo
+/bin/sh ../libtool --tag=CC   --mode=link gcc  -g -O2 -no-undefined -version-info 0:1:0  -o libprobdist.la -rpath /usr/local/lib fmass.lo fdist.lo fbar.lo finv.lo gofs.lo gofw.lo statcoll.lo wdist.lo ../mylib/libmylib.la 
+gcc -dynamiclib  -o .libs/libprobdist.0.0.1.dylib  .libs/fmass.o .libs/fdist.o .libs/fbar.o .libs/finv.o .libs/gofs.o .libs/gofw.o .libs/statcoll.o .libs/wdist.o  ../mylib/.libs/libmylib.dylib  -install_name  /usr/local/lib/libprobdist.0.dylib -Wl,-compatibility_version -Wl,1 -Wl,-current_version -Wl,1.1
+(cd .libs && rm -f libprobdist.0.dylib && ln -s libprobdist.0.0.1.dylib libprobdist.0.dylib)
+(cd .libs && rm -f libprobdist.dylib && ln -s libprobdist.0.0.1.dylib libprobdist.dylib)
+ar cru .libs/libprobdist.a  fmass.o fdist.o fbar.o finv.o gofs.o gofw.o statcoll.o wdist.o
+ranlib .libs/libprobdist.a
+creating libprobdist.la
+(cd .libs && rm -f libprobdist.la && ln -s ../libprobdist.la libprobdist.la)
+Making all in testu01
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT unif01.lo -MD -MP -MF .deps/unif01.Tpo -c -o unif01.lo unif01.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ulcg.lo -MD -MP -MF .deps/ulcg.Tpo -c -o ulcg.lo ulcg.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT umrg.lo -MD -MP -MF .deps/umrg.Tpo -c -o umrg.lo umrg.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ucarry.lo -MD -MP -MF .deps/ucarry.Tpo -c -o ucarry.lo ucarry.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT utaus.lo -MD -MP -MF .deps/utaus.Tpo -c -o utaus.lo utaus.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ugfsr.lo -MD -MP -MF .deps/ugfsr.Tpo -c -o ugfsr.lo ugfsr.c
+mkdir .libs
+mkdir .libs
+mkdir .libs
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ucarry.lo -MD -MP -MF .deps/ucarry.Tpo -c ucarry.c  -fno-common -DPIC -o .libs/ucarry.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT unif01.lo -MD -MP -MF .deps/unif01.Tpo -c unif01.c  -fno-common -DPIC -o .libs/unif01.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT utaus.lo -MD -MP -MF .deps/utaus.Tpo -c utaus.c  -fno-common -DPIC -o .libs/utaus.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ugfsr.lo -MD -MP -MF .deps/ugfsr.Tpo -c ugfsr.c  -fno-common -DPIC -o .libs/ugfsr.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ulcg.lo -MD -MP -MF .deps/ulcg.Tpo -c ulcg.c  -fno-common -DPIC -o .libs/ulcg.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT umrg.lo -MD -MP -MF .deps/umrg.Tpo -c umrg.c  -fno-common -DPIC -o .libs/umrg.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT utaus.lo -MD -MP -MF .deps/utaus.Tpo -c utaus.c -o utaus.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT unif01.lo -MD -MP -MF .deps/unif01.Tpo -c unif01.c -o unif01.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ucarry.lo -MD -MP -MF .deps/ucarry.Tpo -c ucarry.c -o ucarry.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ulcg.lo -MD -MP -MF .deps/ulcg.Tpo -c ulcg.c -o ulcg.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT umrg.lo -MD -MP -MF .deps/umrg.Tpo -c umrg.c -o umrg.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ugfsr.lo -MD -MP -MF .deps/ugfsr.Tpo -c ugfsr.c -o ugfsr.o >/dev/null 2>&1
+mv -f .deps/utaus.Tpo .deps/utaus.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT uinv.lo -MD -MP -MF .deps/uinv.Tpo -c -o uinv.lo uinv.c
+mv -f .deps/unif01.Tpo .deps/unif01.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT uquad.lo -MD -MP -MF .deps/uquad.Tpo -c -o uquad.lo uquad.c
+mv -f .deps/ucarry.Tpo .deps/ucarry.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ucubic.lo -MD -MP -MF .deps/ucubic.Tpo -c -o ucubic.lo ucubic.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uinv.lo -MD -MP -MF .deps/uinv.Tpo -c uinv.c  -fno-common -DPIC -o .libs/uinv.o
+mv -f .deps/ulcg.Tpo .deps/ulcg.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ulec.lo -MD -MP -MF .deps/ulec.Tpo -c -o ulec.lo ulec.c
+mv -f .deps/umrg.Tpo .deps/umrg.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT utezuka.lo -MD -MP -MF .deps/utezuka.Tpo -c -o utezuka.lo utezuka.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uquad.lo -MD -MP -MF .deps/uquad.Tpo -c uquad.c  -fno-common -DPIC -o .libs/uquad.o
+mv -f .deps/ugfsr.Tpo .deps/ugfsr.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT umarsa.lo -MD -MP -MF .deps/umarsa.Tpo -c -o umarsa.lo umarsa.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ucubic.lo -MD -MP -MF .deps/ucubic.Tpo -c ucubic.c  -fno-common -DPIC -o .libs/ucubic.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ulec.lo -MD -MP -MF .deps/ulec.Tpo -c ulec.c  -fno-common -DPIC -o .libs/ulec.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uinv.lo -MD -MP -MF .deps/uinv.Tpo -c uinv.c -o uinv.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uquad.lo -MD -MP -MF .deps/uquad.Tpo -c uquad.c -o uquad.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT utezuka.lo -MD -MP -MF .deps/utezuka.Tpo -c utezuka.c  -fno-common -DPIC -o .libs/utezuka.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ucubic.lo -MD -MP -MF .deps/ucubic.Tpo -c ucubic.c -o ucubic.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT umarsa.lo -MD -MP -MF .deps/umarsa.Tpo -c umarsa.c  -fno-common -DPIC -o .libs/umarsa.o
+mv -f .deps/uquad.Tpo .deps/uquad.Plo
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT utezuka.lo -MD -MP -MF .deps/utezuka.Tpo -c utezuka.c -o utezuka.o >/dev/null 2>&1
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT uweyl.lo -MD -MP -MF .deps/uweyl.Tpo -c -o uweyl.lo uweyl.c
+mv -f .deps/uinv.Tpo .deps/uinv.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT uknuth.lo -MD -MP -MF .deps/uknuth.Tpo -c -o uknuth.lo uknuth.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ulec.lo -MD -MP -MF .deps/ulec.Tpo -c ulec.c -o ulec.o >/dev/null 2>&1
+mv -f .deps/utezuka.Tpo .deps/utezuka.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT uwu.lo -MD -MP -MF .deps/uwu.Tpo -c -o uwu.lo uwu.c
+mv -f .deps/ucubic.Tpo .deps/ucubic.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT unumrec.lo -MD -MP -MF .deps/unumrec.Tpo -c -o unumrec.lo unumrec.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uweyl.lo -MD -MP -MF .deps/uweyl.Tpo -c uweyl.c  -fno-common -DPIC -o .libs/uweyl.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT umarsa.lo -MD -MP -MF .deps/umarsa.Tpo -c umarsa.c -o umarsa.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uknuth.lo -MD -MP -MF .deps/uknuth.Tpo -c uknuth.c  -fno-common -DPIC -o .libs/uknuth.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uweyl.lo -MD -MP -MF .deps/uweyl.Tpo -c uweyl.c -o uweyl.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uwu.lo -MD -MP -MF .deps/uwu.Tpo -c uwu.c  -fno-common -DPIC -o .libs/uwu.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT unumrec.lo -MD -MP -MF .deps/unumrec.Tpo -c unumrec.c  -fno-common -DPIC -o .libs/unumrec.o
+mv -f .deps/ulec.Tpo .deps/ulec.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT uvaria.lo -MD -MP -MF .deps/uvaria.Tpo -c -o uvaria.lo uvaria.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uwu.lo -MD -MP -MF .deps/uwu.Tpo -c uwu.c -o uwu.o >/dev/null 2>&1
+mv -f .deps/uweyl.Tpo .deps/uweyl.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT usoft.lo -MD -MP -MF .deps/usoft.Tpo -c -o usoft.lo usoft.c
+mv -f .deps/umarsa.Tpo .deps/umarsa.Plo
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT unumrec.lo -MD -MP -MF .deps/unumrec.Tpo -c unumrec.c -o unumrec.o >/dev/null 2>&1
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ugranger.lo -MD -MP -MF .deps/ugranger.Tpo -c -o ugranger.lo ugranger.c
+mv -f .deps/uwu.Tpo .deps/uwu.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ucrypto.lo -MD -MP -MF .deps/ucrypto.Tpo -c -o ucrypto.lo ucrypto.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uknuth.lo -MD -MP -MF .deps/uknuth.Tpo -c uknuth.c -o uknuth.o >/dev/null 2>&1
+mv -f .deps/unumrec.Tpo .deps/unumrec.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ufile.lo -MD -MP -MF .deps/ufile.Tpo -c -o ufile.lo ufile.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uvaria.lo -MD -MP -MF .deps/uvaria.Tpo -c uvaria.c  -fno-common -DPIC -o .libs/uvaria.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT usoft.lo -MD -MP -MF .deps/usoft.Tpo -c usoft.c  -fno-common -DPIC -o .libs/usoft.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ugranger.lo -MD -MP -MF .deps/ugranger.Tpo -c ugranger.c  -fno-common -DPIC -o .libs/ugranger.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ucrypto.lo -MD -MP -MF .deps/ucrypto.Tpo -c ucrypto.c  -fno-common -DPIC -o .libs/ucrypto.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT usoft.lo -MD -MP -MF .deps/usoft.Tpo -c usoft.c -o usoft.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uvaria.lo -MD -MP -MF .deps/uvaria.Tpo -c uvaria.c -o uvaria.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ugranger.lo -MD -MP -MF .deps/ugranger.Tpo -c ugranger.c -o ugranger.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ufile.lo -MD -MP -MF .deps/ufile.Tpo -c ufile.c  -fno-common -DPIC -o .libs/ufile.o
+mv -f .deps/uknuth.Tpo .deps/uknuth.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT udeng.lo -MD -MP -MF .deps/udeng.Tpo -c -o udeng.lo udeng.c
+mv -f .deps/ugranger.Tpo .deps/ugranger.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT utouzin.lo -MD -MP -MF .deps/utouzin.Tpo -c -o utouzin.lo utouzin.c
+mv -f .deps/usoft.Tpo .deps/usoft.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT uautomata.lo -MD -MP -MF .deps/uautomata.Tpo -c -o uautomata.lo uautomata.c
+mv -f .deps/uvaria.Tpo .deps/uvaria.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT uxorshift.lo -MD -MP -MF .deps/uxorshift.Tpo -c -o uxorshift.lo uxorshift.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ucrypto.lo -MD -MP -MF .deps/ucrypto.Tpo -c ucrypto.c -o ucrypto.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ufile.lo -MD -MP -MF .deps/ufile.Tpo -c ufile.c -o ufile.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT udeng.lo -MD -MP -MF .deps/udeng.Tpo -c udeng.c  -fno-common -DPIC -o .libs/udeng.o
+mv -f .deps/ufile.Tpo .deps/ufile.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ubrent.lo -MD -MP -MF .deps/ubrent.Tpo -c -o ubrent.lo ubrent.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT utouzin.lo -MD -MP -MF .deps/utouzin.Tpo -c utouzin.c  -fno-common -DPIC -o .libs/utouzin.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uautomata.lo -MD -MP -MF .deps/uautomata.Tpo -c uautomata.c  -fno-common -DPIC -o .libs/uautomata.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uxorshift.lo -MD -MP -MF .deps/uxorshift.Tpo -c uxorshift.c  -fno-common -DPIC -o .libs/uxorshift.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT udeng.lo -MD -MP -MF .deps/udeng.Tpo -c udeng.c -o udeng.o >/dev/null 2>&1
+mv -f .deps/ucrypto.Tpo .deps/ucrypto.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT rijndael-alg-fst.lo -MD -MP -MF .deps/rijndael-alg-fst.Tpo -c -o rijndael-alg-fst.lo rijndael-alg-fst.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT utouzin.lo -MD -MP -MF .deps/utouzin.Tpo -c utouzin.c -o utouzin.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ubrent.lo -MD -MP -MF .deps/ubrent.Tpo -c ubrent.c  -fno-common -DPIC -o .libs/ubrent.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uautomata.lo -MD -MP -MF .deps/uautomata.Tpo -c uautomata.c -o uautomata.o >/dev/null 2>&1
+mv -f .deps/udeng.Tpo .deps/udeng.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT tu01_sha1.lo -MD -MP -MF .deps/tu01_sha1.Tpo -c -o tu01_sha1.lo tu01_sha1.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT uxorshift.lo -MD -MP -MF .deps/uxorshift.Tpo -c uxorshift.c -o uxorshift.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT rijndael-alg-fst.lo -MD -MP -MF .deps/rijndael-alg-fst.Tpo -c rijndael-alg-fst.c  -fno-common -DPIC -o .libs/rijndael-alg-fst.o
+mv -f .deps/uautomata.Tpo .deps/uautomata.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT scatter.lo -MD -MP -MF .deps/scatter.Tpo -c -o scatter.lo scatter.c
+mv -f .deps/utouzin.Tpo .deps/utouzin.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT swrite.lo -MD -MP -MF .deps/swrite.Tpo -c -o swrite.lo swrite.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ubrent.lo -MD -MP -MF .deps/ubrent.Tpo -c ubrent.c -o ubrent.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT tu01_sha1.lo -MD -MP -MF .deps/tu01_sha1.Tpo -c tu01_sha1.c  -fno-common -DPIC -o .libs/tu01_sha1.o
+mv -f .deps/uxorshift.Tpo .deps/uxorshift.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT sres.lo -MD -MP -MF .deps/sres.Tpo -c -o sres.lo sres.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT rijndael-alg-fst.lo -MD -MP -MF .deps/rijndael-alg-fst.Tpo -c rijndael-alg-fst.c -o rijndael-alg-fst.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT scatter.lo -MD -MP -MF .deps/scatter.Tpo -c scatter.c  -fno-common -DPIC -o .libs/scatter.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT swrite.lo -MD -MP -MF .deps/swrite.Tpo -c swrite.c  -fno-common -DPIC -o .libs/swrite.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT tu01_sha1.lo -MD -MP -MF .deps/tu01_sha1.Tpo -c tu01_sha1.c -o tu01_sha1.o >/dev/null 2>&1
+mv -f .deps/ubrent.Tpo .deps/ubrent.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT smultin.lo -MD -MP -MF .deps/smultin.Tpo -c -o smultin.lo smultin.c
+mv -f .deps/rijndael-alg-fst.Tpo .deps/rijndael-alg-fst.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT sknuth.lo -MD -MP -MF .deps/sknuth.Tpo -c -o sknuth.lo sknuth.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sres.lo -MD -MP -MF .deps/sres.Tpo -c sres.c  -fno-common -DPIC -o .libs/sres.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT swrite.lo -MD -MP -MF .deps/swrite.Tpo -c swrite.c -o swrite.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT scatter.lo -MD -MP -MF .deps/scatter.Tpo -c scatter.c -o scatter.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sres.lo -MD -MP -MF .deps/sres.Tpo -c sres.c -o sres.o >/dev/null 2>&1
+mv -f .deps/tu01_sha1.Tpo .deps/tu01_sha1.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT smarsa.lo -MD -MP -MF .deps/smarsa.Tpo -c -o smarsa.lo smarsa.c
+mv -f .deps/swrite.Tpo .deps/swrite.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT sstring.lo -MD -MP -MF .deps/sstring.Tpo -c -o sstring.lo sstring.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT smultin.lo -MD -MP -MF .deps/smultin.Tpo -c smultin.c  -fno-common -DPIC -o .libs/smultin.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sknuth.lo -MD -MP -MF .deps/sknuth.Tpo -c sknuth.c  -fno-common -DPIC -o .libs/sknuth.o
+mv -f .deps/sres.Tpo .deps/sres.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT svaria.lo -MD -MP -MF .deps/svaria.Tpo -c -o svaria.lo svaria.c
+mv -f .deps/scatter.Tpo .deps/scatter.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT snpair.lo -MD -MP -MF .deps/snpair.Tpo -c -o snpair.lo snpair.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT smarsa.lo -MD -MP -MF .deps/smarsa.Tpo -c smarsa.c  -fno-common -DPIC -o .libs/smarsa.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sstring.lo -MD -MP -MF .deps/sstring.Tpo -c sstring.c  -fno-common -DPIC -o .libs/sstring.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT svaria.lo -MD -MP -MF .deps/svaria.Tpo -c svaria.c  -fno-common -DPIC -o .libs/svaria.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sknuth.lo -MD -MP -MF .deps/sknuth.Tpo -c sknuth.c -o sknuth.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT snpair.lo -MD -MP -MF .deps/snpair.Tpo -c snpair.c  -fno-common -DPIC -o .libs/snpair.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT smarsa.lo -MD -MP -MF .deps/smarsa.Tpo -c smarsa.c -o smarsa.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT svaria.lo -MD -MP -MF .deps/svaria.Tpo -c svaria.c -o svaria.o >/dev/null 2>&1
+mv -f .deps/sknuth.Tpo .deps/sknuth.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT swalk.lo -MD -MP -MF .deps/swalk.Tpo -c -o swalk.lo swalk.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sstring.lo -MD -MP -MF .deps/sstring.Tpo -c sstring.c -o sstring.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT snpair.lo -MD -MP -MF .deps/snpair.Tpo -c snpair.c -o snpair.o >/dev/null 2>&1
+mv -f .deps/svaria.Tpo .deps/svaria.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT sentrop.lo -MD -MP -MF .deps/sentrop.Tpo -c -o sentrop.lo sentrop.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT smultin.lo -MD -MP -MF .deps/smultin.Tpo -c smultin.c -o smultin.o >/dev/null 2>&1
+mv -f .deps/smarsa.Tpo .deps/smarsa.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT sspectral.lo -MD -MP -MF .deps/sspectral.Tpo -c -o sspectral.lo sspectral.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT swalk.lo -MD -MP -MF .deps/swalk.Tpo -c swalk.c  -fno-common -DPIC -o .libs/swalk.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sentrop.lo -MD -MP -MF .deps/sentrop.Tpo -c sentrop.c  -fno-common -DPIC -o .libs/sentrop.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sspectral.lo -MD -MP -MF .deps/sspectral.Tpo -c sspectral.c  -fno-common -DPIC -o .libs/sspectral.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT swalk.lo -MD -MP -MF .deps/swalk.Tpo -c swalk.c -o swalk.o >/dev/null 2>&1
+mv -f .deps/snpair.Tpo .deps/snpair.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT scomp.lo -MD -MP -MF .deps/scomp.Tpo -c -o scomp.lo scomp.c
+mv -f .deps/sstring.Tpo .deps/sstring.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT sspacings.lo -MD -MP -MF .deps/sspacings.Tpo -c -o sspacings.lo sspacings.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sspectral.lo -MD -MP -MF .deps/sspectral.Tpo -c sspectral.c -o sspectral.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sentrop.lo -MD -MP -MF .deps/sentrop.Tpo -c sentrop.c -o sentrop.o >/dev/null 2>&1
+mv -f .deps/swalk.Tpo .deps/swalk.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT vectorsF2.lo -MD -MP -MF .deps/vectorsF2.Tpo -c -o vectorsF2.lo vectorsF2.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT scomp.lo -MD -MP -MF .deps/scomp.Tpo -c scomp.c  -fno-common -DPIC -o .libs/scomp.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sspacings.lo -MD -MP -MF .deps/sspacings.Tpo -c sspacings.c  -fno-common -DPIC -o .libs/sspacings.o
+mv -f .deps/sspectral.Tpo .deps/sspectral.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT bbattery.lo -MD -MP -MF .deps/bbattery.Tpo -c -o bbattery.lo bbattery.c
+mv -f .deps/smultin.Tpo .deps/smultin.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ffam.lo -MD -MP -MF .deps/ffam.Tpo -c -o ffam.lo ffam.c
+mv -f .deps/sentrop.Tpo .deps/sentrop.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fcong.lo -MD -MP -MF .deps/fcong.Tpo -c -o fcong.lo fcong.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT scomp.lo -MD -MP -MF .deps/scomp.Tpo -c scomp.c -o scomp.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT vectorsF2.lo -MD -MP -MF .deps/vectorsF2.Tpo -c vectorsF2.c  -fno-common -DPIC -o .libs/vectorsF2.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT sspacings.lo -MD -MP -MF .deps/sspacings.Tpo -c sspacings.c -o sspacings.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT bbattery.lo -MD -MP -MF .deps/bbattery.Tpo -c bbattery.c  -fno-common -DPIC -o .libs/bbattery.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ffam.lo -MD -MP -MF .deps/ffam.Tpo -c ffam.c  -fno-common -DPIC -o .libs/ffam.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fcong.lo -MD -MP -MF .deps/fcong.Tpo -c fcong.c  -fno-common -DPIC -o .libs/fcong.o
+mv -f .deps/scomp.Tpo .deps/scomp.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ffsr.lo -MD -MP -MF .deps/ffsr.Tpo -c -o ffsr.lo ffsr.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ffam.lo -MD -MP -MF .deps/ffam.Tpo -c ffam.c -o ffam.o >/dev/null 2>&1
+mv -f .deps/sspacings.Tpo .deps/sspacings.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT ftab.lo -MD -MP -MF .deps/ftab.Tpo -c -o ftab.lo ftab.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fcong.lo -MD -MP -MF .deps/fcong.Tpo -c fcong.c -o fcong.o >/dev/null 2>&1
+mv -f .deps/ffam.Tpo .deps/ffam.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fres.lo -MD -MP -MF .deps/fres.Tpo -c -o fres.lo fres.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT vectorsF2.lo -MD -MP -MF .deps/vectorsF2.Tpo -c vectorsF2.c -o vectorsF2.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ffsr.lo -MD -MP -MF .deps/ffsr.Tpo -c ffsr.c  -fno-common -DPIC -o .libs/ffsr.o
+mv -f .deps/fcong.Tpo .deps/fcong.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fcho.lo -MD -MP -MF .deps/fcho.Tpo -c -o fcho.lo fcho.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ftab.lo -MD -MP -MF .deps/ftab.Tpo -c ftab.c  -fno-common -DPIC -o .libs/ftab.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ffsr.lo -MD -MP -MF .deps/ffsr.Tpo -c ffsr.c -o ffsr.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fres.lo -MD -MP -MF .deps/fres.Tpo -c fres.c  -fno-common -DPIC -o .libs/fres.o
+mv -f .deps/ffsr.Tpo .deps/ffsr.Plo
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT ftab.lo -MD -MP -MF .deps/ftab.Tpo -c ftab.c -o ftab.o >/dev/null 2>&1
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fmultin.lo -MD -MP -MF .deps/fmultin.Tpo -c -o fmultin.lo fmultin.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fres.lo -MD -MP -MF .deps/fres.Tpo -c fres.c -o fres.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fcho.lo -MD -MP -MF .deps/fcho.Tpo -c fcho.c  -fno-common -DPIC -o .libs/fcho.o
+mv -f .deps/vectorsF2.Tpo .deps/vectorsF2.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fmarsa.lo -MD -MP -MF .deps/fmarsa.Tpo -c -o fmarsa.lo fmarsa.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fcho.lo -MD -MP -MF .deps/fcho.Tpo -c fcho.c -o fcho.o >/dev/null 2>&1
+mv -f .deps/ftab.Tpo .deps/ftab.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fknuth.lo -MD -MP -MF .deps/fknuth.Tpo -c -o fknuth.lo fknuth.c
+mv -f .deps/fres.Tpo .deps/fres.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fwalk.lo -MD -MP -MF .deps/fwalk.Tpo -c -o fwalk.lo fwalk.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fmultin.lo -MD -MP -MF .deps/fmultin.Tpo -c fmultin.c  -fno-common -DPIC -o .libs/fmultin.o
+mv -f .deps/fcho.Tpo .deps/fcho.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fstring.lo -MD -MP -MF .deps/fstring.Tpo -c -o fstring.lo fstring.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fmarsa.lo -MD -MP -MF .deps/fmarsa.Tpo -c fmarsa.c  -fno-common -DPIC -o .libs/fmarsa.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fknuth.lo -MD -MP -MF .deps/fknuth.Tpo -c fknuth.c  -fno-common -DPIC -o .libs/fknuth.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fwalk.lo -MD -MP -MF .deps/fwalk.Tpo -c fwalk.c  -fno-common -DPIC -o .libs/fwalk.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT bbattery.lo -MD -MP -MF .deps/bbattery.Tpo -c bbattery.c -o bbattery.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fmultin.lo -MD -MP -MF .deps/fmultin.Tpo -c fmultin.c -o fmultin.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fmarsa.lo -MD -MP -MF .deps/fmarsa.Tpo -c fmarsa.c -o fmarsa.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fstring.lo -MD -MP -MF .deps/fstring.Tpo -c fstring.c  -fno-common -DPIC -o .libs/fstring.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fknuth.lo -MD -MP -MF .deps/fknuth.Tpo -c fknuth.c -o fknuth.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fwalk.lo -MD -MP -MF .deps/fwalk.Tpo -c fwalk.c -o fwalk.o >/dev/null 2>&1
+mv -f .deps/fmarsa.Tpo .deps/fmarsa.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fspectral.lo -MD -MP -MF .deps/fspectral.Tpo -c -o fspectral.lo fspectral.c
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fstring.lo -MD -MP -MF .deps/fstring.Tpo -c fstring.c -o fstring.o >/dev/null 2>&1
+mv -f .deps/fmultin.Tpo .deps/fmultin.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fvaria.lo -MD -MP -MF .deps/fvaria.Tpo -c -o fvaria.lo fvaria.c
+mv -f .deps/fknuth.Tpo .deps/fknuth.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I. -I../include     -g -O2 -MT fnpair.lo -MD -MP -MF .deps/fnpair.Tpo -c -o fnpair.lo fnpair.c
+mv -f .deps/fwalk.Tpo .deps/fwalk.Plo
+mv -f .deps/fstring.Tpo .deps/fstring.Plo
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fspectral.lo -MD -MP -MF .deps/fspectral.Tpo -c fspectral.c  -fno-common -DPIC -o .libs/fspectral.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fvaria.lo -MD -MP -MF .deps/fvaria.Tpo -c fvaria.c  -fno-common -DPIC -o .libs/fvaria.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fnpair.lo -MD -MP -MF .deps/fnpair.Tpo -c fnpair.c  -fno-common -DPIC -o .libs/fnpair.o
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fspectral.lo -MD -MP -MF .deps/fspectral.Tpo -c fspectral.c -o fspectral.o >/dev/null 2>&1
+mv -f .deps/fspectral.Tpo .deps/fspectral.Plo
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fvaria.lo -MD -MP -MF .deps/fvaria.Tpo -c fvaria.c -o fvaria.o >/dev/null 2>&1
+ gcc -DHAVE_CONFIG_H -I. -I../include -g -O2 -MT fnpair.lo -MD -MP -MF .deps/fnpair.Tpo -c fnpair.c -o fnpair.o >/dev/null 2>&1
+mv -f .deps/fvaria.Tpo .deps/fvaria.Plo
+mv -f .deps/fnpair.Tpo .deps/fnpair.Plo
+mv -f .deps/bbattery.Tpo .deps/bbattery.Plo
+/bin/sh ../libtool --tag=CC   --mode=link gcc  -g -O2 -no-undefined -version-info 0:1:0  -o libtestu01.la -rpath /usr/local/lib unif01.lo ulcg.lo umrg.lo ucarry.lo utaus.lo ugfsr.lo uinv.lo uquad.lo ucubic.lo ulec.lo utezuka.lo umarsa.lo uweyl.lo uknuth.lo uwu.lo unumrec.lo uvaria.lo usoft.lo ugranger.lo ucrypto.lo ufile.lo udeng.lo utouzin.lo uautomata.lo uxorshift.lo ubrent.lo rijndael-alg-fst.lo tu01_sha1.lo scatter.lo swrite.lo sres.lo smultin.lo sknuth.lo smarsa.lo sstring.lo svaria.lo snpair.lo swalk.lo sentrop.lo sspectral.lo scomp.lo sspacings.lo vectorsF2.lo bbattery.lo ffam.lo fcong.lo ffsr.lo ftab.lo fres.lo fcho.lo fmultin.lo fmarsa.lo fknuth.lo fwalk.lo fstring.lo fspectral.lo fvaria.lo fnpair.lo ../probdist/libprobdist.la ../mylib/libmylib.la 
+gcc -dynamiclib  -o .libs/libtestu01.0.0.1.dylib  .libs/unif01.o .libs/ulcg.o .libs/umrg.o .libs/ucarry.o .libs/utaus.o .libs/ugfsr.o .libs/uinv.o .libs/uquad.o .libs/ucubic.o .libs/ulec.o .libs/utezuka.o .libs/umarsa.o .libs/uweyl.o .libs/uknuth.o .libs/uwu.o .libs/unumrec.o .libs/uvaria.o .libs/usoft.o .libs/ugranger.o .libs/ucrypto.o .libs/ufile.o .libs/udeng.o .libs/utouzin.o .libs/uautomata.o .libs/uxorshift.o .libs/ubrent.o .libs/rijndael-alg-fst.o .libs/tu01_sha1.o .libs/scatter.o .libs/swrite.o .libs/sres.o .libs/smultin.o .libs/sknuth.o .libs/smarsa.o .libs/sstring.o .libs/svaria.o .libs/snpair.o .libs/swalk.o .libs/sentrop.o .libs/sspectral.o .libs/scomp.o .libs/sspacings.o .libs/vectorsF2.o .libs/bbattery.o .libs/ffam.o .libs/fcong.o .libs/ffsr.o .libs/ftab.o .libs/fres.o .libs/fcho.o .libs/fmultin.o .libs/fmarsa.o .libs/fknuth.o .libs/fwalk.o .libs/fstring.o .libs/fspectral.o .libs/fvaria.o .libs/fnpair.o  ../probdist/.libs/libprobdist.dylib /Users/sylvainsaucier/Software/softrng/TestU01-1.2.3/mylib/.libs/libmylib.dylib ../mylib/.libs/libmylib.dylib  -install_name  /usr/local/lib/libtestu01.0.dylib -Wl,-compatibility_version -Wl,1 -Wl,-current_version -Wl,1.1
+(cd .libs && rm -f libtestu01.0.dylib && ln -s libtestu01.0.0.1.dylib libtestu01.0.dylib)
+(cd .libs && rm -f libtestu01.dylib && ln -s libtestu01.0.0.1.dylib libtestu01.dylib)
+ar cru .libs/libtestu01.a  unif01.o ulcg.o umrg.o ucarry.o utaus.o ugfsr.o uinv.o uquad.o ucubic.o ulec.o utezuka.o umarsa.o uweyl.o uknuth.o uwu.o unumrec.o uvaria.o usoft.o ugranger.o ucrypto.o ufile.o udeng.o utouzin.o uautomata.o uxorshift.o ubrent.o rijndael-alg-fst.o tu01_sha1.o scatter.o swrite.o sres.o smultin.o sknuth.o smarsa.o sstring.o svaria.o snpair.o swalk.o sentrop.o sspectral.o scomp.o sspacings.o vectorsF2.o bbattery.o ffam.o fcong.o ffsr.o ftab.o fres.o fcho.o fmultin.o fmarsa.o fknuth.o fwalk.o fstring.o fspectral.o fvaria.o fnpair.o
+ranlib .libs/libtestu01.a
+creating libtestu01.la
+(cd .libs && rm -f libtestu01.la && ln -s ../libtestu01.la libtestu01.la)
+Making all in examples
+make[1]: Nothing to be done for `all'.
+Making all in doc
+make[1]: Nothing to be done for `all'.
+Making all in param
+make[1]: Nothing to be done for `all'.
+Making install in .
+test -z "/usr/local/bin" || ./install-sh -c -d "/usr/local/bin"
+make[2]: Nothing to be done for `install-data-am'.
+  /bin/sh ./libtool --mode=install /usr/bin/install -c 'tcode' '/usr/local/bin/tcode'
+/usr/bin/install -c tcode /usr/local/bin/tcode
+Making install in include
+make[2]: Nothing to be done for `install-exec-am'.
+test -z "/usr/local/include" || .././install-sh -c -d "/usr/local/include"
+ /usr/bin/install -c -m 644 'gdef.h' '/usr/local/include/gdef.h'
+ /usr/bin/install -c -m 644 'addstr.h' '/usr/local/include/addstr.h'
+ /usr/bin/install -c -m 644 'bitset.h' '/usr/local/include/bitset.h'
+ /usr/bin/install -c -m 644 'chrono.h' '/usr/local/include/chrono.h'
+ /usr/bin/install -c -m 644 'mystr.h' '/usr/local/include/mystr.h'
+ /usr/bin/install -c -m 644 'num.h' '/usr/local/include/num.h'
+ /usr/bin/install -c -m 644 'num2.h' '/usr/local/include/num2.h'
+ /usr/bin/install -c -m 644 'tables.h' '/usr/local/include/tables.h'
+ /usr/bin/install -c -m 644 'util.h' '/usr/local/include/util.h'
+ /usr/bin/install -c -m 644 'fmass.h' '/usr/local/include/fmass.h'
+ /usr/bin/install -c -m 644 'fdist.h' '/usr/local/include/fdist.h'
+ /usr/bin/install -c -m 644 'fbar.h' '/usr/local/include/fbar.h'
+ /usr/bin/install -c -m 644 'finv.h' '/usr/local/include/finv.h'
+ /usr/bin/install -c -m 644 'gofs.h' '/usr/local/include/gofs.h'
+ /usr/bin/install -c -m 644 'gofw.h' '/usr/local/include/gofw.h'
+ /usr/bin/install -c -m 644 'statcoll.h' '/usr/local/include/statcoll.h'
+ /usr/bin/install -c -m 644 'wdist.h' '/usr/local/include/wdist.h'
+ /usr/bin/install -c -m 644 'unif01.h' '/usr/local/include/unif01.h'
+ /usr/bin/install -c -m 644 'ulcg.h' '/usr/local/include/ulcg.h'
+ /usr/bin/install -c -m 644 'umrg.h' '/usr/local/include/umrg.h'
+ /usr/bin/install -c -m 644 'ucarry.h' '/usr/local/include/ucarry.h'
+ /usr/bin/install -c -m 644 'utaus.h' '/usr/local/include/utaus.h'
+ /usr/bin/install -c -m 644 'ugfsr.h' '/usr/local/include/ugfsr.h'
+ /usr/bin/install -c -m 644 'uinv.h' '/usr/local/include/uinv.h'
+ /usr/bin/install -c -m 644 'uquad.h' '/usr/local/include/uquad.h'
+ /usr/bin/install -c -m 644 'ucubic.h' '/usr/local/include/ucubic.h'
+ /usr/bin/install -c -m 644 'ulec.h' '/usr/local/include/ulec.h'
+ /usr/bin/install -c -m 644 'utezuka.h' '/usr/local/include/utezuka.h'
+ /usr/bin/install -c -m 644 'umarsa.h' '/usr/local/include/umarsa.h'
+ /usr/bin/install -c -m 644 'uweyl.h' '/usr/local/include/uweyl.h'
+ /usr/bin/install -c -m 644 'uknuth.h' '/usr/local/include/uknuth.h'
+ /usr/bin/install -c -m 644 'uwu.h' '/usr/local/include/uwu.h'
+ /usr/bin/install -c -m 644 'unumrec.h' '/usr/local/include/unumrec.h'
+ /usr/bin/install -c -m 644 'uvaria.h' '/usr/local/include/uvaria.h'
+ /usr/bin/install -c -m 644 'usoft.h' '/usr/local/include/usoft.h'
+ /usr/bin/install -c -m 644 'ugranger.h' '/usr/local/include/ugranger.h'
+ /usr/bin/install -c -m 644 'ucrypto.h' '/usr/local/include/ucrypto.h'
+ /usr/bin/install -c -m 644 'ufile.h' '/usr/local/include/ufile.h'
+ /usr/bin/install -c -m 644 'udeng.h' '/usr/local/include/udeng.h'
+ /usr/bin/install -c -m 644 'utouzin.h' '/usr/local/include/utouzin.h'
+ /usr/bin/install -c -m 644 'uautomata.h' '/usr/local/include/uautomata.h'
+ /usr/bin/install -c -m 644 'uxorshift.h' '/usr/local/include/uxorshift.h'
+ /usr/bin/install -c -m 644 'ubrent.h' '/usr/local/include/ubrent.h'
+ /usr/bin/install -c -m 644 'rijndael-alg-fst.h' '/usr/local/include/rijndael-alg-fst.h'
+ /usr/bin/install -c -m 644 'tu01_sha1.h' '/usr/local/include/tu01_sha1.h'
+ /usr/bin/install -c -m 644 'scatter.h' '/usr/local/include/scatter.h'
+ /usr/bin/install -c -m 644 'swrite.h' '/usr/local/include/swrite.h'
+ /usr/bin/install -c -m 644 'sres.h' '/usr/local/include/sres.h'
+ /usr/bin/install -c -m 644 'smultin.h' '/usr/local/include/smultin.h'
+ /usr/bin/install -c -m 644 'sknuth.h' '/usr/local/include/sknuth.h'
+ /usr/bin/install -c -m 644 'smarsa.h' '/usr/local/include/smarsa.h'
+ /usr/bin/install -c -m 644 'sstring.h' '/usr/local/include/sstring.h'
+ /usr/bin/install -c -m 644 'svaria.h' '/usr/local/include/svaria.h'
+ /usr/bin/install -c -m 644 'snpair.h' '/usr/local/include/snpair.h'
+ /usr/bin/install -c -m 644 'swalk.h' '/usr/local/include/swalk.h'
+ /usr/bin/install -c -m 644 'sentrop.h' '/usr/local/include/sentrop.h'
+ /usr/bin/install -c -m 644 'sspectral.h' '/usr/local/include/sspectral.h'
+ /usr/bin/install -c -m 644 'scomp.h' '/usr/local/include/scomp.h'
+ /usr/bin/install -c -m 644 'sspacings.h' '/usr/local/include/sspacings.h'
+ /usr/bin/install -c -m 644 'vectorsF2.h' '/usr/local/include/vectorsF2.h'
+ /usr/bin/install -c -m 644 'bbattery.h' '/usr/local/include/bbattery.h'
+ /usr/bin/install -c -m 644 'ffam.h' '/usr/local/include/ffam.h'
+ /usr/bin/install -c -m 644 'fcong.h' '/usr/local/include/fcong.h'
+ /usr/bin/install -c -m 644 'ffsr.h' '/usr/local/include/ffsr.h'
+ /usr/bin/install -c -m 644 'ftab.h' '/usr/local/include/ftab.h'
+ /usr/bin/install -c -m 644 'fres.h' '/usr/local/include/fres.h'
+ /usr/bin/install -c -m 644 'fcho.h' '/usr/local/include/fcho.h'
+ /usr/bin/install -c -m 644 'fmultin.h' '/usr/local/include/fmultin.h'
+ /usr/bin/install -c -m 644 'fmarsa.h' '/usr/local/include/fmarsa.h'
+ /usr/bin/install -c -m 644 'fknuth.h' '/usr/local/include/fknuth.h'
+ /usr/bin/install -c -m 644 'fwalk.h' '/usr/local/include/fwalk.h'
+ /usr/bin/install -c -m 644 'fstring.h' '/usr/local/include/fstring.h'
+ /usr/bin/install -c -m 644 'fspectral.h' '/usr/local/include/fspectral.h'
+ /usr/bin/install -c -m 644 'fvaria.h' '/usr/local/include/fvaria.h'
+ /usr/bin/install -c -m 644 'fnpair.h' '/usr/local/include/fnpair.h'
+ /usr/bin/install -c -m 644 'gdefconf.h' '/usr/local/include/gdefconf.h'
+Making install in mylib
+test -z "/usr/local/lib" || .././install-sh -c -d "/usr/local/lib"
+test -z "/usr/local/share/TestU01/doc" || .././install-sh -c -d "/usr/local/share/TestU01/doc"
+ /bin/sh ../libtool --mode=install /usr/bin/install -c  'libmylib.la' '/usr/local/lib/libmylib.la'
+ /usr/bin/install -c -m 644 'guidemylib.pdf' '/usr/local/share/TestU01/doc/guidemylib.pdf'
+/usr/bin/install -c .libs/libmylib.0.0.1.dylib /usr/local/lib/libmylib.0.0.1.dylib
+(cd /usr/local/lib && { ln -s -f libmylib.0.0.1.dylib libmylib.0.dylib || { rm -f libmylib.0.dylib && ln -s libmylib.0.0.1.dylib libmylib.0.dylib; }; })
+(cd /usr/local/lib && { ln -s -f libmylib.0.0.1.dylib libmylib.dylib || { rm -f libmylib.dylib && ln -s libmylib.0.0.1.dylib libmylib.dylib; }; })
+/usr/bin/install -c .libs/libmylib.lai /usr/local/lib/libmylib.la
+/usr/bin/install -c .libs/libmylib.a /usr/local/lib/libmylib.a
+chmod 644 /usr/local/lib/libmylib.a
+ranlib /usr/local/lib/libmylib.a
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /usr/local/lib
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `DYLD_LIBRARY_PATH' environment variable
+     during execution
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+Making install in probdist
+test -z "/usr/local/lib" || .././install-sh -c -d "/usr/local/lib"
+test -z "/usr/local/share/TestU01/doc" || .././install-sh -c -d "/usr/local/share/TestU01/doc"
+ /bin/sh ../libtool --mode=install /usr/bin/install -c  'libprobdist.la' '/usr/local/lib/libprobdist.la'
+ /usr/bin/install -c -m 644 'guideprobdist.pdf' '/usr/local/share/TestU01/doc/guideprobdist.pdf'
+/usr/bin/install -c .libs/libprobdist.0.0.1.dylib /usr/local/lib/libprobdist.0.0.1.dylib
+(cd /usr/local/lib && { ln -s -f libprobdist.0.0.1.dylib libprobdist.0.dylib || { rm -f libprobdist.0.dylib && ln -s libprobdist.0.0.1.dylib libprobdist.0.dylib; }; })
+(cd /usr/local/lib && { ln -s -f libprobdist.0.0.1.dylib libprobdist.dylib || { rm -f libprobdist.dylib && ln -s libprobdist.0.0.1.dylib libprobdist.dylib; }; })
+/usr/bin/install -c .libs/libprobdist.lai /usr/local/lib/libprobdist.la
+/usr/bin/install -c .libs/libprobdist.a /usr/local/lib/libprobdist.a
+chmod 644 /usr/local/lib/libprobdist.a
+ranlib /usr/local/lib/libprobdist.a
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /usr/local/lib
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `DYLD_LIBRARY_PATH' environment variable
+     during execution
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+Making install in testu01
+test -z "/usr/local/lib" || .././install-sh -c -d "/usr/local/lib"
+test -z "/usr/local/share/TestU01/doc" || .././install-sh -c -d "/usr/local/share/TestU01/doc"
+test -z "/usr/local/include" || .././install-sh -c -d "/usr/local/include"
+ /usr/bin/install -c -m 644 'guideshorttestu01.pdf' '/usr/local/share/TestU01/doc/guideshorttestu01.pdf'
+ /usr/bin/install -c -m 644 'TestU01.h' '/usr/local/include/TestU01.h'
+ /bin/sh ../libtool --mode=install /usr/bin/install -c  'libtestu01.la' '/usr/local/lib/libtestu01.la'
+ /usr/bin/install -c -m 644 'guidelongtestu01.pdf' '/usr/local/share/TestU01/doc/guidelongtestu01.pdf'
+/usr/bin/install -c .libs/libtestu01.0.0.1.dylib /usr/local/lib/libtestu01.0.0.1.dylib
+(cd /usr/local/lib && { ln -s -f libtestu01.0.0.1.dylib libtestu01.0.dylib || { rm -f libtestu01.0.dylib && ln -s libtestu01.0.0.1.dylib libtestu01.0.dylib; }; })
+(cd /usr/local/lib && { ln -s -f libtestu01.0.0.1.dylib libtestu01.dylib || { rm -f libtestu01.dylib && ln -s libtestu01.0.0.1.dylib libtestu01.dylib; }; })
+/usr/bin/install -c .libs/libtestu01.lai /usr/local/lib/libtestu01.la
+/usr/bin/install -c .libs/libtestu01.a /usr/local/lib/libtestu01.a
+chmod 644 /usr/local/lib/libtestu01.a
+ranlib /usr/local/lib/libtestu01.a
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /usr/local/lib
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `DYLD_LIBRARY_PATH' environment variable
+     during execution
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+Making install in examples
+make[2]: Nothing to be done for `install-exec-am'.
+test -z "/usr/local/share/TestU01/examples" || .././install-sh -c -d "/usr/local/share/TestU01/examples"
+ /usr/bin/install -c -m 644 'bat1.res' '/usr/local/share/TestU01/examples/bat1.res'
+ /usr/bin/install -c -m 644 'bat2.res' '/usr/local/share/TestU01/examples/bat2.res'
+ /usr/bin/install -c -m 644 'birth1.res' '/usr/local/share/TestU01/examples/birth1.res'
+ /usr/bin/install -c -m 644 'ex3.res' '/usr/local/share/TestU01/examples/ex3.res'
+ /usr/bin/install -c -m 644 'excel.dat' '/usr/local/share/TestU01/examples/excel.dat'
+ /usr/bin/install -c -m 644 'vax.bin' '/usr/local/share/TestU01/examples/vax.bin'
+ /usr/bin/install -c -m 644 'my16807.h' '/usr/local/share/TestU01/examples/my16807.h'
+ /usr/bin/install -c -m 644 'bat1.c' '/usr/local/share/TestU01/examples/bat1.c'
+ /usr/bin/install -c -m 644 'bat2.c' '/usr/local/share/TestU01/examples/bat2.c'
+ /usr/bin/install -c -m 644 'bat3.c' '/usr/local/share/TestU01/examples/bat3.c'
+ /usr/bin/install -c -m 644 'birth1.c' '/usr/local/share/TestU01/examples/birth1.c'
+ /usr/bin/install -c -m 644 'birth2.c' '/usr/local/share/TestU01/examples/birth2.c'
+ /usr/bin/install -c -m 644 'ex1.c' '/usr/local/share/TestU01/examples/ex1.c'
+ /usr/bin/install -c -m 644 'ex3.c' '/usr/local/share/TestU01/examples/ex3.c'
+ /usr/bin/install -c -m 644 'ex4.c' '/usr/local/share/TestU01/examples/ex4.c'
+ /usr/bin/install -c -m 644 'ex7.c' '/usr/local/share/TestU01/examples/ex7.c'
+ /usr/bin/install -c -m 644 'fcoll.c' '/usr/local/share/TestU01/examples/fcoll.c'
+ /usr/bin/install -c -m 644 'fbirth.c' '/usr/local/share/TestU01/examples/fbirth.c'
+ /usr/bin/install -c -m 644 'scat.c' '/usr/local/share/TestU01/examples/scat.c'
+ /usr/bin/install -c -m 644 'scat2.c' '/usr/local/share/TestU01/examples/scat2.c'
+ /usr/bin/install -c -m 644 'my16807.c' '/usr/local/share/TestU01/examples/my16807.c'
+ /usr/bin/install -c -m 644 'mrg32k3a.c' '/usr/local/share/TestU01/examples/mrg32k3a.c'
+ /usr/bin/install -c -m 644 'xorshift.c' '/usr/local/share/TestU01/examples/xorshift.c'
+ /usr/bin/install -c -m 644 'fbirth.res1.tex' '/usr/local/share/TestU01/examples/fbirth.res1.tex'
+ /usr/bin/install -c -m 644 'fbirth.res2.tex' '/usr/local/share/TestU01/examples/fbirth.res2.tex'
+ /usr/bin/install -c -m 644 'fcoll.res1.tex' '/usr/local/share/TestU01/examples/fcoll.res1.tex'
+ /usr/bin/install -c -m 644 'fcoll.res2.tex' '/usr/local/share/TestU01/examples/fcoll.res2.tex'
+Making install in doc
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+Making install in param
+make[2]: Nothing to be done for `install-exec-am'.
+test -z "/usr/local/share/TestU01/param" || .././install-sh -c -d "/usr/local/share/TestU01/param"
+ /usr/bin/install -c -m 644 'CombCubLCG.par' '/usr/local/share/TestU01/param/CombCubLCG.par'
+ /usr/bin/install -c -m 644 'InvExpl.par' '/usr/local/share/TestU01/param/InvExpl.par'
+ /usr/bin/install -c -m 644 'InvImpl2b.par' '/usr/local/share/TestU01/param/InvImpl2b.par'
+ /usr/bin/install -c -m 644 'LCGWu2.par' '/usr/local/share/TestU01/param/LCGWu2.par'
+ /usr/bin/install -c -m 644 'CombCubic2.par' '/usr/local/share/TestU01/param/CombCubic2.par'
+ /usr/bin/install -c -m 644 'InvExpl2a.par' '/usr/local/share/TestU01/param/InvExpl2a.par'
+ /usr/bin/install -c -m 644 'LCGBad2.par' '/usr/local/share/TestU01/param/LCGBad2.par'
+ /usr/bin/install -c -m 644 'LFSR1.par' '/usr/local/share/TestU01/param/LFSR1.par'
+ /usr/bin/install -c -m 644 'TausLCG2.par' '/usr/local/share/TestU01/param/TausLCG2.par'
+ /usr/bin/install -c -m 644 'CombL2.par' '/usr/local/share/TestU01/param/CombL2.par'
+ /usr/bin/install -c -m 644 'InvExpl2b.par' '/usr/local/share/TestU01/param/InvExpl2b.par'
+ /usr/bin/install -c -m 644 'LCGGood.par' '/usr/local/share/TestU01/param/LCGGood.par'
+ /usr/bin/install -c -m 644 'LFSR2.par' '/usr/local/share/TestU01/param/LFSR2.par'
+ /usr/bin/install -c -m 644 'MRG3.par' '/usr/local/share/TestU01/param/MRG3.par'
+ /usr/bin/install -c -m 644 'CombWH2.par' '/usr/local/share/TestU01/param/CombWH2.par'
+ /usr/bin/install -c -m 644 'InvImpl.par' '/usr/local/share/TestU01/param/InvImpl.par'
+ /usr/bin/install -c -m 644 'LCGGranger.par' '/usr/local/share/TestU01/param/LCGGranger.par'
+ /usr/bin/install -c -m 644 'LFSR3.par' '/usr/local/share/TestU01/param/LFSR3.par'
+ /usr/bin/install -c -m 644 'Cubic1.par' '/usr/local/share/TestU01/param/Cubic1.par'
+ /usr/bin/install -c -m 644 'InvImpl2a.par' '/usr/local/share/TestU01/param/InvImpl2a.par'
+ /usr/bin/install -c -m 644 'LCGPow2.par' '/usr/local/share/TestU01/param/LCGPow2.par'
+ /usr/bin/install -c -m 644 'MRG2.par' '/usr/local/share/TestU01/param/MRG2.par'

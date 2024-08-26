@@ -5,7 +5,6 @@
 #include <stdint.h>
 #include <dirent.h>
 #include <sys/stat.h>
-#include "sr_default.h"
 
 char dir_softrand[] = "/etc/softrng/";
 char dir_bin[] = "/usr/local/bin/";
@@ -241,41 +240,7 @@ void cfg_file(char* path, char* content) {
     }
 }
 
-void force_cfg_file(char* path, char* content) {
-    char fullpath[1025];
-    strncpy(fullpath, dir_softrand, 1024);
-    strncat(fullpath, path, 1024);
-    if(mkfile(fullpath, content)) {
-        printf("!");fflush(stdout);
-    } else {
-        printf(".");fflush(stdout);
-    }
-}
-
-void install_config_if_not_exist() {
-    printf("Missing files ");
-    cfg_dir(dir_softrand);
-    cfg_dir(dir_help);
-    cfg_dir(dir_modules);
-    cfg_file("manual.txt", _files_manual);
-    cfg_file("modules/softrng", _files_module_softrng);
-    cfg_file("modules/dieharder", _files_module_dieharder);
-    cfg_file("modules/RNG_test", _files_module_RNG_test);
-    cfg_file("modules/RNG_output", _files_module_RNG_output);
-    printf("\n");
-}
-
 void install() {
-    printf("All files ");
-    cfg_dir(dir_softrand);
-    cfg_dir(dir_help);
-    cfg_dir(dir_modules);
-    force_cfg_file("manual.txt", _files_manual);
-    force_cfg_file("modules/softrng", _files_module_softrng);
-    force_cfg_file("modules/dieharder", _files_module_dieharder);
-    force_cfg_file("modules/RNG_test", _files_module_RNG_test);
-    force_cfg_file("modules/RNG_output", _files_module_RNG_output);
-    printf("\n");
     refresh(dir_modules);
 }
 
@@ -287,7 +252,6 @@ int main(int argc, const char * argv[]) {
         if(     0 == strcmp("open",       argv[x])) system(opencmd);
         else if(0 == strcmp("install",    argv[x])) install();
         else if(0 == strcmp("uninstall",  argv[x])) uninstall(dir_modules);
-        else if(0 == strcmp("refresh",    argv[x])) refresh(dir_modules);
         else if(0 == strcmp("manual",     argv[x])) manual();
         else goto fail;
     return EXIT_SUCCESS;
@@ -296,14 +260,9 @@ int main(int argc, const char * argv[]) {
     printf("\n");
     printf("  softrng manual    - Read the manual.\n");
     printf("\n");
-    printf("  softrng install   - Overwrite default configuration files.\n");
-    printf("                    - Refresh shortcuts.\n");
-    printf("\n");
-    printf("  softrng refresh   - Write missing configuration files.\n");
-    printf("                    - Ajust shortcuts according to installed supported modules.\n");
+    printf("  softrng install   - Refresh shortcuts.\n");
     printf("\n");
     printf("  softrng uninstall - Remove all shortcuts.\n");
-    printf("                    - Remove all configuration files.\n");
     printf("\n");
     printf("  softrng open      - Open the configuration folder.\n");
     printf("\n");

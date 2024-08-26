@@ -1,0 +1,10 @@
+
+s-jsf32      RNG_output jsf32 inf
+s-jsf64      RNG_output jsf64 inf
+s-sfc32      RNG_output sfc32 inf
+s-sfc64      RNG_output sfc64 inf
+s-xsm32      RNG_output xsm32 inf
+s-xsm64      RNG_output xsm64 inf
+s-arbee      RNG_output arbee inf
+s-hc256      RNG_output hc256 inf
+s-trivium    RNG_output trivium inf

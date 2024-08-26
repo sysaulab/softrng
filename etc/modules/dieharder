@@ -1,0 +1,4 @@
+
+t-test-dieharder               dieharder -a -g 200
+t-test-dieharder-destruction   dieharder -a -y 2 -k -g 200
+t-test-dieharder-resolve       dieharder -a -y 1 -g 200
