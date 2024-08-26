@@ -1,14 +1,3 @@
-/**
-* @file softrng.c
-* @author Sylvain Saucier <sylvain@sysau.com>
-* @version 0.4.0
-* @section LICENSE *
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the Affero GNU Public Licence version 3.
-* Other licences available upon request.
-* @section DESCRIPTION *
-* Main program */
-
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
@@ -22,6 +11,9 @@ char dir_softrand[] = "/etc/softrng/";
 char dir_bin[] = "/usr/local/bin/";
 char dir_help[] = "/etc/softrng/help/";
 char dir_modules[] = "/etc/softrng/modules/";
+
+
+
 
 void install_config_if_not_exist();
 

@@ -1,21 +1,7 @@
 #include <stdint.h>
 
 char _files_module_softrng[] = "\n\
-s-password   srs_password\n\
-f-hex        srf_hex\n\
-f-bench      srf_bench\n\
-f-limit      srf_limit\n\
-t-hole       srt_hole\n\
-s-read       srs_fread\n\
-f-write      srf_fwrite\n\
-f-xor        srf_xor\n\
-s-zeros      srs_zeros\n\
-f-roxo64     srg_roxo64\n\
-f-qxo64      srg_qxo64\n\
-s-system     s-read /dev/random\n\
-s-synth      srs_icm64\n\
-t-bspec32    srt_bspec32\n\
-s-getent     srs_getent";
+s-system     cat /dev/random";
 
 char _files_module_RNG_test[] = "\n\
 t-pract      RNG_test stdin\n\
@@ -25,25 +11,25 @@ t-pract32    RNG_test stdin32\n\
 t-pract64    RNG_test stdin64";
 
 char _files_module_RNG_output[] = "\n\
-g-jsf32      RNG_output jsf32 inf\n\
-g-jsf64      RNG_output jsf64 inf\n\
-g-sfc32      RNG_output sfc32 inf\n\
-g-sfc64      RNG_output sfc64 inf\n\
-g-xsm32      RNG_output xsm32 inf\n\
-g-xsm64      RNG_output xsm64 inf\n\
-g-arbee      RNG_output arbee inf\n\
-g-hc256      RNG_output hc256 inf\n\
-g-trivium    RNG_output trivium inf";
+s-jsf32      RNG_output jsf32 inf\n\
+s-jsf64      RNG_output jsf64 inf\n\
+s-sfc32      RNG_output sfc32 inf\n\
+s-sfc64      RNG_output sfc64 inf\n\
+s-xsm32      RNG_output xsm32 inf\n\
+s-xsm64      RNG_output xsm64 inf\n\
+s-arbee      RNG_output arbee inf\n\
+s-hc256      RNG_output hc256 inf\n\
+s-trivium    RNG_output trivium inf";
 
 char _files_module_dieharder[] = "\n\
-t-die               dieharder -a -g 200\n\
-t-die-destruction   dieharder -a -y 2 -k -g 200\n\
-t-die-resolve       dieharder -a -y 1 -g 200";
+t-test-dieharder               dieharder -a -g 200\n\
+t-test-dieharder-destruction   dieharder -a -y 2 -k -g 200\n\
+t-test-dieharder-resolve       dieharder -a -y 1 -g 200";
 
 char _files_manual[] = "\n\
-MANUAL - SOFTRNG version 0.1\n\
+# MANUAL - SOFTRNG version 0.1\n\
 \n\
-RNG made FUN and EASY\n\
+## RNG made FUN and EASY\n\
 \n\
 This program is free software; you can redistribute it and/or\n\
 modify it under the terms of the Affero GNU Public Licence version 3.\n\
@@ -56,95 +42,61 @@ other fun things to observe.\n\
 \n\
 -------------------------------------------------------------------------------\n\
 \n\
+COMMANDS\n\
 \n\
-\n\
-1. INSTALL THE COMMANDS\n\
-\n\
-    To install the commands type this in the command line : sudo softrng setup\n\
-\n\
-\n\
-\n\
-2. RULES OF THE COMMANDS\n\
-\n\
-    1. The commands are chained together using pipes ( cmd1 | cmd2 )\n\
-    \n\
-    2. A chain cannot start with a pipe\n\
-    \n\
-    5. If the chain is not terminated, it will be displayed on your terminal.\n\
-\n\
-\n\
-\n\
-3. LIST OF COMMANDS\n\
-\n\
-T: Type of command, this tell you about the role of the command.\n\
-    g: Generators, require seeding but fast\n\
-    s: Seeders, initial source of entropy\n\
-    f: Filters, data manipulation\n\
-    t: Tests, verify how well it does\n\
-\n\
-I: Input, this command is expecting data, it must follow a pipe:   | cmd.\n\
-O: Output, this command is providing data, it must precede a pipe: cmd |.\n\
-\n\
-\n\
-\n\
-COMMANDS INCLUDED WITH SOFTRNG\n\
-\n\
-The type of command tells you about \n\
+    1. Commands are chained together using pipes.\n\
+    2. A chain must start with a source ( s- ).\n\
+    3. Any number of filters ( f- ) can be chained\n\
+    4. Without a terminator ( -t ) streams are displayed unformatted.\n\
 \n\
    _ Type\n\
  /\n\
-|   s = Source (Nothing in, something out)\n\
-|   f = Filter (Something in, something out)\n\
-|   t = Target (Something in, nothing out)\n\
-|       s | f | t\n\
+|   s = Source (nothing in, something out)\n\
+|   f = Filter (something in, something out)\n\
+|   t = Target (something in, nothing out)\n\
 |\n\
-|  COMMAND      DESCRIPTION\n\
-----------      ----------------------------------------------------------------\n\
+|   s-source | f-filter-1 | f-filter-2 | t-target\n\
+|\n\
+|  INTERNAL     DESCRIPTION\n\
+|  -----------------------------------------------------------------------------\n\
 s-password P    Use a password to generate a sequence.\n\
 s-zeros         Portable source of infinite zeros. (/dev/zero)\n\
 s-synth         Portable source of synthetic entropy.\n\
 s-random        Read from the default system generator. (/dev/random)\n\
 s-getent        Native quality entropy source ( getentropy() )\n\
-s-read F        Read file F to output.\n\
-f-bench         Display statistics about the stream.\n\
+s-file F        Read file F to output.\n\
+f-peek          Display information about the stream.\n\
 f-hex           Convert input to hexadecimal.\n\
 f-limit N       Limit the size of a stream to N bytes\n\
-f-write F       Save a copy of the the stream to file F.\n\
+f-file F        Save a copy of the the stream to file F.\n\
 f-xor S         Insert stream S using XOR.\n\
 f-qxo64         2gb/sec, 2mb entropy, 140eb.\n\
 f-roxo64        1gb/sec, 8kb entropy, 512pt.\n\
 t-hole          Bottomless pit en lost data. (portable /dev/null)\n\
 t-bspec32       32 bit completeness test.\n\
-\n\
-\n\
-\n\
-COMMANDS REQUIRING PRACTRAND\n\
-\n\
-COMMAND    TIO DESCRIPTION\n\
----------- --- -- -------------------------------------------------------------\n\
-g-jsf32    G O generator included with practrand : jsf32\n\
-g-jsf64    G O generator included with practrand : jsf64\n\
-g-sfc32    G O generator included with practrand : sfc32\n\
-g-sfc64    G O generator included with practrand : sfc64\n\
-g-xsm32    G O generator included with practrand : xsm32\n\
-g-xsm64    G O generator included with practrand : xsm64\n\
-g-arbee    G O generator included with practrand : arbee\n\
-g-hc256    G O generator included with practrand : hc256\n\
-g-trivium  G O generator included with practrand : trivium\n\
-t-pract    TI  PractRand test, standard options\n\
-t-pract8   TI  PractRand test, standard options, 8 bit folds\n\
-t-pract16  TI  PractRand test, standard options, 16 bit folds\n\
-t-pract32  TI  PractRand test, standard options, 32 bit folds\n\
-t-pract64  TI  PractRand test, standard options, 64 bit folds\n\
----------- --- ----------------------------------------------------------------\n\
-\n\
-\n\
-\n\
-COMMANDS REQUIRING DIEHARDER\n\
-\n\
-COMMAND    TIO DESCRIPTION\n\
----------- --- ----------------------------------------------------------------\n\
-t-die      TI  Dieharder test\n\
+| -----------------------------------------------------------------------------\n\
+| PRACTRAND     DESCRIPTION\n\
+| -----------------------------------------------------------------------------\n\
+s-jsf32         generator included with practrand : jsf32\n\
+s-jsf64         generator included with practrand : jsf64\n\
+s-sfc32         generator included with practrand : sfc32\n\
+s-sfc64         generator included with practrand : sfc64\n\
+s-xsm32         generator included with practrand : xsm32\n\
+s-xsm64         generator included with practrand : xsm64\n\
+s-arbee         generator included with practrand : arbee\n\
+s-hc256         generator included with practrand : hc256\n\
+s-trivium       generator included with practrand : trivium\n\
+t-pract         PractRand test, standard options\n\
+t-pract8        PractRand test, standard options, 8 bit folds\n\
+t-pract16       PractRand test, standard options, 16 bit folds\n\
+t-pract32       PractRand test, standard options, 32 bit folds\n\
+t-pract64       PractRand test, standard options, 64 bit folds\n\
+| -----------------------------------------------------------------------------\n\
+| DIEHARDER     DESCRIPTION\n\
+| -----------------------------------------------------------------------------\n\
+t-test-dieharder     Dieharder test, regular settings\n\
+t-test-dieharder     Dieharder test, regular settings\n\
+t-test-dieharder     Dieharder test, regular settings\n\
 \n\
 \n\
 \n\

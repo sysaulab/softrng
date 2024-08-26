@@ -1,4 +1,5 @@
 # SoftRNG
+![]()
 
 Softrng is a collection of basic portable tools that can be used to explore random number generators and cryptography. It comes with basic algorithms and integrates with other software packages such as dieharder and practrand. The manual is designed to help the user ease into the principles of basic cryptography building blocks. The information database will contain extensive documentation about the algorithms, their flaws and strengths, their history...
 
@@ -10,22 +11,17 @@ It follows the UN*X philosophy, each tool have a very specific function.
 
 The tools combine together to let the user create their own solutions or observe different algorithms. It requires no knowledge of coding to get started. Commands themselves are small and focused.
 
-## Build
+## Installation
 
-SoftRNG assumes a Unix-like environment. It requires a C compiler to build and the curl command to install the extra PractRand package. If you are using Windows, please install Linux first. SoftRNG has been developed and tested primarily under macOS, I tried to remain as close to standard as possible. 
+SoftRNG assumes a Unix-like environment and a C compiler. 
 
-If you encounter compilation errors or bugs on different platforms please me us know.
+If you are using Windows, please install Linux first. SoftRNG has been developed and tested primarily under macOS, I tried to remain as close to standard as possible. 
 
-1. Run "./build.sh" to compile the commands.
-2. The programs will be created in the "Release" directory
+Dieharder on macOS require to have libtool installed. You can install it using "[brew](https://brew.sh) install libtool". If you install dieharder after softrng, run "softrng refresh" to create the shortcuts.
 
-## Install
-***Running this script as regular user will delete the Release folder without installing the programs properly. If this happens to you, run the build.sh script before trying again as root.***
-
-1. Run as root "./install.sh" to install the commands. 
-2. This will move the programs to /usr/local/bin and run "softrng install" to proceed with the initial setup.
-
-The "softrng install" command will create the default support files in /etc/softrng before scanning for installed packages listed in /etc/softrng/modules and creating shell scripts that handle .
+1. Open a terminal.
+1. Go to the folder containing this note.
+1. Run "./install.sh" as root (sudo, su).
 
 ## To do
 
