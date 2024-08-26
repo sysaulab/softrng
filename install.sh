@@ -3,70 +3,69 @@ mkdir -p bin
 mkdir -p logs
 
 echo "Building SoftRNG"
-echo "SOFTRNG INSTALL LOG (stdout)" > logs/softrng.log
-echo "SOFTRNG ERROR LOG (stderr)" > logs/softrng.error
-cc src/sr_timertest.c   -O2 -o ./bin/sr_timertest >> logs/softrng.log 2>> logs/softrng.error
-cc src/srs_password.c   -O2 -o ./bin/s-password >> logs/softrng.log 2>> logs/softrng.error
-cc src/srf_bench.c      -O2 -o ./bin/f-peek >> logs/softrng.log 2>> logs/softrng.error
-cc src/srs_fread.c      -O2 -o ./bin/s-file >> logs/softrng.log 2>> logs/softrng.error
-cc src/srf_fwrite.c     -O2 -o ./bin/f-file >> logs/softrng.log 2>> logs/softrng.error
-cc src/srf_hex.c        -O2 -o ./bin/f-hex >> logs/softrng.log 2>> logs/softrng.error
-cc src/srf_limit.c      -O2 -o ./bin/f-limit >> logs/softrng.log 2>> logs/softrng.error
-cc src/srt_hole.c       -O2 -o ./bin/t-hole >> logs/softrng.log 2>> logs/softrng.error
-cc src/srf_xor.c        -O2 -o ./bin/f-xor >> logs/softrng.log 2>> logs/softrng.error
-cc src/srg_qxo64.c      -O2 -o ./bin/f-qxo64 >> logs/softrng.log 2>> logs/softrng.error
-cc src/srg_roxo64.c     -O2 -o ./bin/f-roxo64 >> logs/softrng.log 2>> logs/softrng.error
-cc src/srs_zeros.c      -O2 -o ./bin/s-zeros >> logs/softrng.log 2>> logs/softrng.error
-cc src/srs_getent.c     -O2 -o ./bin/s-getent >> logs/softrng.log 2>> logs/softrng.error
-cc src/srs_icm64.c      -O2 -o ./bin/s-chaos >> logs/softrng.log 2>> logs/softrng.error
-cc src/srt_bspec32.c    -O2 -o ./bin/t-bspec32 >> logs/softrng.log 2>> logs/softrng.error
-cc src/srt_rngoutput.c  -O2 -o ./bin/sr_rngoutputshim >> logs/softrng.log 2>> logs/softrng.error
-cc src/softrng.c        -O2 -o ./bin/softrng >> logs/softrng.log 2>> logs/softrng.error
+echo "SOFTRNG INSTALL LOG (stdout)" > logs/softrng.std.txt
+echo "SOFTRNG ERROR LOG (stderr)" > logs/softrng.err.txt
+cc src/sr_timertest.c   -O2 -o ./bin/sr_timertest >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srs_password.c   -O2 -o ./bin/s-ent-password >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srf_bench.c      -O2 -o ./bin/f-peek >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srs_fread.c      -O2 -o ./bin/s-file >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srf_fwrite.c     -O2 -o ./bin/f-file >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srf_twrite.c     -O2 -o ./bin/t-file >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srf_hex.c        -O2 -o ./bin/f-hex >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srf_limit.c      -O2 -o ./bin/f-limit >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srt_hole.c       -O2 -o ./bin/t-hole >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srf_xor.c        -O2 -o ./bin/f-merge >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srf_fork.c       -O2 -o ./bin/f-fork >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srg_qxo64.c      -O2 -o ./bin/f-qxo64 >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srg_roxo64.c     -O2 -o ./bin/f-roxo64 >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srs_zeros.c      -O2 -o ./bin/s-zeros >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srs_getent.c     -O2 -o ./bin/s-getent >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srs_icm64.c      -O2 -o ./bin/s-chaos >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srt_bspec32.c    -O2 -o ./bin/t-bspec32 >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/srt_rngoutput.c  -O2 -o ./bin/sr_rngoutputshim >> logs/softrng.std.txt 2>> logs/softrng.err.txt
+cc src/softrng.c        -O2 -o ./bin/softrng >> logs/softrng.std.txt 2>> logs/softrng.err.txt
 
 
 
 echo "Building PractRand"
-echo "PRACTRAND INSTALL LOG (stdout)" > logs/practrand.log
-echo "PRACTRAND ERROR LOG (stderr)" > logs/practrand.error
-unzip -u external/PractRand-master.zip >> logs/practrand.log 2>> logs/practrand.error
-cd PractRand-master/unix >> logs/practrand.log 2>> logs/practrand.error
-make >> ../../logs/practrand.log 2>> ../../logs/practrand.error
-cd ../.. >> ../../logs/practrand.log 2>> ../../logs/practrand.error
-cp PractRand-master/bin/RNG_* ./bin >> logs/practrand.log 2>> logs/practrand.error
+echo "PRACTRAND INSTALL LOG (stdout)" > logs/practrand.std.txt
+echo "PRACTRAND ERROR LOG (stderr)" > logs/practrand.err.txt
+unzip -u external/PractRand-master.zip >> logs/practrand.std.txt 2>> logs/practrand.err.txt
+cd PractRand-master/unix >> logs/practrand.std.txt 2>> logs/practrand.err.txt
+make >> ../../logs/practrand.std.txt 2>> ../../logs/practrand.err.txt
+cd ../.. >> ../../logs/practrand.std.txt 2>> ../../logs/practrand.err.txt
+cp PractRand-master/bin/RNG_* ./bin >> logs/practrand.std.txt 2>> logs/practrand.err.txt
 
 
 
 echo "Building TestU01"
-echo "TESTU01 INSTALL LOG (stdout)" > logs/testu01.log
-echo "TESTU01 ERROR LOG (stderr)" > logs/testu01.error
-unzip -u external/TestU01.zip >> logs/testu01.log 2>> logs/testu01.error
-cd TestU01-1.2.3 >> logs/testu01.log 2>> logs/testu01.error
-#Uncomment the end of the next line to install on Linux/aarch64.
-#Adjust if configure complain about "unknown build type"
-#We should look to make this more portable.
-./configure --prefix="/usr/local" >> ../logs/testu01.log 2>> ../logs/testu01.error #--build=aarch64-unknown-linux-gnu
-make -j 6 >> ../logs/testu01.log 2>> ../logs/testu01.error
-make -j 6 install >> ../logs/testu01.log 2>> ../logs/testu01.error
-cd .. >> ../logs/testu01.log 2>> ../logs/testu01.error
-cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-smallcrush src/sr_testu01small.c >> logs/testu01.log 2>> logs/testu01.error
-cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-crush      src/sr_testu01.c >> logs/testu01.log 2>> logs/testu01.error
-cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-bigcrush   src/sr_testu01big.c >> logs/testu01.log 2>> logs/testu01.error
+echo "TESTU01 INSTALL LOG (stdout)" > logs/testu01.std.txt
+echo "TESTU01 ERROR LOG (stderr)" > logs/testu01.err.txt
+unzip -u external/TestU01.zip >> logs/testu01.std.txt 2>> logs/testu01.err.txt
+cd TestU01-1.2.3 >> logs/testu01.std.txt 2>> logs/testu01.err.txt
+./configure --prefix="/usr/local" >> ../logs/testu01.std.txt 2>> ../logs/testu01.err.txt
+make -j 6 >> ../logs/testu01.std.txt 2>> ../logs/testu01.err.txt
+make -j 6 install >> ../logs/testu01.std.txt 2>> ../logs/testu01.err.txt
+cd .. >> ../logs/testu01.std.txt 2>> ../logs/testu01.err.txt
+cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-smallcrush src/sr_testu01small.c >> logs/testu01.std.txt 2>> logs/testu01.err.txt
+cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-crush      src/sr_testu01.c >> logs/testu01.std.txt 2>> logs/testu01.err.txt
+cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-bigcrush   src/sr_testu01big.c >> logs/testu01.std.txt 2>> logs/testu01.err.txt
 
 
 
 echo "DieHarder"
-echo "DIEHARDER INSTALL LOG (stdout)" > logs/dieharder.log
-echo "DIEHARDER ERROR LOG (stderr)" > logs/dieharder.error
+echo "DIEHARDER INSTALL LOG (stdout)" > logs/dieharder.std.txt
+echo "DIEHARDER ERROR LOG (stderr)" > logs/dieharder.err.txt
 INPUT_STRING=$(uname -s)
   case $INPUT_STRING in
 	"Darwin")
-    unzip -u external/dieharder-master.zip >> logs/dieharder.log 2>> logs/dieharder.error
-    cd dieharder-master >> logs/dieharder.log 2>> logs/dieharder.error
-    ./autogen.sh >> ../logs/dieharder.log 2>> ../logs/dieharder.error
-    ./configure >> ../logs/dieharder.log 2>> ../logs/dieharder.error
-    make >> ../logs/dieharder.log 2>> ../logs/dieharder.error
-    make install >> ../logs/dieharder.log 2>> ../logs/dieharder.error
-    cd .. >> ../logs/dieharder.log 2>> ../logs/dieharder.error
+    unzip -u external/dieharder-master.zip >> logs/dieharder.std.txt 2>> logs/dieharder.err.txt
+    cd dieharder-master >> logs/dieharder.std.txt 2>> logs/dieharder.err.txt
+    ./autogen.sh >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
+    ./configure >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
+    make >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
+    make install >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
+    cd .. >> ../logs/dieharder.std.txt 2>> ../logs/dieharder.err.txt
 		break
 		;;
   "Linux")
@@ -84,12 +83,14 @@ INPUT_STRING=$(uname -s)
 
 
 cp -f bin/* /usr/local/bin/
-cp -Rf etc /etc/softrng
+cp -Rf softrng /etc
 rm -Rf PractRand-master bin dieharder-master TestU01-1.2.3
 chmod -Rf 777 logs
 softrng install
-echo "If you see Cleaning next to a module, it is missing."
-echo "All installation logs are kept in the logs directory."
-echo "You can report bugs and request assistance at:"
-echo "https://github.com/sysaulab/softrng/issues"
+echo "If you see Cleaning before the name of module, it has not been found."
+echo "You can look into the logs folder to help you troubelshoot the problem."
+echo ""
+echo "To file a bug report : https://github.com/sysaulab/softrng/issues"
+echo "Any other assistance : https://github.com/sysaulab/softrng/discussions"
+echo
 

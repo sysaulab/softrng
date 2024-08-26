@@ -1,22 +1,19 @@
 #!/bin/sh
 
-echo "srs_password"
-srs_password | srf_limit 8 | srf_hex
+echo "0000000000000000 == \c"
+s-ent-password | f-limit 8 | f-hex
 echo 
-echo 
 
-echo "srs_password "pass" | srf_limit 8 | srf_hex"
-srs_password "pass" | srf_limit 8 | srf_hex
-echo
+echo "f379180e00000000 == \c"
+s-ent-password "pass" | f-limit 8 | f-hex
 echo
 
-echo "srs_password "password" | srf_limit 8 | srf_fwrite ./test.bin | srf_hex"
-srs_password "password" | srf_limit 8 | srf_fwrite ./test.bin | srf_hex
-echo
+echo "64f9fb3e9f87e100 == \c"
+s-ent-password "password" | f-limit 8 | f-file ./test.bin | f-hex
 echo
 
-echo "srs_fread ./test.bin | srf_hex"
-srs_fread ./test.bin | srf_hex
+echo "s-file ./test.bin | srf_hex"
+s-file ./test.bin | f-hex
 echo
 echo
 

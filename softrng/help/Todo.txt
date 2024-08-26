@@ -1,0 +1,3 @@
+Make some kind of information system for the user to explore.
+
+This was the intended destination for the information database. md format maybe?

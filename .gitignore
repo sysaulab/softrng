@@ -67,3 +67,6 @@ src/srt_bspec32_ref
 *.error
 *.log
 *.DS_Store
+etc/.DS_Store
+.DS_Store
+.DS_Store
