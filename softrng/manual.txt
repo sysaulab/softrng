@@ -1,18 +1,12 @@
-
-# MANUAL - SOFTRNG version 0.1
-
-## RNG made FUN and EASY
+SOFTRNG version 0.1
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the Affero GNU Public Licence version 3.
 Other licences available upon request.
 
-Below is the list of basic commands to play with. The IO descriptor indicate
-if the command require an input or provide an output. By using simple shell 
+Below is the list of basic commands to play with. By using simple shell 
 pipe, we create combination of generator(s) entropy source(s) and all kind of
 other fun things to observe.
-
-
 
 COMMANDS
 
@@ -27,18 +21,18 @@ COMMANDS
 |   f = Filter (something in, something out)
 |   t = Target (something in, nothing out)
 | 
-|  _Class
+|  _Classes
 | |
-| | ent = Source of entropy
+| | ent  = Source of entropy
 | | prng = Pseudo Random Number Generator
 | | test = Various tests used to characterize sequences
 | |        Unspecified classes are general tools
 | |
 | |             * * * INTERNAL COMMANDS * * *
 | |
-s-ent-chaos                     Spontaneous entropy source.
-s-ent-getent                    OS-curated entropy source.
-s-gen-password P                Use a password to generate a sequence.
+s-ent-chaos                     Active source of entropy.
+s-ent-getent                    Passive source of entropy.
+s-ent-password P                Use a password to generate a sequence.
 s-file F                        Read file F to output.
 s-gen-zeros                     Source of zeros.
 s-random                        Default system random generator.
@@ -47,7 +41,7 @@ f-prng-roxo64                   PRNG, 1gb/sec, 8kb entropy, 512pt.
 f-peek                          Display information about the stream.
 f-hex                           Convert raw stream to hexadecimal.
 f-limit N                       Limit the size of a stream to N bytes
-f-fork S                        Use the stream as input to a sub-chain and pass data untouched.
+f-copy F                        Save a copy of the stream to file F.
 f-merge S                       Insert and mix current stream with the output of S using XOR.
 t-file F                        Save a copy of the the stream to file F.
 t-sinkhole                      Nothing comes out. (like /dev/null)
@@ -91,7 +85,7 @@ t-test-u01-bigcrush             TestU01 Big Crush
 
 TUTORIAL
 
-VERY IMPORTANT
+VERY IMPORTANT, THIS TUTORIAL IS OUT OF DATE.
 
 If you are not sure how this works, follow this tutorial. It will get you 
 through the concepts one at a time with examples.

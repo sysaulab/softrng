@@ -1,0 +1,7 @@
+SOFTRNG ERROR LOG (stderr)
+clang: error: no such file or directory: 'src/s-ent-getent.c'
+clang: error: no input files
+clang: error: no such file or directory: 'src/s-ent-synthetic.c'
+clang: error: no input files
+clang: error: no such file or directory: 'src/f-not.c'
+clang: error: no input files

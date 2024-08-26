@@ -1,0 +1,202 @@
+PRACTRAND INSTALL LOG (stdout)
+Archive:  external/PractRand-master.zip
+6ae26d8d4023e7e5e73c4334779fcb4a7d265dfa
+   creating: PractRand-master/
+  inflating: PractRand-master/.gitignore  
+  inflating: PractRand-master/LICENSE  
+  inflating: PractRand-master/README.md  
+   creating: PractRand-master/VisualC_net/
+  inflating: PractRand-master/VisualC_net/PractRand.sln  
+  inflating: PractRand-master/VisualC_net/PractRand.vcxproj  
+  inflating: PractRand-master/VisualC_net/PractRand.vcxproj.filters  
+   creating: PractRand-master/VisualC_net/PractRand_Full/
+  inflating: PractRand-master/VisualC_net/PractRand_Full/PractRand_Full.vcxproj  
+  inflating: PractRand-master/VisualC_net/PractRand_Full/PractRand_Full.vcxproj.filters  
+   creating: PractRand-master/VisualC_net/RNG benchmark/
+  inflating: PractRand-master/VisualC_net/RNG benchmark/RNG benchmark.vcxproj  
+  inflating: PractRand-master/VisualC_net/RNG benchmark/RNG benchmark.vcxproj.filters  
+   creating: PractRand-master/VisualC_net/RNG_output/
+  inflating: PractRand-master/VisualC_net/RNG_output/RNG_output.vcxproj  
+  inflating: PractRand-master/VisualC_net/RNG_output/RNG_output.vcxproj.filters  
+   creating: PractRand-master/VisualC_net/RNG_test/
+  inflating: PractRand-master/VisualC_net/RNG_test/RNG_test.vcxproj  
+  inflating: PractRand-master/VisualC_net/RNG_test/RNG_test.vcxproj.filters  
+   creating: PractRand-master/VisualC_net/Test_calibration/
+  inflating: PractRand-master/VisualC_net/Test_calibration/Test_calibration.vcxproj  
+  inflating: PractRand-master/VisualC_net/Test_calibration/Test_calibration.vcxproj.filters  
+   creating: PractRand-master/bin/
+   creating: PractRand-master/bin/msvc12_32bit/
+  inflating: PractRand-master/bin/msvc12_32bit/RNG benchmark.exe  
+  inflating: PractRand-master/bin/msvc12_32bit/RNG_output.exe  
+  inflating: PractRand-master/bin/msvc12_32bit/RNG_test.exe  
+   creating: PractRand-master/bin/msvc12_64bit/
+  inflating: PractRand-master/bin/msvc12_64bit/RNG benchmark.exe  
+  inflating: PractRand-master/bin/msvc12_64bit/RNG_output.exe  
+  inflating: PractRand-master/bin/msvc12_64bit/RNG_test.exe  
+   creating: PractRand-master/doc/
+  inflating: PractRand-master/doc/PractRand.txt  
+  inflating: PractRand-master/doc/RNG_engines.txt  
+  inflating: PractRand-master/doc/RNG_entropy_pools.txt  
+  inflating: PractRand-master/doc/RNG_interface_variations.txt  
+  inflating: PractRand-master/doc/RNG_multithreading.txt  
+  inflating: PractRand-master/doc/RNG_parallel.txt  
+  inflating: PractRand-master/doc/RNG_speed.txt  
+  inflating: PractRand-master/doc/RNG_usage.txt  
+  inflating: PractRand-master/doc/Tests_batteries.txt  
+  inflating: PractRand-master/doc/Tests_engines.txt  
+  inflating: PractRand-master/doc/Tests_overview.txt  
+  inflating: PractRand-master/doc/Tests_performance.txt  
+  inflating: PractRand-master/doc/Tests_results.txt  
+  inflating: PractRand-master/doc/Tests_usage.txt  
+  inflating: PractRand-master/doc/index.html  
+  inflating: PractRand-master/doc/installation.txt  
+  inflating: PractRand-master/doc/license.txt  
+  inflating: PractRand-master/doc/portability.txt  
+  inflating: PractRand-master/doc/to_do.txt  
+  inflating: PractRand-master/doc/tools.txt  
+  inflating: PractRand-master/doc/versions.txt  
+   creating: PractRand-master/include/
+  inflating: PractRand-master/include/PractRand.h  
+   creating: PractRand-master/include/PractRand/
+   creating: PractRand-master/include/PractRand/RNGs/
+  inflating: PractRand-master/include/PractRand/RNGs/all.h  
+  inflating: PractRand-master/include/PractRand/RNGs/arbee.h  
+  inflating: PractRand-master/include/PractRand/RNGs/chacha.h  
+  inflating: PractRand-master/include/PractRand/RNGs/efiix16x384.h  
+  inflating: PractRand-master/include/PractRand/RNGs/efiix16x48.h  
+  inflating: PractRand-master/include/PractRand/RNGs/efiix32x384.h  
+  inflating: PractRand-master/include/PractRand/RNGs/efiix32x48.h  
+  inflating: PractRand-master/include/PractRand/RNGs/efiix64x384.h  
+  inflating: PractRand-master/include/PractRand/RNGs/efiix64x48.h  
+  inflating: PractRand-master/include/PractRand/RNGs/efiix8x384.h  
+  inflating: PractRand-master/include/PractRand/RNGs/efiix8x48.h  
+  inflating: PractRand-master/include/PractRand/RNGs/hc256.h  
+  inflating: PractRand-master/include/PractRand/RNGs/isaac32x256.h  
+  inflating: PractRand-master/include/PractRand/RNGs/isaac64x256.h  
+  inflating: PractRand-master/include/PractRand/RNGs/jsf32.h  
+  inflating: PractRand-master/include/PractRand/RNGs/jsf64.h  
+  inflating: PractRand-master/include/PractRand/RNGs/mt19937.h  
+   creating: PractRand-master/include/PractRand/RNGs/other/
+  inflating: PractRand-master/include/PractRand/RNGs/other/fibonacci.h  
+  inflating: PractRand-master/include/PractRand/RNGs/other/indirection.h  
+  inflating: PractRand-master/include/PractRand/RNGs/other/mult.h  
+  inflating: PractRand-master/include/PractRand/RNGs/other/simple.h  
+  inflating: PractRand-master/include/PractRand/RNGs/other/special.h  
+  inflating: PractRand-master/include/PractRand/RNGs/other/transform.h  
+  inflating: PractRand-master/include/PractRand/RNGs/salsa.h  
+  inflating: PractRand-master/include/PractRand/RNGs/sfc16.h  
+  inflating: PractRand-master/include/PractRand/RNGs/sfc32.h  
+  inflating: PractRand-master/include/PractRand/RNGs/sfc64.h  
+  inflating: PractRand-master/include/PractRand/RNGs/sha2_based_pool.h  
+  inflating: PractRand-master/include/PractRand/RNGs/trivium.h  
+  inflating: PractRand-master/include/PractRand/RNGs/xsm32.h  
+  inflating: PractRand-master/include/PractRand/RNGs/xsm64.h  
+   creating: PractRand-master/include/PractRand/Tests/
+  inflating: PractRand-master/include/PractRand/Tests/BCFN.h  
+  inflating: PractRand-master/include/PractRand/Tests/BCFN_MT.h  
+  inflating: PractRand-master/include/PractRand/Tests/BRank.h  
+  inflating: PractRand-master/include/PractRand/Tests/CoupGap.h  
+  inflating: PractRand-master/include/PractRand/Tests/DistC6.h  
+  inflating: PractRand-master/include/PractRand/Tests/DistFreq4.h  
+  inflating: PractRand-master/include/PractRand/Tests/FPF.h  
+  inflating: PractRand-master/include/PractRand/Tests/FPMulti.h  
+  inflating: PractRand-master/include/PractRand/Tests/Gap16.h  
+  inflating: PractRand-master/include/PractRand/Tests/Pat5.h  
+  inflating: PractRand-master/include/PractRand/Tests/birthday.h  
+  inflating: PractRand-master/include/PractRand/Tests/coup16.h  
+  inflating: PractRand-master/include/PractRand/Tests/mod3.h  
+  inflating: PractRand-master/include/PractRand/Tests/nearseq.h  
+  inflating: PractRand-master/include/PractRand/Tests/transforms.h  
+  inflating: PractRand-master/include/PractRand/config.h  
+  inflating: PractRand-master/include/PractRand/endian.h  
+  inflating: PractRand-master/include/PractRand/rng_adaptors.h  
+  inflating: PractRand-master/include/PractRand/rng_basics.h  
+  inflating: PractRand-master/include/PractRand/rng_helpers.h  
+  inflating: PractRand-master/include/PractRand/rng_internals.h  
+  inflating: PractRand-master/include/PractRand/sha2.h  
+  inflating: PractRand-master/include/PractRand/test_batteries.h  
+  inflating: PractRand-master/include/PractRand/test_helpers.h  
+  inflating: PractRand-master/include/PractRand/tests.h  
+  inflating: PractRand-master/include/PractRand_full.h  
+   creating: PractRand-master/lib/
+   creating: PractRand-master/lib/msvc12_32bit/
+  inflating: PractRand-master/lib/msvc12_32bit/PractRand.lib  
+  inflating: PractRand-master/lib/msvc12_32bit/PractRand_Full.lib  
+   creating: PractRand-master/lib/msvc12_64bit/
+  inflating: PractRand-master/lib/msvc12_64bit/PractRand.lib  
+  inflating: PractRand-master/lib/msvc12_64bit/PractRand_Full.lib  
+   creating: PractRand-master/src/
+   creating: PractRand-master/src/RNGs/
+  inflating: PractRand-master/src/RNGs/arbee.cpp  
+  inflating: PractRand-master/src/RNGs/chacha.cpp  
+  inflating: PractRand-master/src/RNGs/efiix.cpp  
+  inflating: PractRand-master/src/RNGs/hc256.cpp  
+  inflating: PractRand-master/src/RNGs/isaac.cpp  
+  inflating: PractRand-master/src/RNGs/jsf.cpp  
+  inflating: PractRand-master/src/RNGs/mt19937.cpp  
+   creating: PractRand-master/src/RNGs/other/
+  inflating: PractRand-master/src/RNGs/other/fibonacci.cpp  
+  inflating: PractRand-master/src/RNGs/other/indirection.cpp  
+  inflating: PractRand-master/src/RNGs/other/mult.cpp  
+  inflating: PractRand-master/src/RNGs/other/simple.cpp  
+  inflating: PractRand-master/src/RNGs/other/transform.cpp  
+  inflating: PractRand-master/src/RNGs/salsa.cpp  
+  inflating: PractRand-master/src/RNGs/sfc.cpp  
+  inflating: PractRand-master/src/RNGs/sha2_based_pool.cpp  
+  inflating: PractRand-master/src/RNGs/trivium.cpp  
+  inflating: PractRand-master/src/RNGs/xsm.cpp  
+  inflating: PractRand-master/src/math.cpp  
+  inflating: PractRand-master/src/non_uniform.cpp  
+  inflating: PractRand-master/src/platform_specifics.cpp  
+  inflating: PractRand-master/src/rand.cpp  
+  inflating: PractRand-master/src/sha2.cpp  
+  inflating: PractRand-master/src/test_batteries.cpp  
+  inflating: PractRand-master/src/tests.cpp  
+   creating: PractRand-master/tools/
+  inflating: PractRand-master/tools/Candidate_RNGs.h  
+  inflating: PractRand-master/tools/MultithreadedTestManager.h  
+  inflating: PractRand-master/tools/RNG_benchmark.cpp  
+  inflating: PractRand-master/tools/RNG_from_name.h  
+  inflating: PractRand-master/tools/RNG_output.cpp  
+  inflating: PractRand-master/tools/RNG_test.cpp  
+  inflating: PractRand-master/tools/SeedingTester.h  
+  inflating: PractRand-master/tools/TestManager.h  
+  inflating: PractRand-master/tools/Test_calibration.cpp  
+  inflating: PractRand-master/tools/measure_RNG_performance.h  
+  inflating: PractRand-master/tools/multithreading.h  
+   creating: PractRand-master/unix/
+  inflating: PractRand-master/unix/Makefile  
+g++ -o ../src/math.o -g -I../include -I../tools -O2 -c ../src/math.cpp
+g++ -o ../src/non_uniform.o -g -I../include -I../tools -O2 -c ../src/non_uniform.cpp
+g++ -o ../src/platform_specifics.o -g -I../include -I../tools -O2 -c ../src/platform_specifics.cpp
+g++ -o ../src/rand.o -g -I../include -I../tools -O2 -c ../src/rand.cpp
+g++ -o ../src/sha2.o -g -I../include -I../tools -O2 -c ../src/sha2.cpp
+g++ -o ../src/test_batteries.o -g -I../include -I../tools -O2 -c ../src/test_batteries.cpp
+g++ -o ../src/tests.o -g -I../include -I../tools -O2 -c ../src/tests.cpp
+g++ -o ../src/RNGs/arbee.o -g -I../include -I../tools -O2 -c ../src/RNGs/arbee.cpp
+g++ -o ../src/RNGs/chacha.o -g -I../include -I../tools -O2 -c ../src/RNGs/chacha.cpp
+g++ -o ../src/RNGs/efiix.o -g -I../include -I../tools -O2 -c ../src/RNGs/efiix.cpp
+g++ -o ../src/RNGs/hc256.o -g -I../include -I../tools -O2 -c ../src/RNGs/hc256.cpp
+g++ -o ../src/RNGs/isaac.o -g -I../include -I../tools -O2 -c ../src/RNGs/isaac.cpp
+g++ -o ../src/RNGs/jsf.o -g -I../include -I../tools -O2 -c ../src/RNGs/jsf.cpp
+g++ -o ../src/RNGs/mt19937.o -g -I../include -I../tools -O2 -c ../src/RNGs/mt19937.cpp
+g++ -o ../src/RNGs/salsa.o -g -I../include -I../tools -O2 -c ../src/RNGs/salsa.cpp
+g++ -o ../src/RNGs/sfc.o -g -I../include -I../tools -O2 -c ../src/RNGs/sfc.cpp
+g++ -o ../src/RNGs/sha2_based_pool.o -g -I../include -I../tools -O2 -c ../src/RNGs/sha2_based_pool.cpp
+g++ -o ../src/RNGs/trivium.o -g -I../include -I../tools -O2 -c ../src/RNGs/trivium.cpp
+g++ -o ../src/RNGs/xsm.o -g -I../include -I../tools -O2 -c ../src/RNGs/xsm.cpp
+g++ -o ../src/RNGs/other/fibonacci.o -g -I../include -I../tools -O2 -c ../src/RNGs/other/fibonacci.cpp
+g++ -o ../src/RNGs/other/indirection.o -g -I../include -I../tools -O2 -c ../src/RNGs/other/indirection.cpp
+g++ -o ../src/RNGs/other/mult.o -g -I../include -I../tools -O2 -c ../src/RNGs/other/mult.cpp
+g++ -o ../src/RNGs/other/simple.o -g -I../include -I../tools -O2 -c ../src/RNGs/other/simple.cpp
+g++ -o ../src/RNGs/other/transform.o -g -I../include -I../tools -O2 -c ../src/RNGs/other/transform.cpp
+ar -r ../bin/libpracrand.a  ../src/math.o ../src/non_uniform.o ../src/platform_specifics.o ../src/rand.o ../src/sha2.o ../src/test_batteries.o ../src/tests.o ../src/RNGs/arbee.o ../src/RNGs/chacha.o ../src/RNGs/efiix.o ../src/RNGs/hc256.o ../src/RNGs/isaac.o ../src/RNGs/jsf.o ../src/RNGs/mt19937.o ../src/RNGs/salsa.o ../src/RNGs/sfc.o ../src/RNGs/sha2_based_pool.o ../src/RNGs/trivium.o ../src/RNGs/xsm.o ../src/RNGs/other/fibonacci.o ../src/RNGs/other/indirection.o ../src/RNGs/other/mult.o ../src/RNGs/other/simple.o ../src/RNGs/other/transform.o
+ranlib ../bin/libpracrand.a
+g++ -o ../tools/RNG_benchmark.o -g -I../include -I../tools -O2 -c ../tools/RNG_benchmark.cpp
+g++ -o ../bin/RNG_benchmark ../tools/RNG_benchmark.o ../bin/libpracrand.a -g -I../include -I../tools -O2
+g++ -o ../tools/RNG_output.o -g -I../include -I../tools -O2 -c ../tools/RNG_output.cpp
+g++ -o ../bin/RNG_output ../tools/RNG_output.o ../bin/libpracrand.a -g -I../include -I../tools -O2
+g++ -o ../tools/RNG_test.o -g -I../include -I../tools -O2 -c ../tools/RNG_test.cpp
+g++ -o ../bin/RNG_test ../tools/RNG_test.o ../bin/libpracrand.a -g -I../include -I../tools -O2
+g++ -o ../tools/Test_calibration.o -g -I../include -I../tools -O2 -c ../tools/Test_calibration.cpp
+g++ -o ../bin/Test_calibration ../tools/Test_calibration.o ../bin/libpracrand.a -g -I../include -I../tools -O2

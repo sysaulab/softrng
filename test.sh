@@ -9,43 +9,47 @@ s-ent-password "pass" | f-limit 8 | f-hex
 echo
 
 echo "64f9fb3e9f87e100 == \c"
-s-ent-password "password" | f-limit 8 | f-file ./test.bin | f-hex
+s-ent-password "password" | f-limit 8 | f-file test.bin | f-hex
 echo
 
-echo "s-file ./test.bin | srf_hex"
-s-file ./test.bin | f-hex
-echo
-echo
-
-echo "srs_fread ./test.bin | srf_xor "srs_fread ./test.bin" | srf_hex"
-srs_fread ./test.bin | srf_xor "srs_fread ./test.bin" | srf_hex
-echo
+echo "64f9fb3e9f87e100 == \c"
+s-file test.bin | f-hex
 echo
 
-echo "srs_zeros | srf_limit 10 | srf_hex"
-srs_zeros | srf_limit 10 | srf_hex
-echo
+## f-merge is broken
+echo "## f-merge is broken"
+s-file test.bin | f-merge s-file test.bin | f-hex 
 echo
 
-echo "srs_getent | srf_limit 10 | srf_hex"
+echo "00000000000000000000 == \c"
+s-zeros | f-limit 10 | f-hex
+echo
+
+srs_getent | srf_limit 10 | srf_hex
+echo " != \c"
 srs_getent | srf_limit 10 | srf_hex
 echo
-echo
 
-echo "s-system | srf_limit 10 | srf_hex"
+s-system | srf_limit 10 | srf_hex
+echo " != \c"
 s-system | srf_limit 10 | srf_hex
 echo
-echo
 
-echo "s-system | f-roxo64 | srf_limit 10 | srf_hex"
+s-system | f-roxo64 | srf_limit 10 | srf_hex
+echo " != \c"
 s-system | f-roxo64 | srf_limit 10 | srf_hex
 echo
+
+s-system | f-qxo64 | srf_limit 10 | srf_hex
+echo " != \c"
+s-system | f-qxo64 | srf_limit 10 | srf_hex
 echo
 
-echo "s-system | f-qxo64 | srf_limit 10 | srf_hex"
-s-system | f-qxo64 | srf_limit 20 | srf_hex
+ | srf_limit 10 | srf_hex
+echo " != \c"
+ | srf_limit 10 | srf_hex
 echo
-echo
+
 
 rm ./test.bin
 
