@@ -59,18 +59,24 @@ echo "DIEHARDER ERROR LOG (stderr)" > logs/dieharder.error
 INPUT_STRING=$(uname -s)
   case $INPUT_STRING in
 	"Darwin")
-        unzip -u external/dieharder-master.zip >> logs/dieharder.log 2>> logs/dieharder.error
-        cd dieharder-master >> logs/dieharder.log 2>> logs/dieharder.error
-        ./autogen.sh >> ../logs/dieharder.log 2>> ../logs/dieharder.error
-        ./configure >> ../logs/dieharder.log 2>> ../logs/dieharder.error
-        make >> ../logs/dieharder.log 2>> ../logs/dieharder.error
-        make install >> ../logs/dieharder.log 2>> ../logs/dieharder.error
-        cd .. >> ../logs/dieharder.log 2>> ../logs/dieharder.error
+    unzip -u external/dieharder-master.zip >> logs/dieharder.log 2>> logs/dieharder.error
+    cd dieharder-master >> logs/dieharder.log 2>> logs/dieharder.error
+    ./autogen.sh >> ../logs/dieharder.log 2>> ../logs/dieharder.error
+    ./configure >> ../logs/dieharder.log 2>> ../logs/dieharder.error
+    make >> ../logs/dieharder.log 2>> ../logs/dieharder.error
+    make install >> ../logs/dieharder.log 2>> ../logs/dieharder.error
+    cd .. >> ../logs/dieharder.log 2>> ../logs/dieharder.error
 		break
 		;;
+  "Linux")
+    if [ -x "$(command -v apk)" ];       then sudo apk add --no-cache dieharder
+    elif [ -x "$(command -v apt-get)" ]; then sudo apt-get install dieharder
+    elif [ -x "$(command -v dnf)" ];     then sudo dnf install dieharder
+    elif [ -x "$(command -v zypper)" ];  then sudo zypper install dieharder
+    else echo "Please install dieharder manually.">&2; fi
+
 	*)
-		echo "Dieharder is only building for macOS."
-		echo "Linux users can use their respective package manager."
+		echo "Please install dieharder manually."
 		;;
   esac
 
