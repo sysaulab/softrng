@@ -74,7 +74,7 @@ INPUT_STRING=$(uname -s)
     elif [ -x "$(command -v dnf)" ];     then sudo dnf install dieharder
     elif [ -x "$(command -v zypper)" ];  then sudo zypper install dieharder
     else echo "Please install dieharder manually.">&2; fi
-
+    ;;
 	*)
 		echo "Please install dieharder manually."
 		;;
