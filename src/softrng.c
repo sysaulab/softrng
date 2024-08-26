@@ -11,11 +11,6 @@ char dir_bin[] = "/usr/local/bin/";
 char dir_help[] = "/etc/softrng/help/";
 char dir_modules[] = "/etc/softrng/modules/";
 
-
-
-
-void install_config_if_not_exist();
-
 int file_exist(char* path) {
     if(access(path, F_OK) == 0) return 1;
     else return 0;
@@ -173,7 +168,6 @@ int delete_one_db(char* target_cmd, FILE* db_file) {
 }
 
 void refresh(char* path){
-    install_config_if_not_exist();
     DIR* d = opendir(path);
     struct dirent *e;
     if(d != NULL){
