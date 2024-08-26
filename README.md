@@ -20,7 +20,7 @@ SoftRNG requires a Unix-like environment and a C compiler to install. It has bee
 
 If you are using Windows, you can install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-Dieharder on macOS require to have libtool installed. You can install it using "[brew](https://brew.sh) install libtool". If you install dieharder after completing the installation of softrng, you can run "softrng refresh" (as root) to create add the missing shortcuts.
+Dieharder build requires libtool. You can install it with "[brew](https://brew.sh) install libtool". If you install dieharder after completing this installation, run "softrng install" (as root) to create the missing shortcuts.
 
 1. Open a terminal.
 1. Go to the folder containing this note.

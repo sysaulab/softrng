@@ -12,7 +12,7 @@ if the command require an input or provide an output. By using simple shell
 pipe, we create combination of generator(s) entropy source(s) and all kind of
 other fun things to observe.
 
--------------------------------------------------------------------------------
+
 
 COMMANDS
 
@@ -21,62 +21,77 @@ COMMANDS
     3. Any number of filters ( f- ) can be chained
     4. Without a terminator ( -t ) streams are displayed unformatted.
 
-   _ Type
- /
+ _Type
+|
 |   s = Source (nothing in, something out)
 |   f = Filter (something in, something out)
 |   t = Target (something in, nothing out)
-|
-|   s-source | f-filter-1 | f-filter-2 | t-target
-|
-|  INTERNAL     DESCRIPTION
-|  -----------------------------------------------------------------------------
-s-password P    Use a password to generate a sequence.
-s-zeros         Portable source of infinite zeros. (/dev/zero)
-s-synth         Portable source of synthetic entropy.
-s-random        Read from the default system generator. (/dev/random)
-s-getent        Native quality entropy source ( getentropy() )
-s-file F        Read file F to output.
-f-peek          Display information about the stream.
-f-hex           Convert input to hexadecimal.
-f-limit N       Limit the size of a stream to N bytes
-f-file F        Save a copy of the the stream to file F.
-f-xor S         Insert stream S using XOR.
-f-qxo64         2gb/sec, 2mb entropy, 140eb.
-f-roxo64        1gb/sec, 8kb entropy, 512pt.
-t-hole          Bottomless pit en lost data. (portable /dev/null)
-t-bspec32       32 bit completeness test.
-| -----------------------------------------------------------------------------
-| PRACTRAND     DESCRIPTION
-| -----------------------------------------------------------------------------
-s-jsf32         generator included with practrand : jsf32
-s-jsf64         generator included with practrand : jsf64
-s-sfc32         generator included with practrand : sfc32
-s-sfc64         generator included with practrand : sfc64
-s-xsm32         generator included with practrand : xsm32
-s-xsm64         generator included with practrand : xsm64
-s-arbee         generator included with practrand : arbee
-s-hc256         generator included with practrand : hc256
-s-trivium       generator included with practrand : trivium
-t-pract         PractRand test, standard options
-t-pract8        PractRand test, standard options, 8 bit folds
-t-pract16       PractRand test, standard options, 16 bit folds
-t-pract32       PractRand test, standard options, 32 bit folds
-t-pract64       PractRand test, standard options, 64 bit folds
-| -----------------------------------------------------------------------------
-| DIEHARDER     DESCRIPTION
-| -----------------------------------------------------------------------------
-t-test-dieharder     Dieharder test, regular settings
-t-test-dieharder     Dieharder test, regular settings
-t-test-dieharder     Dieharder test, regular settings
+| 
+|  _Class
+| |
+| | ent = Source of entropy
+| | prng = Pseudo Random Number Generator
+| | test = Various tests used to characterize sequences
+| |        Unspecified classes are general tools
+| |
+| |             * * * INTERNAL COMMANDS * * *
+| |
+s-ent-chaos                     Spontaneous entropy source.
+s-ent-getent                    OS-curated entropy source.
+s-gen-password P                Use a password to generate a sequence.
+s-file F                        Read file F to output.
+s-gen-zeros                     Source of zeros.
+s-random                        Default system random generator.
+f-prng-qxo64                    PRNG, 2gb/sec, 2mb entropy, 140eb.
+f-prng-roxo64                   PRNG, 1gb/sec, 8kb entropy, 512pt.
+f-peek                          Display information about the stream.
+f-hex                           Convert raw stream to hexadecimal.
+f-limit N                       Limit the size of a stream to N bytes
+f-fork S                        Use the stream as input to a sub-chain and pass data untouched.
+f-merge S                       Insert and mix current stream with the output of S using XOR.
+t-file F                        Save a copy of the the stream to file F.
+t-sinkhole                      Nothing comes out. (like /dev/null)
+t-test-bspec32                  32 bit distribution test.
+
+                * * * PRACTRAND PACKAGE * * *
+
+f-prng-jsf32                    jsf32
+f-prng-jsf64                    jsf64
+f-prng-sfc32                    sfc32
+f-prng-sfc64                    sfc64
+f-prng-xsm32                    xsm32
+f-prng-xsm64                    xsm64
+f-prng-arbee                    arbee
+f-prng-hc256                    hc256
+f-prng-trivium                  trivium
+t-test-pr                       PractRand test suite, regular settings
+t-test-pr8                      PractRand, 8 bit folds
+t-test-pr16                     PractRand, 16 bit folds
+t-test-pr32                     PractRand, 32 bit folds
+t-test-pr64                     PractRand, 64 bit folds
+t-test-prmt                     PractRand, multithread
+t-test-pr8mt                    PractRand, multithread, 8 bit folds
+t-test-pr16mt                   PractRand, multithread, 16 bit folds
+t-test-pr32mt                   PractRand, multithread, 32 bit folds
+t-test-pr64mt                   PractRand, multithread, 64 bit folds
+
+                * * * DIEHARDER PACKAGE * * *
+
+t-test-dh                       Dieharder, regular settings
+t-test-dhd                      Dieharder, test to destruction
+t-test-dhr                      Dieharder, test to resolve
+
+                * * * TESTU01 PACKAGE * * *
+
+t-test-u01-smallcrush           TestU01 Small Crush
+t-test-u01-crush                TestU01 Crush
+t-test-u01-bigcrush             TestU01 Big Crush
 
 
 
-4. TUTORIAL
+TUTORIAL
 
 VERY IMPORTANT
-At any time, if you need to stop a command,
-type CTRL-C in the terminal running the command.
 
 If you are not sure how this works, follow this tutorial. It will get you 
 through the concepts one at a time with examples.

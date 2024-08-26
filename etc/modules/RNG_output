@@ -1,10 +1,10 @@
 
-s-jsf32      RNG_output jsf32 inf
-s-jsf64      RNG_output jsf64 inf
-s-sfc32      RNG_output sfc32 inf
-s-sfc64      RNG_output sfc64 inf
-s-xsm32      RNG_output xsm32 inf
-s-xsm64      RNG_output xsm64 inf
-s-arbee      RNG_output arbee inf
-s-hc256      RNG_output hc256 inf
-s-trivium    RNG_output trivium inf
+f-prng-jsf32      sr_rngoutputshim jsf32
+f-prng-jsf64      sr_rngoutputshim jsf64
+f-prng-sfc32      sr_rngoutputshim sfc32
+f-prng-sfc64      sr_rngoutputshim sfc64
+f-prng-xsm32      sr_rngoutputshim xsm32
+f-prng-xsm64      sr_rngoutputshim xsm64
+f-prng-arbee      sr_rngoutputshim arbee
+f-prng-hc256      sr_rngoutputshim hc256
+f-prng-trivium    sr_rngoutputshim trivium

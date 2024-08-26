@@ -5,7 +5,7 @@ mkdir -p logs
 echo "Building SoftRNG"
 echo "SOFTRNG INSTALL LOG (stdout)" > logs/softrng.log
 echo "SOFTRNG ERROR LOG (stderr)" > logs/softrng.error
-cc src/sr_timertest.c   -O2 -o ./bin/timertest >> logs/softrng.log 2>> logs/softrng.error
+cc src/sr_timertest.c   -O2 -o ./bin/sr_timertest >> logs/softrng.log 2>> logs/softrng.error
 cc src/srs_password.c   -O2 -o ./bin/s-password >> logs/softrng.log 2>> logs/softrng.error
 cc src/srf_bench.c      -O2 -o ./bin/f-peek >> logs/softrng.log 2>> logs/softrng.error
 cc src/srs_fread.c      -O2 -o ./bin/s-file >> logs/softrng.log 2>> logs/softrng.error
@@ -20,6 +20,7 @@ cc src/srs_zeros.c      -O2 -o ./bin/s-zeros >> logs/softrng.log 2>> logs/softrn
 cc src/srs_getent.c     -O2 -o ./bin/s-getent >> logs/softrng.log 2>> logs/softrng.error
 cc src/srs_icm64.c      -O2 -o ./bin/s-chaos >> logs/softrng.log 2>> logs/softrng.error
 cc src/srt_bspec32.c    -O2 -o ./bin/t-bspec32 >> logs/softrng.log 2>> logs/softrng.error
+cc src/srt_rngoutput.c  -O2 -o ./bin/sr_rngoutputshim >> logs/softrng.log 2>> logs/softrng.error
 cc src/softrng.c        -O2 -o ./bin/softrng >> logs/softrng.log 2>> logs/softrng.error
 
 

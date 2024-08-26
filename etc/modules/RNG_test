@@ -1,6 +1,11 @@
 
-t-pract      RNG_test stdin
-t-pract8     RNG_test stdin8
-t-pract16    RNG_test stdin16
-t-pract32    RNG_test stdin32
-t-pract64    RNG_test stdin64
+t-test-pr      RNG_test stdin
+t-test-pr8     RNG_test stdin8
+t-test-pr16    RNG_test stdin16
+t-test-pr32    RNG_test stdin32
+t-test-pr64    RNG_test stdin64
+t-test-prmt    RNG_test stdin -multithreaded
+t-test-pr8mt   RNG_test stdin8 -multithreaded
+t-test-pr16mt  RNG_test stdin16 -multithreaded
+t-test-pr32mt  RNG_test stdin32 -multithreaded
+t-test-pr64mt  RNG_test stdin64 -multithreaded

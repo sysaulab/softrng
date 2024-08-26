@@ -66,3 +66,4 @@ src/srt_bspec32
 src/srt_bspec32_ref
 *.error
 *.log
+*.DS_Store
