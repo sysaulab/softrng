@@ -1,6 +1,0 @@
-SOFTRNG ERROR LOG (stderr)
-Undefined symbols for architecture arm64:
-  "_install_config_if_not_exist", referenced from:
-      _refresh in softrng-83496a.o
-ld: symbol(s) not found for architecture arm64
-clang: error: linker command failed with exit code 1 (use -v to see invocation)

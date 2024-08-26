@@ -64,3 +64,5 @@ src/srs_icm64
 src/srs_icm64mix
 src/srt_bspec32
 src/srt_bspec32_ref
+*.error
+*.log

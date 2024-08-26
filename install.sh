@@ -69,7 +69,8 @@ INPUT_STRING=$(uname -s)
 		break
 		;;
 	*)
-		echo "Do not Compile, Install package instead..."
+		echo "Dieharder is only building for macOS."
+		echo "Linux users can use their respective package manager."
 		;;
   esac
 
@@ -81,3 +82,7 @@ rm -Rf PractRand-master bin dieharder-master TestU01-1.2.3
 chmod -Rf 777 logs
 softrng install
 echo "If you see Cleaning next to a module, it is missing."
+echo "All installation logs are kept in the logs directory."
+echo "You can report bugs and request assistance at:"
+echo "https://github.com/sysaulab/softrng/issues"
+
