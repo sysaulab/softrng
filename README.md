@@ -28,7 +28,8 @@ Dieharder build requires libtool. You can install it with "[brew](https://brew.s
 
 ## To do
 
-Document every available command in a text file placed in the help directory (s-system.txt...).
+Write example solutions.
+Document every available command in a text file placed in the help directory (s-ent-getent.txt...).
 
 ## Future developments
 

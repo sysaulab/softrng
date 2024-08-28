@@ -7,11 +7,6 @@ int main(int argc, char** argv) {
     int piped = 0;
     char buffer[_SSRNG_BUFSIZE];
 
-    if(argc != 2) {
-        fprintf(stderr, "srf_fwrite: provide one file.\n");
-        exit(EXIT_FAILURE);
-    }
-
     while((readed = fread(&buffer, sizeof(char), _SSRNG_BUFSIZE, stdin))) {
         for(int x = 0; x < _SSRNG_BUFSIZE; x++){
             buffer[x] = ~buffer[x];

@@ -27,6 +27,7 @@ cc src/f-prng-roxo64.c          -O2 -o ./bin/f-prng-roxo64            >> logs/so
 cc src/t-test-bspec32.c         -O2 -o ./bin/t-test-bspec32           >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 cc src/t-test-bspec32-ref.c     -O2 -o ./bin/t-test-bspec32-ref       >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 cc src/softrng.c                -O2 -o ./bin/softrng                  >> logs/softrng.std.txt   2>> logs/softrng.err.txt
+cc src/shitter.c                -O2 -o ./bin/shitter                  >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 
 
 
@@ -36,6 +37,7 @@ echo "PRACTRAND ERROR LOG (stderr)"                               > logs/practra
 unzip -u external/PractRand-master.zip                            >> logs/practrand.std.txt         2>> logs/practrand.err.txt
 cd PractRand-master/unix                                          >> logs/practrand.std.txt         2>> logs/practrand.err.txt
 make                                                              >> ../../logs/practrand.std.txt   2>> ../../logs/practrand.err.txt
+make install                                                      >> ../../logs/practrand.std.txt   2>> ../../logs/practrand.err.txt
 cd ../..                                                          >> ../../logs/practrand.std.txt   2>> ../../logs/practrand.err.txt
 cp PractRand-master/bin/RNG_* ./bin                               >> logs/practrand.std.txt         2>> logs/practrand.err.txt
 
@@ -48,7 +50,7 @@ unzip -u external/TestU01.zip                                     >> logs/testu0
 cd TestU01-1.2.3                                                  >> logs/testu01.std.txt         2>> logs/testu01.err.txt
 ./configure --prefix="/usr/local"                                 >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
 make -j 6                                                         >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
-make -j 6 install                                                 >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
+make -j 6 install                                            >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
 cd ..                                                             >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
 cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-smallcrush src/t-test-u01-smallcrush.c    >> logs/testu01.std.txt 2>> logs/testu01.err.txt
 cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-crush      src/t-test-u01-crush.c         >> logs/testu01.std.txt 2>> logs/testu01.err.txt
@@ -56,10 +58,9 @@ cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-bigcrush   s
 
 
 
-cp -f bin/* /usr/local/bin/
+mv -f bin/* /usr/local/bin/
 cp -Rf softrng /etc
-rm -Rf PractRand-master bin dieharder-master TestU01-1.2.3
-chmod -Rf 777 logs
+#rm -Rf PractRand-master bin dieharder-master TestU01-1.2.3
 softrng install
 echo "You can look into the logs folder to help resolve eventual problems."
 echo "Please provide a copy of your logs in a zip file when reporting a bug."
