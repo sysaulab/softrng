@@ -74,3 +74,8 @@ etc/.DS_Store
 /TestU01-1.2.3
 /logs
 /logs
+/test_results_synthetic
+/logs
+logs/testu01.err.txt
+logs/testu01.std.txt
+results.ods

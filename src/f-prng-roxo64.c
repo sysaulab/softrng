@@ -16,12 +16,12 @@ int main(int argc, char** argv) {
     fread(&prng_state, sizeof(uint64_t), 4*256, stdin);
     while(1) {
         for( uint64_t y = 0; y < _SSRNG_BUFLEN_LONG; y++ ) {
-            buffer[y] = 
-            rot64(prng_state[0][indexes[0]], indexes[4] & 0b00111111) ^ 
-            rot64(prng_state[1][indexes[1]], indexes[5] & 0b00111111) ^
-            rot64(prng_state[2][indexes[2]], indexes[6] & 0b00111111) ^
-            rot64(prng_state[3][indexes[3]], indexes[7] & 0b00111111) ;
             index = index + 7776210437768060567ULL;
+            buffer[y] = 
+            rot64(prng_state[0][indexes[0]], indexes[1] % 64) ^ 
+            rot64(prng_state[1][indexes[2]], indexes[3] % 64) ^
+            rot64(prng_state[2][indexes[4]], indexes[5] % 64) ^
+            rot64(prng_state[3][indexes[6]], indexes[7] % 64) ;
         }
         fwrite(&buffer, sizeof(uint64_t), _SSRNG_BUFLEN_LONG, stdout);
     }

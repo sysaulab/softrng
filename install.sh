@@ -10,7 +10,7 @@ cc src/sr_timertest.c           -O2 -o ./bin/sr_timertest             >> logs/so
 cc src/sr_rngoutputshim.c       -O2 -o ./bin/sr_rngoutputshim         >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 cc src/s-ent-getent.c           -O2 -o ./bin/s-ent-getent             >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 cc src/s-ent-password.c         -O2 -o ./bin/s-ent-password           >> logs/softrng.std.txt   2>> logs/softrng.err.txt
-cc src/s-ent-synthetic.c        -O2 -o ./bin/s-ent-synthetic          >> logs/softrng.std.txt   2>> logs/softrng.err.txt
+cc src/s-ent-synthetic.c -lpthread -O2 -o ./bin/s-ent-synthetic          >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 cc src/s-file.c                 -O2 -o ./bin/s-file                   >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 cc src/s-zeros.c                -O2 -o ./bin/s-zeros                  >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 cc src/f-peek.c                 -O2 -o ./bin/f-peek                   >> logs/softrng.std.txt   2>> logs/softrng.err.txt
@@ -27,7 +27,7 @@ cc src/f-prng-roxo64.c          -O2 -o ./bin/f-prng-roxo64            >> logs/so
 cc src/t-test-bspec32.c         -O2 -o ./bin/t-test-bspec32           >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 cc src/t-test-bspec32-ref.c     -O2 -o ./bin/t-test-bspec32-ref       >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 cc src/softrng.c                -O2 -o ./bin/softrng                  >> logs/softrng.std.txt   2>> logs/softrng.err.txt
-cc src/shitter.c                -O2 -o ./bin/shitter                  >> logs/softrng.std.txt   2>> logs/softrng.err.txt
+cc src/shitter.c      -lpthread -O2 -o ./bin/shitter                  >> logs/softrng.std.txt   2>> logs/softrng.err.txt
 
 
 
@@ -50,11 +50,11 @@ unzip -u external/TestU01.zip                                     >> logs/testu0
 cd TestU01-1.2.3                                                  >> logs/testu01.std.txt         2>> logs/testu01.err.txt
 ./configure --prefix="/usr/local"                                 >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
 make -j 6                                                         >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
-make -j 6 install                                            >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
+make -j 6 install                                                 >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
 cd ..                                                             >> ../logs/testu01.std.txt      2>> ../logs/testu01.err.txt
-cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-smallcrush src/t-test-u01-smallcrush.c    >> logs/testu01.std.txt 2>> logs/testu01.err.txt
-cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-crush      src/t-test-u01-crush.c         >> logs/testu01.std.txt 2>> logs/testu01.err.txt
-cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01-bigcrush   src/sr_testu01big.c            >> logs/testu01.std.txt 2>> logs/testu01.err.txt
+cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01sc src/t-test-u01-smallcrush.c    >> logs/testu01.std.txt 2>> logs/testu01.err.txt
+cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01c      src/t-test-u01-crush.c         >> logs/testu01.std.txt 2>> logs/testu01.err.txt
+cc -O2 -Iinclude -ltestu01 -lprobdist -lmylib -lm -o bin/t-test-u01bc   src/t-test-u01-bigcrush.c      >> logs/testu01.std.txt 2>> logs/testu01.err.txt
 
 
 

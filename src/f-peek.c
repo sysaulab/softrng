@@ -20,10 +20,7 @@ double ftime(){
 #endif
 }
 
-uint64_t getMask(int n)
-{
-    return (0xFFFFffffFFFFffff >> (64-n));
-}
+#define getMask(n) (0xFFFFffffFFFFffff >> (64-n))
 
 void makeNiceNumber(uint64_t num, char* str) {
     uint64_t ret;
@@ -33,38 +30,32 @@ void makeNiceNumber(uint64_t num, char* str) {
         suffix = " Eb";
         main = num >> 60;
         ret = ((num & getMask(60))/(1LLU << 60))*100;//to avoid overflow when measuring exabytes's remainder
-    }
-    else if(num >= 1LLU << 50){
+    } else if(num >= 1LLU << 50){
         suffix = " Pb";
         main = num >> 50;
         ret = ((num & getMask(50))*1000)/(1LLU << 50);
-    }
-    else if(num >= 1LLU << 40){
+    } else if(num >= 1LLU << 40){
         suffix = " Tb";
         main = num >> 40;
         ret = ((num & getMask(40))*1000)/(1LLU << 40);
-    }
-    else if(num >= 1LLU << 30){
+    } else if(num >= 1LLU << 30){
         suffix = " Gb";
         main = num >> 30;
         ret = ((num & getMask(30))*100)/(1LLU << 30);
         sprintf(str, "%llu.%02llu%s", main, ret, suffix);
         return;
-    }
-    else if(num >= 1LLU << 20){
+    } else if(num >= 1LLU << 20){
         suffix = " Mb";
         main = num >> 20;
         ret = ((num & getMask(20))*10)/(1LLU << 20);
         sprintf(str, "%llu.%01llu%s", main, ret, suffix);
         return;
-    }              
-    else if(num >= 1LLU << 10){
+    } else if(num >= 1LLU << 10){
         suffix = " Kb";
         main = num >> 10;
         sprintf(str, "%llu%s", main, suffix);
         return;
-    }
-    else {
+    } else {
         suffix = " b";
         main = num;
         sprintf(str, "%llu%s", main, suffix);
