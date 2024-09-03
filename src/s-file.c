@@ -4,20 +4,21 @@
 
 int main(int argc, char** argv)
 {
+    int offset = 0;
     if(argc < 2) {
-        fprintf(stderr, "srf_fread: FILE NAME IS MISSING\n");
+        fprintf(stderr, "s-file: FILE NAME IS MISSING\n");
         exit(EXIT_FAILURE);
     }
     if(argc > 2) {
-        fprintf(stderr, "srf_fread: ONLY 1 FILE IS ALLOWED\n");
-        exit(EXIT_FAILURE);
+        offset = atoi(argv[2]);
     }
 
     FILE* input = fopen(argv[1], "r");
     if(!input) {
-        fprintf(stderr, "srs_fread: cannot open file\n");
+        fprintf(stderr, "s-file: cannot open file\n");
         exit(EXIT_FAILURE);
     }
+    fseek(input, offset, SEEK_SET);
 
     char buffer[_SSRNG_BUFSIZE];
     int readed = 0;
@@ -26,10 +27,11 @@ int main(int argc, char** argv)
     while((readed = fread(&buffer, sizeof(char), _SSRNG_BUFSIZE, input))) {
         int y = fwrite(&buffer, sizeof(char), readed, stdout);
         if((y != readed)) {
-            fprintf(stderr, "srs_fread: output discrepencies.\n");
+            fprintf(stderr, "s-file: output discrepencies.\n");
             exit(EXIT_FAILURE);
         }
     }
+
     fclose(input);
     return EXIT_SUCCESS;
 }

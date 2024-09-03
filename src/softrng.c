@@ -11,6 +11,22 @@ char dir_bin[] = "/usr/local/bin/";
 char dir_help[] = "/etc/softrng/help/";
 char dir_modules[] = "/etc/softrng/modules/";
 
+void install(void);
+void cfg_file(char* path, char* content);
+void cfg_dir(char* path);
+int mkfile(char* path, char* content);
+void uninstall(char* path);
+void refresh(char* path);
+int delete_one_db(char* target_cmd, FILE* db_file);
+int scan_one_db(char* target_cmd, FILE* db_file);
+int rem_etc(void);
+int remove_shortcut(char* a);
+int create_shortcut(char* alias_name, char* alias_command);
+void manual(void);
+int cmd_exist(char* c);
+int dir_exist(char* path);
+int file_exist(char* path);
+
 int file_exist(char* path) {
     if(access(path, F_OK) == 0) return 1;
     else return 0;
@@ -38,7 +54,7 @@ int cmd_exist(char* c) {
     return 0;
 }
 
-void manual() {
+void manual(void) {
     char command[256] = "less<";
     strcat(command, dir_softrand);
     strcat(command, "manual.txt");
@@ -68,7 +84,7 @@ int remove_shortcut(char* a) {
     return remove(cmd);
 }
 
-int rem_etc() {
+int rem_etc(void) {
     printf("Remove all file at %s\n", dir_softrand);
     char cmd[201];
     strncpy(cmd, dir_softrand, 200);
@@ -234,7 +250,7 @@ void cfg_file(char* path, char* content) {
     }
 }
 
-void install() {
+void install(void) {
     refresh(dir_modules);
 }
 

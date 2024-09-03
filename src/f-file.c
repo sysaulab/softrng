@@ -11,24 +11,25 @@ int main(int argc, char** argv)
 {
     if(argc < 2)
     {
-        fprintf(stderr, "srf_fwrite: FILE NAME IS MISSING.\n");
+        fprintf(stderr, "f-file: FILE NAME IS MISSING.\n");
         exit(EXIT_FAILURE);
     }
     if(argc > 2)
     {
-        fprintf(stderr, "srf_fwrite: ONLY 1 FILE IS ALLOWED.\n");
+        fprintf(stderr, "f-file: ONLY 1 FILE IS ALLOWED.\n");
         exit(EXIT_FAILURE);
     }
 
     int readed = 0;
     int forked = 0;
+    int piped = 0;
 
     char buffer[_SSRNG_BUFSIZE];
 
     FILE* output = fopen(argv[1], "w");
     if(output == NULL)
     {
-        fprintf(stderr, "t-file: CANNOT OPEN FILE\n");
+        fprintf(stderr, "f-file: CANNOT OPEN FILE\n");
         exit(EXIT_FAILURE);
     }
 
@@ -37,7 +38,13 @@ int main(int argc, char** argv)
         forked = fwrite(buffer, sizeof(char), readed, output);
         if(readed != forked)
         {
-            fprintf(stderr, "srf_fwrite: OUTPUT DISCREPENCIES in the piped data.\n");
+            fprintf(stderr, "f-file: OUTPUT DISCREPENCIES in the forked data.\n");
+            exit(EXIT_FAILURE);
+        }
+        piped = fwrite(buffer, sizeof(char), readed, stdout);
+        if(readed != piped)
+        {
+            fprintf(stderr, "f-file: OUTPUT DISCREPENCIES in the piped data.\n");
             exit(EXIT_FAILURE);
         }
     }

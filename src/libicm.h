@@ -43,3 +43,4 @@ void icm_mix64(icm_state_t* state, uint64_t* buffer, uint64_t count);
 void icm_stop(icm_state_t* icm);
 
 #endif
+

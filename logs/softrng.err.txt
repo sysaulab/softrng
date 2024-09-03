@@ -1,1 +1,0 @@
-SOFTRNG ERROR LOG (stderr)

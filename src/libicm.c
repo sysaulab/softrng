@@ -1,5 +1,6 @@
 #include <pthread.h>
 #include <stdint.h>
+#include <unistd.h>
 #include "libicm.h"
 #include "sr_config.h"
 
@@ -24,7 +25,6 @@ void __icm_pause(icm_state_t* icm){
         icm->threads[x].pause = 1;
     }
 }
-
 
 void __icm_start(icm_state_t* icm)
 {
@@ -53,7 +53,7 @@ void* ___libicm_threadwork(void* raw)
     return NULL;
 }
 
-void icm_init(icm_state_t* state)
+void start_icm(icm_state_t* state)
 {
     for( int i = 0; i < _ICM_MAX_THREADS; i++ )
     {
@@ -71,7 +71,7 @@ void icm_init(icm_state_t* state)
     __icm_pause(state);
 }
 
-void icm_stop(icm_state_t* state) {
+void stop_icm(icm_state_t* state) {
     for(int x = 0; x < _ICM_MAX_THREADS; x++)
         state->threads[x].run = 0;
     __icm_pause(state); // To avoid checking two variables, the stop is verified when entering the pause branch
@@ -79,7 +79,7 @@ void icm_stop(icm_state_t* state) {
         pthread_join(state->threads[x].thr, NULL);
 }
 
-void icm_fill64(icm_state_t* state, uint64_t* buffer, uint64_t count) {
+void fill(icm_state_t* state, uint64_t* buffer, uint64_t count) {
     __icm_start(state);
     uint64_t answer = 0;
     for( int i = 0; i < count; i++ )

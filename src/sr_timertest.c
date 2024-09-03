@@ -6,7 +6,7 @@
 #include "libicm.h"
 
 #include <time.h>
-double ftime(){
+double ftime(void){
 #ifdef __APPLE__
     return (double)(clock_gettime_nsec_np(CLOCK_REALTIME)) / 1000000000.0;
 #else
@@ -27,7 +27,7 @@ typedef struct {
     double count;
 } fstat_t;
 
-double get_minimum_nanosleep_delay()
+double get_minimum_nanosleep_delay(void)
 {
     struct timespec t;
     t.tv_sec = 0;
@@ -37,7 +37,7 @@ double get_minimum_nanosleep_delay()
     return now() - start;
 }
 
-double get_minimum_usleep_delay()
+double get_minimum_usleep_delay(void)
 {
     double start = now();
     usleep(_ICM_WAIT);
@@ -100,3 +100,4 @@ int main(int argc, char** argv)
     printf("nanosleep(1) max : %1.9fµs\n", fstat_max(&stats) * 1000000 );
     return 0;
 }
+

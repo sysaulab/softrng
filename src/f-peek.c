@@ -7,7 +7,7 @@
 #include <time.h>
 #include "sr_config.h"
 
-double ftime(){
+double ftime(void){
 #ifdef __APPLE__
     return (double)(clock_gettime_nsec_np(CLOCK_REALTIME)) / 1000000000.0;
 #else
@@ -23,53 +23,59 @@ double ftime(){
 #define getMask(n) (0xFFFFffffFFFFffff >> (64-n))
 
 void makeNiceNumber(uint64_t num, char* str) {
+
     uint64_t ret;
     char* suffix;
     uint64_t main;
+
     if (num >= 1LLU << 60){
         suffix = " Eb";
         main = num >> 60;
-        ret = ((num & getMask(60))/(1LLU << 60))*100;//to avoid overflow when measuring exabytes's remainder
+        ret = ((num & getMask(60))/(1LLU << 60))*100;// 34 years
+
     } else if(num >= 1LLU << 50){
         suffix = " Pb";
         main = num >> 50;
-        ret = ((num & getMask(50))*1000)/(1LLU << 50);
+        ret = ((num & getMask(50))*100)/(1LLU << 50);// 12 days
+
     } else if(num >= 1LLU << 40){
         suffix = " Tb";
         main = num >> 40;
-        ret = ((num & getMask(40))*1000)/(1LLU << 40);
+        ret = ((num & getMask(40))*100)/(1LLU << 40);// 17 minutes
+
     } else if(num >= 1LLU << 30){
         suffix = " Gb";
         main = num >> 30;
-        ret = ((num & getMask(30))*100)/(1LLU << 30);
-        sprintf(str, "%llu.%02llu%s", main, ret, suffix);
-        return;
+        ret = ((num & getMask(30))*100)/(1LLU << 30);// 1 second
+
     } else if(num >= 1LLU << 20){
         suffix = " Mb";
         main = num >> 20;
-        ret = ((num & getMask(20))*10)/(1LLU << 20);
-        sprintf(str, "%llu.%01llu%s", main, ret, suffix);
-        return;
+        ret = ((num & getMask(20))*100)/(1LLU << 20);
+
     } else if(num >= 1LLU << 10){
         suffix = " Kb";
         main = num >> 10;
         sprintf(str, "%llu%s", main, suffix);
         return;
+
     } else {
         suffix = " b";
         main = num;
         sprintf(str, "%llu%s", main, suffix);
         return;
     }
-    sprintf(str, "%llu.%03llu%s", main, ret, suffix);
+    sprintf(str, "%llu.%02llu%s", main, ret, suffix);
 }
+
 int main(int argc, char** argv) {
+
     uint64_t bytes_written = 0;
     uint64_t bytes_readed = 0;
     char* buffer[_SSRNG_BUFSIZE];
     double start = -1;
     double last_update = ftime();
-    int virgin = 1;
+
     while(1) {
         uint64_t buf_received = fread(buffer, sizeof(char), _SSRNG_BUFSIZE, stdin);
         if(start < 0) {

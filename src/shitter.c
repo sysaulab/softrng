@@ -25,10 +25,10 @@ typedef struct{
     icm_thread_t threads[_ICM_MAX_THREADS];
 } icm_state_t;
 
-void icm_init(icm_state_t* state);
-void icm_fill64(icm_state_t* state, uint64_t* buffer, uint64_t count);
+void init(icm_state_t* state);
+void fill(icm_state_t* state, uint64_t* buffer, uint64_t count);
 void icm_mix64(icm_state_t* state, uint64_t* buffer, uint64_t count);
-void icm_stop(icm_state_t* icm);
+void stop(icm_state_t* icm);
 
 int ___libicm_modify( volatile uint64_t* in, volatile uint64_t* out ){
     if(in == NULL || out == NULL)
@@ -73,7 +73,7 @@ void* ___libicm_threadwork(void* raw){
     return NULL;
 }
 
-void icm_init(icm_state_t* state){
+void init(icm_state_t* state){
     for( int i = 0; i < _ICM_MAX_THREADS; i++ ){
         state->nodes[i] = 0;
         state->threads[i].source = &(state->nodes[i]);
@@ -89,7 +89,7 @@ void icm_init(icm_state_t* state){
     __icm_pause(state);
 }
 
-void icm_fill64(icm_state_t* state, uint64_t* buffer, uint64_t count) {
+void fill(icm_state_t* state, uint64_t* buffer, uint64_t count) {
     __icm_start(state);
     uint64_t answer = 0;
     for( int i = 0; i < count; i++ )
@@ -114,7 +114,7 @@ int main(int argc, const char * argv[]) {
     index.u64 = 0;
     icm_init(&state);
     fprintf(stderr, "▁");
-    icm_fill64(&state, &pool[0][0], 65536);
+    fill(&state, &pool[0][0], 65536);
     fprintf(stderr, "\b▃");
     icm_fill64(&state, &pool[1][0], 65536);
     fprintf(stderr, "\b▅");

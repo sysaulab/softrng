@@ -7,9 +7,9 @@
 #include <time.h>
 #include "sr_config.h"
 //Super conservative settings, focus on security not speed.
-#define _ICM_WARMUP         1000                    // Warmup after init in microseconds
-#define _ICM_WAIT           1                      // Sleeping time in microseconds
-#define _ICM_MAX_THREADS    3                       // number of threads and nodes in ICM (3 recommended)
+#define _ICM_WARMUP         100                    // Warmup after init in microseconds
+#define _ICM_WAIT           100                    // Sleeping time in microseconds
+#define _ICM_MAX_THREADS    3                      // number of threads and nodes in ICM (3 recommended)
 
 typedef struct{
     volatile uint64_t *source;

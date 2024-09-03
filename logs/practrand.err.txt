@@ -1,2 +1,0 @@
-PRACTRAND ERROR LOG (stderr)
-make: *** No rule to make target `install'.  Stop.

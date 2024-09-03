@@ -1,4 +1,0 @@
-PRACTRAND INSTALL LOG (stdout)
-Archive:  external/PractRand-master.zip
-6ae26d8d4023e7e5e73c4334779fcb4a7d265dfa
-make: Nothing to be done for `all'.

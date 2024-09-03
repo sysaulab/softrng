@@ -9,7 +9,7 @@ unsigned int getstdin (void)
     return buffer;
 }
 
-int main()
+int main(void)
 {
     // Create TestU01 PRNG object for our generator
     unif01_Gen* gen = unif01_CreateExternGenBits("SoftRNG unknown", getstdin);
@@ -22,3 +22,4 @@ int main()
 
     return 0;
 }
+

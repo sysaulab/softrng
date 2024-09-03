@@ -8,3 +8,5 @@ int main(int argc, char** argv) {
     while(1) fwrite(&zero, sizeof(zero), 1, stdout);
     return EXIT_SUCCESS;
 }
+
+
