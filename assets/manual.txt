@@ -1,0 +1,140 @@
+SOFTRNG version 0.2.0 (Rust port)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU Affero General Public License version 3.
+Other licences available upon request.
+
+SoftRNG is a modular suite for generating, filtering, and testing random
+number streams. It consists of a set of core commands (written in Rust) and
+an extensible shortcut system that integrates external tools like PractRand,
+Dieharder, and TestU01.
+
+───────────────────────────────────────────────────────────────────────────────
+CORE COMMANDS (always available)
+───────────────────────────────────────────────────────────────────────────────
+
+SOURCES (s-)
+    s-ent-getent            High‑quality entropy from the kernel (getrandom).
+    s-ent-password <P>      Deterministic stream derived from a password.
+    s-ent-seedy64           Continuous entropy from the SEEDY64 chaotic mixer.
+    s-ent-seedy64-reset     Single 64‑bit picks from fresh SEEDY64 instances.
+    s-file <F> [OFFSET]     Output raw content of file F from optional offset.
+    s-zeros                 Endless stream of zero bytes (as u64 words).
+
+FILTERS (f-)
+    f-prng-qxo64            Table‑based PRNG; requires 2 MiB seed via stdin.
+    f-hex                   Convert binary stream to hexadecimal (lowercase).
+    f-limit <N>             Limit output to N bytes (accepts K, M, G, etc.).
+    f-merge <CMD>           XOR stdin with the output of shell command CMD.
+    f-multi <CMD1>...       Multiplex stdin to multiple shell softrngs.
+    f-peek                  Display throughput and hex preview on stderr.
+    f-file <F>              Tee stdin to file F while passing through.
+
+TARGETS (t-)
+    t-hole                  Discard all input (like >/dev/null).
+    t-test-bits [BITS]      Bit‑spectrum test (default 32 bits). Tests
+                            distribution of low/high halves of 64‑bit words.
+    t-test-bspec32-ref      Generate reference coupon‑collector curve.
+
+INTERNAL COMMANDS
+    softrng install         Create/refresh shortcuts for installed modules.
+    softrng uninstall       Remove all shortcuts and configuration.
+    softrng manual          Show this manual.
+    softrng open            Open the configuration folder (/etc/softrng).
+
+───────────────────────────────────────────────────────────────────────────────
+OPTIONAL PACKAGES (shortcuts appear after installation)
+───────────────────────────────────────────────────────────────────────────────
+
+SoftRNG can integrate external tools via module definition files. When you
+run `softrng install`, it scans `/etc/softrng/modules/` and creates shortcuts
+in `/usr/local/bin/` for any command that is present on your system.
+
+The following packages are supported out‑of‑the‑box. Install them separately,
+then run `softrng install` to activate their shortcuts.
+
+─── TestU01 ───
+    Requires: libtestu01 installed.
+    Shortcuts created:
+        t-test-u01-smallcrush
+        t-test-u01-crush
+        t-test-u01-bigcrush
+
+─── PractRand ───
+    Requires: RNG_test binary in PATH.
+    Shortcuts created (defined in /etc/softrng/modules/RNG_test.txt):
+        t-test-pr               RNG_test stdin
+        t-test-pr8              RNG_test stdin8
+        t-test-pr16             RNG_test stdin16
+        t-test-pr32             RNG_test stdin32
+        t-test-pr64             RNG_test stdin64
+        t-test-prmt             RNG_test stdin -multithreaded
+        t-test-pr8mt            RNG_test stdin8 -multithreaded
+        t-test-pr16mt           RNG_test stdin16 -multithreaded
+        t-test-pr32mt           RNG_test stdin32 -multithreaded
+        t-test-pr64mt           RNG_test stdin64 -multithreaded
+
+─── RNG_output (PRNG suite) ───
+    Requires: RNG_output binary (often included with PractRand).
+    Shortcuts created (defined in /etc/softrng/modules/RNG_output.txt):
+        f-prng-jsf32            sr_rngoutputshim jsf32
+        f-prng-jsf64            sr_rngoutputshim jsf64
+        f-prng-sfc32            sr_rngoutputshim sfc32
+        f-prng-sfc64            sr_rngoutputshim sfc64
+        f-prng-xsm32            sr_rngoutputshim xsm32
+        f-prng-xsm64            sr_rngoutputshim xsm64
+        f-prng-arbee            sr_rngoutputshim arbee
+        f-prng-hc256            sr_rngoutputshim hc256
+        f-prng-trivium          sr_rngoutputshim trivium
+
+    (Note: sr_rngoutputshim is a small helper that reads a seed from stdin.)
+
+─── Dieharder ───
+    Requires: dieharder binary.
+    Shortcuts created (defined in /etc/softrng/modules/dieharder.txt):
+        t-test-dh               dieharder -a -g 200
+
+─── System Entropy ───
+    Requires: /dev/random (available on most Unix systems).
+    Shortcuts created (defined in /etc/softrng/modules/softrng.txt):
+        s-system                cat /dev/random
+
+───────────────────────────────────────────────────────────────────────────────
+USAGE EXAMPLES
+───────────────────────────────────────────────────────────────────────────────
+
+    # Display SEEDY64 entropy in hex
+    s-ent-seedy64 | f-hex | head -c 64
+
+    # Save 1 MiB of kernel entropy to a file
+    s-ent-getent | f-limit 1M > entropy.bin
+
+    # Run SmallCrush on a password‑derived stream
+    s-ent-password "mysecret" | t-test-u01-smallcrush
+
+    # Monitor throughput while running bit‑spectrum test
+    s-ent-seedy64 | f-peek | t-test-bits 32
+
+    # Multiplex: run two tests simultaneously
+    s-ent-seedy64 | f-multi "t-test-bits 32 > bits.log" "t-test-u01-smallcrush > u01.log"
+
+    # Seed the QXO64 PRNG and test it
+    s-ent-getent | f-limit 2M | f-prng-qxo64 | f-peek | t-test-bits
+
+    # Use a PractRand PRNG (after installing PractRand)
+    s-ent-getent | f-limit 8 | f-prng-jsf32 | f-hex | head
+
+───────────────────────────────────────────────────────────────────────────────
+NOTES
+───────────────────────────────────────────────────────────────────────────────
+
+    - All commands are chainable via standard Unix pipes.
+    - Raw binary output may garble your terminal; use f-hex or redirect.
+    - s-file and f-file overwrite existing files without warning.
+    - The shortcut system is idempotent: run `softrng install` after installing
+      or removing external tools to update the available commands.
+    - Module definition files are plain text: each line is "<shortcut> <command>".
+      You can add your own modules in /etc/softrng/modules/.
+
+GITHUB : https://github.com/sysaulab/softrng
+PATREON : https://www.patreon.com/sofTRNG

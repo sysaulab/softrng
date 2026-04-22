@@ -1,0 +1,93 @@
+[package]
+name = "softrng"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "s-map-qxo128"
+path = "src/bin/s-map-qxo128.rs"
+
+[[bin]]
+name = "f-merge"
+path = "src/bin/f-merge.rs"
+
+[[bin]]
+name = "f-hex"
+path = "src/bin/f-hex.rs"
+
+[[bin]]
+name = "f-limit"
+path = "src/bin/f-limit.rs"
+
+[[bin]]
+name = "f-file"
+path = "src/bin/f-file.rs"
+
+[[bin]]
+name = "f-peek"
+path = "src/bin/f-peek.rs"
+
+[[bin]]
+name = "f-multi"
+path = "src/bin/f-multi.rs"
+
+[[bin]]
+name = "f-prng-qxo64"
+path = "src/bin/f-prng-qxo64.rs"
+
+[[bin]]
+name = "f-prng-qxo128"
+path = "src/bin/f-prng-qxo128.rs"
+
+[[bin]]
+name = "s-entropy"
+path = "src/bin/s-entropy.rs"
+
+[[bin]]
+name = "s-password"
+path = "src/bin/s-password.rs"
+
+[[bin]]
+name = "s-file"
+path = "src/bin/s-file.rs"
+
+[[bin]]
+name = "s-zeros"
+path = "src/bin/s-zeros.rs"
+
+[[bin]]
+name = "s-seedy64"
+path = "src/bin/s-seedy64.rs"
+
+[[bin]]
+name = "s-seedy64-reset"
+path = "src/bin/s-seedy64-reset.rs"
+
+[[bin]]
+name = "softrng"
+path = "src/bin/softrng.rs"
+
+[[bin]]
+name = "sr_rngoutputshim"
+path = "src/bin/sr_rngoutputshim.rs"
+
+[[bin]]
+name = "t-hole"
+path = "src/bin/t-hole.rs"
+
+[[bin]]
+name = "t-test-bits"
+path = "src/bin/t-test-bits.rs"
+
+[dependencies]
+anyhow = "1.0"
+clap = { version = "4.4", features = ["derive"] }
+getrandom = "0.4.2"
+crossbeam-channel = "0.5"   # for multi-producer multi-consumer
+bitvec = "1.0"
+chrono = "0.4"              # for timestamp generation
+bytemuck = "1.14"
+which = "8.0.2"
+dirs = "6.0"
+sha2 = "0.10"
+rusqlite = "0.37"
