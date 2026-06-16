@@ -1,40 +1,59 @@
 # SOFTRNG
 
 ## LICENCE
-
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU Affero General Public License version 3.
 
 ## DESCRIPTION
+SoftRNG is a modular suite of command‑line tools for generating, filtering, and testing random number streams.  
+Each tool is prefixed by its role:
 
-SoftRNG is a modular suite of commandline tools for generating, filtering, and testing random
-number generators. It consists of a set of core commands (written in Rust) mainly destined to manipulate data streams.
+- **s-** : Sources – produce data (no stdin required).
+- **f-** : Filters – read stdin, transform, write stdout.
+- **t-** : Terminators – consume stdin, do not produce output (or produce summary).
 
-Sources of data starts with the prefix "s-". They do not expect any data, they only provide data. Filters, who read, manipulate and write sits in the middle. They use the prefix "f-". Finally, terminators uses the prefix "t-". It is therefore easy to type a prefix followed by tab to see the tools available.
+Pipelines are built by connecting these tools. For example:
+`s-entropy | f-hex | f-limit 1K | t-hole`
 
-The most useful tools to me are f-peek and f-prng-qxo64 I used to develop and test Seedy64, who will inform you about the speed of data coming across the pipe in addition to show you a window into the data ging through. I also included my chaotic portable seeding generator with the QXO64 amplifier to test small samples of slow generators and amplify them through a simple xor operations.
+## SOURCES (s-)
 
-# COMMANDS
+| Command | Description |
+|---------|-------------|
+| `s-entropy` | High‑quality entropy from the kernel (`getrandom`). Outputs raw binary. |
+| `s-seedy64` | Continuous chaotic stream from the SEEDY64 mixer. |
+| `s-seedy64-reset` | Outputs one 64‑bit value from a *fresh* SEEDY64 instance each iteration. Designed specifically for testing independence between consecutive picks. |
+| `s-file <FILE> [OFFSET]` | Outputs raw content of `FILE`, starting at `OFFSET` (default 0). |
+| `s-zeros` | Infinite stream of zero bytes (as little‑endian 64‑bit words). |
 
+## FILTERS (f-)
 
-| SOURCES (s-) | |
-| --- | --- |
-| s-ent-getent           | High‑quality entropy from the kernel (getrandom).|
-| s-ent-seedy64          | Continuous entropy from the SEEDY64 chaotic mixer.|
-| s-ent-seedy64-reset    | Single 64‑bit picks from fresh SEEDY64 instances, to test decorrelation between picks.|
-| s-file <F> [OFFSET]    | Output raw content of file F from optional offset.|
-| s-zeros                | Endless stream of zero bytes (as u64 words).|
+| Command | Description |
+|---------|-------------|
+| `f-file <FILE>` | Tee stdin to `FILE` while passing through to stdout. |
+| `f-hex` | Convert binary stdin to lowercase hexadecimal (two hex digits per byte). |
+| `f-limit <SIZE>` | Pass only the first `SIZE` bytes. `SIZE` supports suffixes: `k`, `m`, `g`, `t` (decimal) or `K`, `M`, `G`, `T` (binary, e.g., `1M` = 1 048 576). |
+| `f-merge <CMD>` | **Experimental** – XOR stdin with the output of shell command `CMD`. Reads in 64‑bit chunks; mismatched lengths cause an error. May be removed in future. |
+| `f-multi <CMD1> [CMD2 ...]` | **Experimental** – Replicate stdin to multiple shell commands. Options: <br> `--buffer <BYTES>`: per‑child buffer size (default 65536). <br> `--stop-on-error`: abort if any child exits early. May be removed in future. |
+| `f-peek` | Pass stdin to stdout while displaying a live progress bar on stderr: hex preview of first 8 bytes, total bytes read, and throughput. Refreshes at ~30 Hz with negligible overhead. |
+| `f-prng-qxo64` | Table‑based PRNG (QXO64). Requires a 2 MiB seed from stdin. Outputs an endless stream of 64‑bit words. If the output pipe is closed (e.g., `head`), the program exits cleanly (handles `BrokenPipe`). |
 
-|FILTERS (f-) | |
-| --- | --- |
-| f-file <F>             | Tee stdin to file F while passing through.|
-| f-hex                  | Convert binary stream to hexadecimal (lowercase).|
-| f-limit <N>            | Limit output to N bytes (accepts K, M, G, etc.).|
-| f-merge <CMD>          | XOR stdin with the output of shell command CMD.|
-| f-multi <CMD1>...      | Multiplex stdin to multiple shell branches.|
-| f-peek                 | Display throughput and hex preview on stderr.|
-| f-prng-qxo64           | Table‑based PRNG; requires 2 MiB seed via stdin.|
+## TERMINATORS (t-)
 
-| TARGETS (t-) | |
-| --- | --- |
-| t-hole                 | Discard all input (like >/dev/null).|
-| t-test-bits [BITS]     | Bit‑spectrum test. It tests distribution of N‑bits words up to completeness. Defaults to 32 bits |
+| Command | Description |
+|---------|-------------|
+| `t-hole` | Discard all input (like `/dev/null`). |
+| `t-test-bits [BITS]` | Bit‑spectrum test: reads 64‑bit words and counts unique low and high halves (each masked to `BITS` bits). Default `BITS=32`. Options: <br> `--max-stage <N>`: stop after stage N (0‑10, default 10). <br> `--log <FILE>`: write CSV progress logs to `FILE`. <br> `--results <FILE>`: final stage scores file (default `bspec32.txt`). <br> `--quiet`: suppress stderr progress updates. <br> `--update-interval <SEC>`: progress update frequency (default 0.1 s). <br> **Memory note**: For `BITS=34`, the bitset requires ~2 GiB RAM. If your system lacks enough memory, reduce `BITS` or use `--max-stage` to stop earlier. |
+
+## EXAMPLES
+
+```bash
+# Generate 1 MiB of entropy, display it in hex, and save to file
+s-entropy | f-limit 1M | f-hex > entropy.hex
+
+# Monitor throughput of a long-running generator
+s-seedy64 | f-peek > /dev/null
+
+# XOR two streams (experimental)
+cat plaintext.bin | f-merge 's-entropy' > cipher.bin
+
+# Multiplex a stream (experimental)
+cat data.bin | f-multi 'gzip > data.gz' 'sha256sum > hash.txt'
