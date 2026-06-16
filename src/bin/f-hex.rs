@@ -1,15 +1,14 @@
 use anyhow::Result;
 use std::io::{self, Write, Read};
-use softrng::{HEX_CHARS, BUFFER_SIZE};
+use softrng::BUFFER_SIZE;
 
 fn main() -> Result<()> {
     let stdin = io::stdin().lock();
     let mut reader = io::BufReader::with_capacity(BUFFER_SIZE, stdin);
-    let stdout = io::stdout().lock();
-    let mut writer = io::BufWriter::with_capacity(BUFFER_SIZE * 2, stdout);
+    let mut stdout = io::stdout().lock();
 
     let mut buffer = vec![0u8; BUFFER_SIZE];
-    let mut hex_buf = Vec::with_capacity(BUFFER_SIZE * 2);
+    let mut hex_buf = vec![0u8; BUFFER_SIZE * 2]; // fixed size, no resize needed
 
     loop {
         let n = reader.read(&mut buffer)?;
@@ -17,13 +16,13 @@ fn main() -> Result<()> {
             break;
         }
 
-        hex_buf.clear();
-        for &byte in &buffer[..n] {
-            hex_buf.push(HEX_CHARS[(byte >> 4) as usize]);
-            hex_buf.push(HEX_CHARS[(byte & 0x0f) as usize]);
-        }
-        writer.write_all(&hex_buf)?;
+        // SAFETY: hex_buf has exactly 2*BUFFER_SIZE bytes, so encoding is safe.
+        faster_hex::hex_encode(&buffer[..n], &mut hex_buf[..n * 2])
+            .expect("hex encode failed");
+
+        // Write the encoded chunk directly to stdout – no BufWriter copy.
+        stdout.write_all(&hex_buf[..n * 2])?;
     }
-    writer.flush()?;
+    // No flush needed; lock is dropped at end of scope.
     Ok(())
 }

@@ -31,10 +31,8 @@ Pipelines are built by connecting these tools. For example:
 | `f-file <FILE>` | Tee stdin to `FILE` while passing through to stdout. |
 | `f-hex` | Convert binary stdin to lowercase hexadecimal (two hex digits per byte). |
 | `f-limit <SIZE>` | Pass only the first `SIZE` bytes. `SIZE` supports suffixes: `k`, `m`, `g`, `t` (decimal) or `K`, `M`, `G`, `T` (binary, e.g., `1M` = 1 048 576). |
-| `f-merge <CMD>` | **Experimental** – XOR stdin with the output of shell command `CMD`. Reads in 64‑bit chunks; mismatched lengths cause an error. May be removed in future. |
-| `f-multi <CMD1> [CMD2 ...]` | **Experimental** – Replicate stdin to multiple shell commands. Options: <br> `--buffer <BYTES>`: per‑child buffer size (default 65536). <br> `--stop-on-error`: abort if any child exits early. May be removed in future. |
 | `f-peek` | Pass stdin to stdout while displaying a live progress bar on stderr: hex preview of first 8 bytes, total bytes read, and throughput. Refreshes at ~30 Hz with negligible overhead. |
-| `f-prng-qxo64` | Table‑based PRNG (QXO64). Requires a 2 MiB seed from stdin. Outputs an endless stream of 64‑bit words. If the output pipe is closed (e.g., `head`), the program exits cleanly (handles `BrokenPipe`). |
+| `f-qxo64` | Table‑based PRNG (QXO64). Requires a 2 MiB seed from stdin. Outputs an endless stream of 64‑bit words. If the output pipe is closed (e.g., `head`), the program exits cleanly (handles `BrokenPipe`). |
 
 ## TERMINATORS (t-)
 
@@ -46,7 +44,7 @@ Pipelines are built by connecting these tools. For example:
 ## EXAMPLES
 
 ```bash
-# Generate 1 MiB of entropy, display it in hex, and save to file
+# Generate 1 MiB of entropy, convert it to hex, and save to file
 s-entropy | f-limit 1M | f-hex > entropy.hex
 
 # Monitor throughput of a long-running generator
