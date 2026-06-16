@@ -1,14 +1,9 @@
-use anyhow::{Context, Result};
+use anyhow::{Result};
 use clap::Parser;
-use memmap2::MmapMut;
 use softrng::BUFFER_SIZE;
-use std::collections::VecDeque;
-use std::fs::{File, OpenOptions};
+use std::fs::File;
 use std::io::{self, BufReader, Read, Write};
-use std::time::{Duration, Instant};
-use uuid::Uuid;
-
-use std::fs::File as StdFile;
+use std::time::Instant;
 
 #[derive(Parser)]
 #[command(
@@ -16,10 +11,10 @@ use std::fs::File as StdFile;
     about = "Bit spectrum test for low/high halves of 64-bit words"
 )]
 struct Args {
-    /// Bit width to test (1-64). Bits ≥ 34 use a memory‑mapped file automatically.
+    /// Bit width to test (1–34). 33/34 may require 1–2 GiB of RAM.
     #[arg(default_value = "32")]
     bits: u32,
-    /// Maximum stage (0-10). Stage 0 completes after 1x space coverage.
+    /// Maximum stage (0–10). Stage 0 completes after 1× space coverage.
     #[arg(short, long, default_value = "10")]
     max_stage: u32,
     /// Enable logging to CSV file (optional filename, default: bspec.log)
@@ -36,119 +31,13 @@ struct Args {
     update_interval: f64,
 }
 
-enum BitmapBacking {
-    Vec(Vec<u64>),
-    Mmap(MmapMut),
-}
-
-impl BitmapBacking {
-    fn as_mut_slice(&mut self) -> &mut [u64] {
-        match self {
-            BitmapBacking::Vec(v) => v.as_mut_slice(),
-            BitmapBacking::Mmap(m) => {
-                assert_eq!(m.len() % 8, 0);
-                unsafe { std::slice::from_raw_parts_mut(m.as_mut_ptr() as *mut u64, m.len() / 8) }
-            }
-        }
-    }
-}
-
-/// Adaptive sequential pre‑touch: walk the mmap in 4 MiB chunks,
-/// time each chunk, and stop when a chunk takes ≥3× the baseline.
-fn adaptive_prime(mmap: &mut MmapMut) {
-    const PAGE_SIZE: usize = 4096;
-    const CHUNK_PAGES: usize = 1000; // 4 MiB per chunk
-    const WARMUP_CHUNKS: usize = 5; // skip first 5 chunks
-    const BASELINE_SAMPLES: usize = 8; // use 8 chunks for baseline
-
-    let total_pages = mmap.len() / PAGE_SIZE;
-    let mut baseline_median: Option<Duration> = None;
-    let mut chunk_times: Vec<Duration> = Vec::with_capacity(BASELINE_SAMPLES);
-    let mut primed_pages = 0usize;
-
-    for chunk_start in (0..total_pages).step_by(CHUNK_PAGES) {
-        let end_page = (chunk_start + CHUNK_PAGES).min(total_pages);
-        let start = Instant::now();
-
-        // Touch one byte per page to force a page fault if not cached
-        for page_offset in chunk_start..end_page {
-            unsafe {
-                std::ptr::read_volatile(&mmap[page_offset * PAGE_SIZE]);
-            }
-        }
-
-        let elapsed = start.elapsed();
-        primed_pages += end_page - chunk_start;
-
-        // Skip the first few chunks to let the system stabilise
-        if chunk_start / CHUNK_PAGES < WARMUP_CHUNKS {
-            continue;
-        }
-
-        chunk_times.push(elapsed);
-        if chunk_times.len() == BASELINE_SAMPLES {
-            // Compute the median as a robust baseline
-            chunk_times.sort();
-            baseline_median = Some(chunk_times[chunk_times.len() / 2]);
-        } else if let Some(base) = baseline_median {
-            // If current chunk time exceeds 3× baseline (200% slowdown), stop
-            if elapsed > base * 3 {
-                if !primed_pages.is_power_of_two() { /* suppress compiler warning */ }
-                eprintln!(
-                    "\nAdaptive prime stopped after {:.1} MiB (page cache full)",
-                    primed_pages as f64 * PAGE_SIZE as f64 / (1024.0 * 1024.0)
-                );
-                break;
-            }
-        }
-    }
-}
-
-fn create_backing(bits: u32, quiet: bool) -> Result<(BitmapBacking, Option<std::path::PathBuf>)> {
-    let space = 1u64 << bits;
-    let len_bytes = ((space as usize + 63) / 64) * 8;
-
-    if bits <= 33 {
-        // Heap bitmap for small spaces
-        Ok((BitmapBacking::Vec(vec![0u64; len_bytes / 8]), None))
-    } else {
-        // Mmap‑backed bitmap for large spaces
-        let file_name = format!("t-test-bits-{}.mmap", Uuid::new_v4());
-        let file_path = std::env::current_dir()?.join(&file_name);
-        let file = OpenOptions::new()
-            .read(true)
-            .write(true)
-            .create(true)
-            .truncate(true)
-            .open(&file_path)
-            .with_context(|| format!("Failed to create mmap file {}", file_path.display()))?;
-        file.set_len(len_bytes as u64)
-            .with_context(|| format!("Failed to allocate {} bytes", len_bytes))?;
-        let mut mmap = unsafe { MmapMut::map_mut(&file)? };
-
-        // Hugepage hint on Linux (transparent on macOS)
-        #[cfg(target_os = "linux")]
-        unsafe {
-            libc::madvise(
-                mmap.as_mut_ptr() as *mut libc::c_void,
-                mmap.len(),
-                libc::MADV_HUGEPAGE,
-            );
-        }
-
-        // Run adaptive prime
-        adaptive_prime(&mut mmap);
-
-        Ok((BitmapBacking::Mmap(mmap), Some(file_path)))
-    }
-}
-
 fn main() -> Result<()> {
     let args = Args::parse();
     anyhow::ensure!(
-        args.bits >= 1 && args.bits <= 64,
-        "Bits must be 1..64, beware larger then 32 is slow."
+        args.bits >= 1 && args.bits <= 34,
+        "Bits must be 1..34 (higher values would need memory‑mapped I/O)"
     );
+
     let space = 1u64 << args.bits;
     let mask = space - 1;
     let bitset_size = (space as usize + 63) / 64;

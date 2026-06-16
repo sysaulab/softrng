@@ -9,7 +9,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     // term_text returns a FmtText that implements Display – convert it to String
     let formatted = format!("{}", skin.term_text(markdown));
 
-    let mut pager = Pager::new();
+    let pager = Pager::new();
     pager.set_text(formatted)?;
     // dynamic_paging is always available (page_all requires feature "static_output")
     minus::dynamic_paging(pager)?;
