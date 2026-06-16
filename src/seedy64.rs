@@ -86,7 +86,7 @@ pub struct Seedy64 {
 
 impl Seedy64 {
     pub fn new() -> Self {
-        Self::with_timings(1_000_000, 10_000)
+        Self::with_timings(1_000_000, 5_000)
     }
 
     pub fn with_timings(init_ns: u64, interval_ns: u64) -> Self {
