@@ -53,8 +53,6 @@ s-entropy | f-limit 1M | f-hex > entropy.hex
 # Monitor throughput of a long-running generator
 s-seedy64 | f-peek > /dev/null
 
-# XOR two streams (experimental)
-cat plaintext.bin | f-merge 's-entropy' > cipher.bin
-
 # Multiplex a stream (experimental)
 cat data.bin | f-multi 'gzip > data.gz' 'sha256sum > hash.txt'
+```
