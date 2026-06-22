@@ -1,6 +1,7 @@
 // src/lib.rs
 pub mod seedy64;
 pub mod qxo64;
+pub mod pqxo64;
 
 // Re-export the main types for convenience
 //pub use libseedy64::Seedy64;

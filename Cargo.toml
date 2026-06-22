@@ -24,6 +24,10 @@ name = "f-qxo64"
 path = "src/bin/f-qxo64.rs"
 
 [[bin]]
+name = "f-pqxo64"
+path = "src/bin/f-pqxo64.rs"
+
+[[bin]]
 name = "s-entropy"
 path = "src/bin/s-entropy.rs"
 
