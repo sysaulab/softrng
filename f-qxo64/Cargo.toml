@@ -1,0 +1,9 @@
+[package]
+name = "f-qxo64"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+softrngproject = { path = "../" }
+bytemuck = "1.14"

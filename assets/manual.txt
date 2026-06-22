@@ -20,7 +20,7 @@ Pipelines are built by connecting these tools. For example:
 |---------|-------------|
 | `s-entropy` | High‑quality entropy from the kernel (`getrandom`). Outputs raw binary. |
 | `s-seedy64` | Continuous chaotic stream from the SEEDY64 mixer. |
-| `s-seedy64-reset` | Outputs one 64‑bit value from a *fresh* SEEDY64 instance each iteration. Designed specifically for testing independence between consecutive picks. |
+| `s-seedy64-reset` | Outputs one 64‑bit value from a *fresh* SEEDY64 instance each iteration. Designed specifically for testing. |
 | `s-file <FILE> [OFFSET]` | Outputs raw content of `FILE`, starting at `OFFSET` (default 0). |
 | `s-zeros` | Infinite stream of zero bytes (as little‑endian 64‑bit words). |
 
@@ -28,11 +28,14 @@ Pipelines are built by connecting these tools. For example:
 
 | Command | Description |
 |---------|-------------|
+| `f-biski`| Biski64 PRNG. Reads a seed from stdin, then outputs an endless stream of raw binary random bytes. |
 | `f-file <FILE>` | Tee stdin to `FILE` while passing through to stdout. |
 | `f-hex` | Convert binary stdin to lowercase hexadecimal (two hex digits per byte). |
 | `f-limit <SIZE>` | Pass only the first `SIZE` bytes. `SIZE` supports suffixes: `k`, `m`, `g`, `t` (decimal) or `K`, `M`, `G`, `T` (binary, e.g., `1M` = 1 048 576). |
-| `f-peek` | Pass stdin to stdout while displaying a live progress bar on stderr: hex preview of first 8 bytes, total bytes read, and throughput. Refreshes at ~30 Hz with negligible overhead. |
-| `f-qxo64` | Table‑based PRNG (QXO64). Requires a 2 MiB seed from stdin. Outputs an endless stream of 64‑bit words. If the output pipe is closed (e.g., `head`), the program exits cleanly (handles `BrokenPipe`). |
+| `f-peek` | Pass stdin to stdout while displaying a hex preview of first 8 bytes, total bytes read, and throughput. |
+| `f-pcg`| PCG PRNG. Reads a seed from stdin, then outputs an endless stream of raw binary random bytes. |
+| `f-qxo64` | Table‑based PRNG (QXO64). Requires a 2 MiB seed from stdin. Outputs an endless stream of 64‑bit words. |
+| `f-xoshiro`| Xoshiro family of PRNG. Reads a seed from stdin, then outputs an endless stream of raw binary random bytes. |
 
 ## TERMINATORS (t-)
 

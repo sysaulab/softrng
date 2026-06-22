@@ -1,79 +1,34 @@
 [package]
-name = "softrng"
-version = "0.1.0"
+name = "softrngproject"
+version = "0.2.0"
 edition = "2021"
 
-[[bin]]
-name = "f-hex"
-path = "src/bin/f-hex.rs"
 
-[[bin]]
-name = "f-limit"
-path = "src/bin/f-limit.rs"
 
-[[bin]]
-name = "f-file"
-path = "src/bin/f-file.rs"
+[workspace]
+resolver = "2"
+members = [
+    "f-biski64",
+    "f-file",
+    "f-hex",
+    "f-limit",
+    "f-peek",
+    "f-pqxo64",
+    "f-qxo64",
+    "f-xoshiro",
+    "f-pcg",
+    "s-entropy",
+    "s-file",
+    "s-seedy64-reset",
+    "s-seedy64",
+    "s-zeros",
+    "softrng",
+    "t-hole",
+    "t-bits",
+]
 
-[[bin]]
-name = "f-peek"
-path = "src/bin/f-peek.rs"
-
-[[bin]]
-name = "f-qxo64"
-path = "src/bin/f-qxo64.rs"
-
-[[bin]]
-name = "f-pqxo64"
-path = "src/bin/f-pqxo64.rs"
-
-[[bin]]
-name = "s-entropy"
-path = "src/bin/s-entropy.rs"
-
-[[bin]]
-name = "s-file"
-path = "src/bin/s-file.rs"
-
-[[bin]]
-name = "s-zeros"
-path = "src/bin/s-zeros.rs"
-
-[[bin]]
-name = "s-seedy64"
-path = "src/bin/s-seedy64.rs"
-
-[[bin]]
-name = "s-seedy64-reset"
-path = "src/bin/s-seedy64-reset.rs"
-
-[[bin]]
-name = "softrng"
-path = "src/bin/softrng.rs"
-
-[[bin]]
-name = "t-hole"
-path = "src/bin/t-hole.rs"
-
-[[bin]]
-name = "t-test-bits"
-path = "src/bin/t-test-bits.rs"
 
 [dependencies]
 anyhow = "1.0"
-clap = { version = "4.4", features = ["derive"] }
-getrandom = "0.4.2"
-crossbeam-channel = "0.5"   # for multi-producer multi-consumer
-bitvec = "1.0"
-chrono = "0.4"              # for timestamp generation
-bytemuck = "1.14"
-which = "8.0.4"
-dirs = "6.0"
-sha2 = "0.11"
-rusqlite = "0.39"
-memmap2 = "0.9"
-uuid = { version = "1", features = ["v4"] }
 libc = "0.2"                # only used on linux for madvise
-minus = { version = "5", features = ["dynamic_output"] }
-termimad = "0.34"
-faster-hex = "0.10"
+clap = { version = "4.4", features = ["derive"] }

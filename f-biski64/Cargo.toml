@@ -1,0 +1,8 @@
+[package]
+name = "f-biski64"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+biski64 = "0.3.2"
+rand_core = "0.9" 

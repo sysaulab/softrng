@@ -1,0 +1,8 @@
+[package]
+name = "softrng"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+minus = { version = "5", features = ["dynamic_output"] }
+termimad = "0.34"

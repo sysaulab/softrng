@@ -1,0 +1,9 @@
+[package]
+name = "f-hex"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+softrngproject = { path = "../"}
+faster-hex = "0.10"

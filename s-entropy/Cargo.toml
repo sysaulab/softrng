@@ -1,0 +1,8 @@
+[package]
+name = "s-entropy"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+getrandom = "0.4.2"
