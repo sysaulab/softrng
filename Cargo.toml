@@ -25,6 +25,7 @@ members = [
     "softrng",
     "t-hole",
     "t-bits",
+    "timer-profile",
 ]
 
 
