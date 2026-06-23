@@ -5,4 +5,4 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0"
-softrngproject = { path = "../" }
+seedy64 = { path = "../seedy64" }

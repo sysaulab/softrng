@@ -1,6 +1,6 @@
 use anyhow::{Context, Result};
-use softrngproject::pqxo64::PQXO64;
-use softrngproject::qxo64::MAP_SIZE;
+use pqxo64::PQXO64;
+use qxo64::MAP_SIZE;
 use std::io::Read;
 
 fn main() -> Result<()> {

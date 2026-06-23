@@ -1,8 +1,8 @@
 [package]
-name = "f-hex"
+name = "qxo64"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-anyhow = "1.0"
-faster-hex = "0.10"
+libc = "0.2.186"
+anyhow = "1"

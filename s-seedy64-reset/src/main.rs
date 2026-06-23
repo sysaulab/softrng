@@ -1,5 +1,5 @@
 use anyhow::Result;
-use softrngproject::seedy64::Seedy64;
+use seedy64::Seedy64;
 use std::io::{self, Write};
 
 /// Output an endless stream of 64-bit values, each generated from a fresh SEEDY64 instance.

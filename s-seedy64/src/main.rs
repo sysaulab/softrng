@@ -1,7 +1,8 @@
 use anyhow::Result;
-use softrngproject::seedy64::Seedy64;
+use seedy64::Seedy64;
 use std::io::{self, Write};
-use softrngproject::BUFFER_SIZE;
+
+pub const BUFFER_SIZE: usize = 64 * 1024;
 
 fn main() -> Result<()> {
     let mut seedy = Seedy64::new();

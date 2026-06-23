@@ -1,6 +1,7 @@
 use anyhow::Result;
 use std::io::{self, Write, Read};
-use softrngproject::BUFFER_SIZE;
+
+pub const BUFFER_SIZE:usize = 1024 * 64;
 
 fn main() -> Result<()> {
     let stdin = io::stdin().lock();

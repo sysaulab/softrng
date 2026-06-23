@@ -9,7 +9,7 @@ use rand_xoshiro::{
 };
 use std::io::{stdin, stdout, Read, Write};
 
-const BUFFER_SIZE: usize = 16 * 1024 * 1024;
+pub const BUFFER_SIZE:usize = 1024 * 64;
 
 /// Selectable PRNG variants
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]

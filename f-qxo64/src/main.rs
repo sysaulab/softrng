@@ -1,10 +1,12 @@
 use anyhow::{Context, Result};
-use softrngproject::qxo64::Qxo64;        // no more Q64Map / Q64 needed
-use softrngproject::BUFLEN;
+use qxo64::Qxo64;        // no more Q64Map / Q64 needed
+
+pub const BUFLEN:usize = 1024 * 8;
+
 use std::io::{self, Read, Write};
 
 fn main() -> Result<()> {
-    let mut seed_bytes = vec![0u8; softrngproject::qxo64::MAP_SIZE];
+    let mut seed_bytes = vec![0u8; qxo64::MAP_SIZE];
     io::stdin().lock().read_exact(&mut seed_bytes)
         .context("Failed to read 2 MiB seed from stdin")?;
 

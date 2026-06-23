@@ -2,7 +2,8 @@ use anyhow::{Context, Result};
 use clap::Parser;
 use std::fs::File;
 use std::io::{self, Read, Write};
-use softrngproject::BUFFER_SIZE;
+
+pub const BUFFER_SIZE:usize = 1024 * 64;
 
 #[derive(Parser)]
 #[command(name = "f-file", about = "Tee stdin to a file and stdout")]

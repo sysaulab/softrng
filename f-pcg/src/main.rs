@@ -4,7 +4,7 @@ use rand_core::{RngCore, SeedableRng};
 use rand_pcg::{Pcg32, Pcg64, Pcg64Mcg};
 use std::io::{stdin, stdout, Read, Write};
 
-const BUFFER_SIZE: usize = 16 * 1024 * 1024;
+pub const BUFFER_SIZE:usize = 1024 * 64;
 
 /// Selectable PCG variants
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]

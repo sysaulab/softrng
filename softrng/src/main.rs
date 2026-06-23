@@ -3,7 +3,7 @@ use termimad::MadSkin;
 use std::error::Error;
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let markdown = include_str!("../../assets/manual.txt");
+    let markdown = include_str!("../assets/manual.txt");
 
     let skin = MadSkin::default();
     // term_text returns a FmtText that implements Display – convert it to String

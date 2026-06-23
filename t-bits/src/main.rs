@@ -1,9 +1,10 @@
 use anyhow::{Result};
 use clap::Parser;
-use softrngproject::BUFFER_SIZE;
 use std::fs::File;
 use std::io::{self, BufReader, Read, Write};
 use std::time::Instant;
+
+pub const BUFFER_SIZE:usize = 1024 * 64;
 
 #[derive(Parser)]
 #[command(

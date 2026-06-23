@@ -4,7 +4,10 @@ use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
 use std::thread;
 use std::time::{Duration, Instant};
-use softrngproject::{HEX_CHARS, BUFFER_SIZE};
+
+pub const BUFFER_SIZE:usize = 1024 * 64;
+pub const HEX_CHARS: &[u8; 16] = b"0123456789abcdef";
+
 
 const DISPLAY_FPS: u64 = 30;                              // UI refresh rate
 const DISPLAY_INTERVAL: Duration = Duration::from_micros(1_000_000 / DISPLAY_FPS);

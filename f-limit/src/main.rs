@@ -1,7 +1,8 @@
 use anyhow::{bail, Context, Result};
 use clap::Parser;
 use std::io::{self, Read, Write};
-use softrngproject::BUFFER_SIZE;
+
+pub const BUFFER_SIZE:usize = 1024 * 64;
 
 #[derive(Parser)]
 #[command(name = "f-limit", about = "Limit bytes from stdin")]
