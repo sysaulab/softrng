@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
     "f-biski64",
+    "f-pbiski64",
     "f-file",
     "f-hex",
     "f-limit",
@@ -10,7 +11,6 @@ members = [
     "f-qxo64",
     "f-xoshiro",
     "f-pcg",
-    "pqxo64",
     "qxo64",
     "seedy64",
     "s-entropy",

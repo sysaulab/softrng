@@ -5,6 +5,5 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0"
-bytemuck = "1.14"
-pqxo64 = { path = "../pqxo64" }
-qxo64 = { path = "../qxo64" }
+libc = "0.2"
+qxo64 = { path = "../qxo64" }   # or path = "../qxo64", version = "x.y.z"
