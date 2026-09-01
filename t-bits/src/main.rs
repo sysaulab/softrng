@@ -125,19 +125,19 @@ fn main() -> Result<()> {
         // Stage progression
         let stage_completed = match stage {
             0 if total_values >= space => {
-                let msg = format!("stage 0 : {:.9}", score);
+                let msg = format!("stage 0 : {:.12}", score);
                 println!("\n{}", msg);
                 writeln!(results, "{}", msg)?;
                 true
             }
             s @ 1..=9 if score > stops[s as usize] => {
-                let msg = format!("stage {} : {:.9}", s, total_values as f64 / space as f64);
+                let msg = format!("stage {} : {:.12}", s, total_values as f64 / space as f64);
                 println!("\n{}", msg);
                 writeln!(results, "{}", msg)?;
                 true
             }
             10 if unique_count == space => {
-                let msg = format!("stage 10 : {:.9}", total_values as f64 / space as f64);
+                let msg = format!("stage 10 : {:.12}", total_values as f64 / space as f64);
                 println!("\n{}", msg);
                 writeln!(results, "{}", msg)?;
                 true
@@ -163,7 +163,7 @@ fn main() -> Result<()> {
             }
             if !args.quiet {
                 eprint!(
-                    "\rprogress: {:.2}%  score: {:.9}  stage: {}/{}",
+                    "\rprogress: {:.2}%  score: {:.12}  stage: {}/{}",
                     progress * 100.0,
                     score,
                     stage,

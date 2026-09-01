@@ -42,7 +42,7 @@ Pipelines are built by connecting these tools. For example:
 | Command | Description |
 |---------|-------------|
 | `t-hole` | Discard all input (like `/dev/null`). |
-| `t-test-bits [BITS]` | Bit‑spectrum test: reads n‑bit words and counts unique. Default `BITS=32`. Options: <br> `--max-stage <N>`: stop after stage N (0‑10, default 10). <br> `--log <FILE>`: write CSV progress logs to `FILE`. <br> `--results <FILE>`: final stage scores file (default `bspec32.txt`). <br> `--quiet`: suppress stderr progress updates. <br> `--update-interval <SEC>`: progress update frequency (default 0.1 s). <br> **Memory note**: For `BITS=34`, the bitset requires ~2 GiB RAM. If your system lacks enough memory, reduce `BITS`. |
+| `t-bits [BITS]` | Bit‑spectrum test: reads n‑bit words and counts unique. |
 
 ## EXAMPLES
 
