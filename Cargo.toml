@@ -15,6 +15,7 @@ members = [
     "seedy64",
     "s-entropy",
     "s-file",
+    "s-file-loop",
     "s-seedy64-reset",
     "s-seedy64",
     "s-zeros",

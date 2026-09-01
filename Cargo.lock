@@ -721,6 +721,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "s-file-loop"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+]
+
+[[package]]
 name = "s-seedy64"
 version = "0.1.0"
 dependencies = [

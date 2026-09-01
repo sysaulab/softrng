@@ -22,6 +22,7 @@ Pipelines are built by connecting these tools. For example:
 | `s-seedy64` | Continuous chaotic stream from the SEEDY64 mixer. |
 | `s-seedy64-reset` | Outputs one 64‑bit value from a *fresh* SEEDY64 instance each iteration. Designed specifically for testing. |
 | `s-file <FILE> [OFFSET]` | Outputs raw content of `FILE`, starting at `OFFSET` (default 0). |
+| `s-file-loop <FILE>` | Outputs raw content of `FILE`, in a loop. |
 | `s-zeros` | Infinite stream of zero bytes (as little‑endian 64‑bit words). |
 
 ## FILTERS (f-)

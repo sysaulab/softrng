@@ -13,11 +13,11 @@ pub const BUFFER_SIZE:usize = 1024 * 64;
 )]
 struct Args {
     /// Bit width to test (1–34). 33/34 may require 1–2 GiB of RAM.
-    #[arg(default_value = "32")]
+    #[arg(default_value = "24")]
     bits: u32,
     /// Maximum stage (0–10). Stage 0 completes after 1× space coverage.
-    #[arg(short, long, default_value = "10")]
-    max_stage: u32,
+    #[arg(short, long, default_value = "0")]
+    stage_max: u32,
     /// Enable logging to CSV file (optional filename, default: bspec.log)
     #[arg(short, long, value_name = "FILE")]
     log: Option<String>,
@@ -63,7 +63,7 @@ fn main() -> Result<()> {
     let start = Instant::now();
     let mut last_update = start;
     let mut stage = 0u32;
-    let max_stage = args.max_stage.min(10);
+    let stage_max = args.stage_max.min(10);
     let stops = [
         0.0,
         0.9,
@@ -147,7 +147,7 @@ fn main() -> Result<()> {
 
         if stage_completed {
             stage += 1;
-            if stage > max_stage {
+            if stage > stage_max {
                 break;
             }
         }
@@ -167,7 +167,7 @@ fn main() -> Result<()> {
                     progress * 100.0,
                     score,
                     stage,
-                    max_stage
+                    stage_max
                 );
                 io::stderr().flush()?;
             }

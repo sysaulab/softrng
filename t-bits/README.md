@@ -1,25 +1,28 @@
+
 # t-bits
 
 A high-performance bit spectrum tester for analyzing the distribution of low/high halves of 64-bit words in binary data streams. Designed to evaluate the quality of random number generators and detect biases in binary data.
 
+**Default mode**: 24-bit space, stage 0 only — a quick sanity check that completes in seconds to minutes and provides a strong statistical profile of any generator.
+
 ## Overview
 
-This tool processes 64-bit words from standard input, extracting both the low and high 32-bit halves (configurable), and tracks unique values using a bitset. It calculates a statistical score based on the expected number of unique values (birthday problem/occupancy distribution) to determine if the input data exhibits uniform random distribution.
+This tool processes 64-bit words from standard input, extracting both the low and high 32-bit halves, and tracks unique values using a bitset. It calculates a statistical score based on the expected number of unique values (birthday problem/occupancy distribution) to determine if the input data exhibits uniform random distribution.
 
-The tester progresses through stages (0-10), where each stage represents increasingly stringent coverage requirements of the value space, from initial coverage (stage 0) to complete saturation of all possible values (stage 10).
+The tester progresses through stages (0–10), where each stage represents increasingly stringent coverage requirements of the value space, from initial coverage (stage 0) to complete saturation of all possible values (stage 10).
 
-**Key insight**: Each stage requires approximately **2.3x more data** than the previous one—a natural emergent property of the birthday problem mathematics. This means stage 0 provides the best "information per byte" ratio, making it ideal for quick profiling.
+**Key insight**: Each stage requires approximately **2.3× more data** than the previous one—a natural emergent property of the birthday problem mathematics. This means stage 0 provides the best “information per byte” ratio, making it ideal for quick profiling.
 
 ## Features
 
 - **High performance**: Processes data in 64 KiB chunks with direct memory mapping to u64 slices
 - **Memory efficient**: Uses a single bitset to track unique values (1 bit per possible value)
 - **Statistical scoring**: Compares actual unique count against theoretical expectation from uniform random distribution
-- **Multi-stage testing**: Progresses through 11 stages (0-10) with configurable stopping point
+- **Multi-stage testing**: Progresses through 11 stages (0–10) with configurable stopping point
 - **Progress monitoring**: Throttled updates (~10 FPS) to minimize performance impact
 - **CSV logging**: Optional detailed progress logging for analysis
-- **Flexible bit widths**: Test 1-34 bit spaces (34-bit requires ~2 GiB RAM)
-- **Fast feedback**: 20-bit tests complete in seconds for quick sanity checks
+- **Flexible bit widths**: Test 1–34 bit spaces (34-bit requires ~2 GiB RAM)
+- **Sane defaults**: 24-bit space, stage 0 only — quick sanity check out of the box
 
 ## Installation
 
@@ -32,50 +35,45 @@ The tester progresses through stages (0-10), where each stage represents increas
 cargo build --release
 ```
 
-The optimized binary will be at `target/release/t-test-bits`.
+The optimized binary will be at `target/release/t-bits`.
 
 ## Usage
 
-### Basic usage
+### Basic usage (default: quick sanity check)
 ```bash
-# Quick test with 20-bit space (completes in seconds)
-cat /dev/urandom | ./t-test-bits 20 -m 0
+# Runs stage 0 at 24 bits (space = 16.7M values) — completes in seconds to minutes
+./t-bits < random_data.bin
 
-# Standard 32-bit test (completes in ~10 minutes with fast RNG)
-./t-test-bits < random_data.bin
-
-# Test a file with 24-bit space
-./t-test-bits 24 < random_data.bin
-
-# Full test with logging
-./t-test-bits 32 -l test_log.csv -r results.txt < large_dataset.bin
+# Equivalent explicit command
+./t-bits 24 -s 0 < random_data.bin
 ```
 
 ### Command line options
 ```
-Usage: t-test-bits [OPTIONS] [BITS]
+Usage: t-bits [OPTIONS] [BITS]
 
 Arguments:
-  [BITS]  Bit width to test (1-34). 33/34 may require 1-2 GiB of RAM [default: 32]
+  [BITS]  Bit width to test (1–34). 33/34 may require 1–2 GiB of RAM [default: 24]
 
 Options:
-  -m, --max-stage <MAX_STAGE>          Maximum stage (0-10). Stage 0 completes after 1x space coverage [default: 10]
-  -l, --log <FILE>                     Enable logging to CSV file (optional filename, default: bspec.log)
-  -r, --results <RESULTS>              Results file (final stage scores) [default: bspec32.txt]
-  -q, --quiet                          Quiet mode: suppress stderr progress updates
+  -s, --stage-max <STAGE_MAX>        Maximum stage (0–10). Stage 0 completes after 1× space coverage [default: 0]
+  -l, --log <FILE>                   Enable logging to CSV file (optional filename, default: bspec.log)
+  -r, --results <RESULTS>            Results file (final stage scores) [default: bspec32.txt]
+  -q, --quiet                        Quiet mode: suppress stderr progress updates
   -u, --update-interval <UPDATE_INTERVAL>  Minimum seconds between progress updates [default: 0.1]
-  -h, --help                           Print help
-  -V, --version                        Print version
+  -h, --help                         Print help
+  -V, --version                      Print version
 ```
 
 ### Quick Start Guide
 
-**The 23→32 sweet spot**: For meaningful results, use bit widths between 23 and 32.
+**The 23→32 sweet spot**: For meaningful results, use bit widths between 23 and 32. The default 24-bit stage‑0 test is the recommended starting point.
 
 | Bits | Space | Samples for 63.2% | Time (fast RNG) | Use Case |
 |------|-------|-------------------|-----------------|----------|
 | 20 | 1M | 1M | ~1 sec | Smoke test |
 | 23 | 8M | 8M | ~10 sec | Quick validation |
+| **24** | **16.7M** | **16.7M** | **~30 sec** | **Default sanity check** |
 | 26 | 67M | 67M | ~1 min | Standard test |
 | 29 | 537M | 537M | ~10 min | Thorough |
 | 32 | 4.3B | 4.3B | ~1 hr | Deep analysis |
@@ -86,19 +84,30 @@ Options:
 
 ### Examples
 
-**Quick sanity check (seconds)**:
+**Quick sanity check (default)**:
 ```bash
-./t-test-bits 24 -m 0 < generator_output.bin
+./t-bits < generator_output.bin
+```
+Completes with 16.7M samples; score near 1.0 indicates good randomness.
+
+**Explicit quick test**:
+```bash
+./t-bits 20 -s 0 < generator_output.bin
 ```
 
 **Standard validation (~1 minute)**:
 ```bash
-./t-test-bits -m 0 < generator_output.bin
+./t-bits 26 -s 0 < generator_output.bin
 ```
 
-**Deep dive (~10 minutes)**:
+**Thorough analysis (~10 minutes)**:
 ```bash
-./t-test-bits < generator_output.bin
+./t-bits 29 -s 5 < generator_output.bin
+```
+
+**Deep dive (~1 hour)**:
+```bash
+./t-bits 32 -s 10 < generator_output.bin
 ```
 
 ## Understanding the Score
@@ -121,18 +130,18 @@ Where:
 
 ### Stage 0: The Sweet Spot
 
-At stage 0 (1x space coverage), you achieve **63.2% unique coverage**—this is the mathematically optimal point for profiling:
+At stage 0 (1× space coverage), you achieve **63.2% unique coverage**—this is the mathematically optimal point for profiling:
 
 - **Maximum information per byte**: Stage 0 gives you the strongest statistical signal per unit of data processed
 - **Sufficient for most purposes**: Detects virtually all biases, correlations, and patterns that matter in practice
-- **Each subsequent stage requires 2.3x more data**: For marginal additional information
-- **Most real-world applications** don't need to distinguish between "very good" and "perfectly uniform"
+- **Each subsequent stage requires 2.3× more data**: For marginal additional information
+- **Most real-world applications** don't need to distinguish between “very good” and “perfectly uniform”
 
-The 2.3x progression between stages emerges naturally from the birthday problem mathematics—it wasn't designed, it's a fundamental property of random sampling.
+The 2.3× progression between stages emerges naturally from the birthday problem mathematics—it wasn't designed, it's a fundamental property of random sampling.
 
 ### Stages:
-- **Stage 0**: Completes after processing `space` samples (1x coverage, 63.2% unique expected)
-- **Stages 1-9**: Progress as score exceeds thresholds (0.9, 0.99, 0.999, ...)
+- **Stage 0**: Completes after processing `space` samples (1× coverage, 63.2% unique expected)
+- **Stages 1–9**: Progress as score exceeds thresholds (0.9, 0.99, 0.999, …)
 - **Stage 10**: Achieved when all possible values observed
 
 ### When higher stages matter:
@@ -141,6 +150,31 @@ The 2.3x progression between stages emerges naturally from the birthday problem 
 - Detecting state compromise in CSPRNGs after billions of outputs
 - Academic validation of new RNG algorithms
 
+## Output
+
+### Progress display (stderr)
+```
+progress: 45.23%  score: 0.999834721  stage: 0/0
+```
+
+### Results file
+```
+stage 0 : 0.999998234
+```
+
+### CSV log format
+```csv
+progress,score,seconds
+0.001234,0.998765,0.123
+0.002468,0.999123,0.245
+```
+
+## Performance
+
+- **Processing speed**: fast
+- **Memory usage**: `2^(bits-3)` bytes (e.g., 2 MiB for 24-bit space)
+- **Optimization**: Throttled progress updates prevent I/O bottleneck
+- **Scaling**: Each stage requires ~2.3× more data than the previous (emergent property)
 
 ## How It Works
 
@@ -167,10 +201,6 @@ Feel free to open issues or submit pull requests for:
 - Support for big-endian systems
 - Memory-mapped file input
 - Multi-threading
-
-## License
-
-MIT License - See LICENSE file for details
 
 ## Author
 
