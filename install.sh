@@ -7,6 +7,7 @@ mv target/release/f-limit			/usr/local/bin
 mv target/release/f-pcg				/usr/local/bin
 mv target/release/f-peek			/usr/local/bin
 mv target/release/f-pqxo64			/usr/local/bin
+mv target/release/f-reduce			/usr/local/bin
 mv target/release/f-qxo64			/usr/local/bin
 mv target/release/f-xoshiro			/usr/local/bin
 mv target/release/s-entropy			/usr/local/bin
@@ -17,5 +18,6 @@ mv target/release/s-seedy64-reset	/usr/local/bin
 mv target/release/s-zeros			/usr/local/bin
 mv target/release/softrng			/usr/local/bin
 mv target/release/t-bits			/usr/local/bin
+mv target/release/t-nist			/usr/local/bin
 mv target/release/t-hole			/usr/local/bin
 mv target/release/timer-profile		/usr/local/bin

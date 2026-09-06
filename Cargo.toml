@@ -8,6 +8,7 @@ members = [
     "f-limit",
     "f-peek",
     "f-pqxo64",
+    "f-reduce",
     "f-qxo64",
     "f-xoshiro",
     "f-pcg",
@@ -22,5 +23,6 @@ members = [
     "softrng",
     "t-hole",
     "t-bits",
+    "t-nist",
     "timer-profile",
 ]

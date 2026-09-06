@@ -35,6 +35,7 @@ Pipelines are built by connecting these tools. For example:
 | `f-limit <SIZE>` | Pass only the first `SIZE` bytes. `SIZE` supports suffixes: `k`, `m`, `g`, `t` (decimal) or `K`, `M`, `G`, `T` (binary, e.g., `1M` = 1 048 576). |
 | `f-peek` | Pass stdin to stdout while displaying a hex preview of first 8 bytes, total bytes read, and throughput. |
 | `f-pcg`| PCG PRNG. Reads a seed from stdin, then outputs an endless stream of raw binary random bytes. |
+| `f-reduce <0|1|2|3>` | Reduce bit width of a 64‑bit stream: 0 (pass), 1 (32‑bit), 2 (16‑bit), 3 (8‑bit). |
 | `f-qxo64` | Table‑based PRNG (QXO64). Requires a 2 MiB seed from stdin. Outputs an endless stream of 64‑bit words. |
 | `f-xoshiro`| Xoshiro family of PRNG. Reads a seed from stdin, then outputs an endless stream of raw binary random bytes. |
 

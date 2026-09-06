@@ -1,9 +1,8 @@
 [package]
-name = "s-seedy64"
+name = "f-reduce"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = "1.0"
-clap = "4.6.6"
-seedy64 = { path = "../seedy64" }
+clap = { version = "4.4", features = ["derive"] }
