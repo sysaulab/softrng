@@ -403,20 +403,20 @@ dependencies = [
 ]
 
 [[package]]
-name = "f-quality"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
-]
-
-[[package]]
 name = "f-qxo64"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "bytemuck",
  "qxo64",
+]
+
+[[package]]
+name = "f-reduce"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
 ]
 
 [[package]]
