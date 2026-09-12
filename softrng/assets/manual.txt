@@ -45,6 +45,8 @@ Pipelines are built by connecting these tools. For example:
 |---------|-------------|
 | `t-hole` | Discard all input (like `/dev/null`). |
 | `t-bits [BITS]` | Bit‑spectrum test: reads n‑bit words and counts unique. |
+| `t-nist-all -r [runs]` | NIST tests, all of them. |
+| `t-nist-quick -r [runs]` | NIST tests, fast subset. |
 
 ## EXAMPLES
 
@@ -54,7 +56,4 @@ s-entropy | f-limit 1M | f-hex > entropy.hex
 
 # Monitor throughput of a long-running generator
 s-seedy64 | f-peek > /dev/null
-
-# Multiplex a stream (experimental)
-cat data.bin | f-multi 'gzip > data.gz' 'sha256sum > hash.txt'
 ```

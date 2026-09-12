@@ -22,7 +22,7 @@ struct Args {
     #[arg(short, long, value_name = "FILE")]
     log: Option<String>,
     /// Results file (final stage scores)
-    #[arg(short, long, default_value = "bspec32.txt")]
+    #[arg(short, long, default_value = "bits.txt")]
     results: String,
     /// Quiet mode: suppress stderr progress updates
     #[arg(short, long)]

@@ -1,8 +1,9 @@
 [package]
-name = "t-nist"
+name = "t-nist-quick"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 anyhow = "1.0"
 nistrs = "0.1"
+crossbeam-channel = "0.5"

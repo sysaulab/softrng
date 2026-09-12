@@ -18,6 +18,7 @@ mv target/release/s-seedy64-reset	/usr/local/bin
 mv target/release/s-zeros			/usr/local/bin
 mv target/release/softrng			/usr/local/bin
 mv target/release/t-bits			/usr/local/bin
-mv target/release/t-nist			/usr/local/bin
+mv target/release/t-nist-all		/usr/local/bin
+mv target/release/t-nist-quick		/usr/local/bin
 mv target/release/t-hole			/usr/local/bin
 mv target/release/timer-profile		/usr/local/bin

@@ -21,8 +21,9 @@ members = [
     "s-seedy64",
     "s-zeros",
     "softrng",
-    "t-hole",
     "t-bits",
-    "t-nist",
+    "t-hole",
+    "t-nist-quick",
+    "t-nist-all",
     "timer-profile",
 ]
