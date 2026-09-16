@@ -8,6 +8,7 @@ mv target/release/f-pcg				/usr/local/bin
 mv target/release/f-peek			/usr/local/bin
 mv target/release/f-pqxo64			/usr/local/bin
 mv target/release/f-reduce			/usr/local/bin
+mv target/release/f-sirius64		/usr/local/bin
 mv target/release/f-qxo64			/usr/local/bin
 mv target/release/f-xoshiro			/usr/local/bin
 mv target/release/s-entropy			/usr/local/bin

@@ -9,6 +9,7 @@ members = [
     "f-peek",
     "f-pqxo64",
     "f-reduce",
+    "f-sirius64",
     "f-qxo64",
     "f-xoshiro",
     "f-pcg",

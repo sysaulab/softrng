@@ -1,4 +1,5 @@
-use std::ptr::{read_volatile, write_volatile};
+use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::thread;
 use std::time::Duration;
 
@@ -37,50 +38,29 @@ const PRIMES: [u64; 128] = [
     7691022839137400143, 2727794217173953619, 8541344794240933387, 6490328854741497349,
 ];
 
-// Wrapper to make raw pointers Send (safe because threads are joined before pointed data goes out of scope)
-#[repr(transparent)]
-#[derive(Clone, Copy)]
-struct SendPtr<T>(*mut T);
-unsafe impl<T> Send for SendPtr<T> {}
-
-unsafe fn seed_modify_64(input: *mut u64, output: *mut u64) {
+fn seed_modify_64(input: &AtomicU64, output: &AtomicU64) {
     let mut acc: u64 = 1;
     let mut x = 0;
     while x < 64 {
-        let val = read_volatile(input);
-        let rotated = val.rotate_left(7);   // safer and clearer
-        write_volatile(input, rotated);
+        let val = input.load(Ordering::Relaxed);
+        let rotated = val.rotate_left(7);
+        input.store(rotated, Ordering::Relaxed);
 
-        acc = acc.rotate_left(x as u32);    // FIXED: no more UB
-
+        acc = acc.rotate_left(x as u32);
         acc = acc.wrapping_mul(PRIMES[(2 * x) + (rotated & 1) as usize]);
 
-        let out_val = read_volatile(output);
-        write_volatile(output, out_val.wrapping_add(acc ^ rotated));
+        let out_val = output.load(Ordering::Relaxed);
+        output.store(out_val.wrapping_add(acc ^ rotated), Ordering::Relaxed);
 
         x += 1;
     }
-    let out_val = read_volatile(output);
-    write_volatile(output, out_val ^ acc);
-}
-
-struct SeedThread {
-    source: SendPtr<u64>,
-    sink: SendPtr<u64>,
-    run: SendPtr<i32>,
-}
-
-fn seed_thread_main(state: SeedThread) {
-    unsafe {
-        while read_volatile(state.run.0) != 0 {
-            seed_modify_64(state.source.0, state.sink.0);
-        }
-    }
+    let out_val = output.load(Ordering::Relaxed);
+    output.store(out_val ^ acc, Ordering::Relaxed);
 }
 
 pub struct Seedy64 {
-    nodes: [u64; 3],
-    init_duration: Duration,   // in nanoseconds internally
+    nodes: [Arc<AtomicU64>; 3],
+    init_duration: Duration,
     interval_duration: Duration,
 }
 
@@ -91,17 +71,20 @@ impl Seedy64 {
 
     pub fn with_timings(init_ns: u64, interval_ns: u64) -> Self {
         Seedy64 {
-            nodes: [0; 3],
+            nodes: [
+                Arc::new(AtomicU64::new(0)),
+                Arc::new(AtomicU64::new(0)),
+                Arc::new(AtomicU64::new(0)),
+            ],
             init_duration: Duration::from_nanos(init_ns),
             interval_duration: Duration::from_nanos(interval_ns),
         }
     }
 
-    unsafe fn read_state(&self) -> u64 {
-        let n0 = read_volatile(&self.nodes[0]);
-        let n1 = read_volatile(&self.nodes[1]);
-        let n2 = read_volatile(&self.nodes[2]);
-        n0 ^ n1 ^ n2
+    fn read_state(&self) -> u64 {
+        self.nodes[0].load(Ordering::Relaxed)
+            ^ self.nodes[1].load(Ordering::Relaxed)
+            ^ self.nodes[2].load(Ordering::Relaxed)
     }
 
     pub fn fill_buffer(&mut self, buffer: &mut [u8]) {
@@ -109,66 +92,53 @@ impl Seedy64 {
         let blocks = bytes / 8;
         let mut i = 0;
 
-        let mut run_flags = [1i32; 3];
-        let run_ptrs: [SendPtr<i32>; 3] = [
-            SendPtr(&mut run_flags[0] as *mut i32),
-            SendPtr(&mut run_flags[1] as *mut i32),
-            SendPtr(&mut run_flags[2] as *mut i32),
-        ];
-
-        let node_ptrs: [SendPtr<u64>; 3] = [
-            SendPtr(&mut self.nodes[0] as *mut u64),
-            SendPtr(&mut self.nodes[1] as *mut u64),
-            SendPtr(&mut self.nodes[2] as *mut u64),
-        ];
+        let run = Arc::new(AtomicBool::new(true));
 
         let configs = [
-            (node_ptrs[0], node_ptrs[1], run_ptrs[0]),
-            (node_ptrs[1], node_ptrs[2], run_ptrs[1]),
-            (node_ptrs[2], node_ptrs[0], run_ptrs[2]),
+            (Arc::clone(&self.nodes[0]), Arc::clone(&self.nodes[1])),
+            (Arc::clone(&self.nodes[1]), Arc::clone(&self.nodes[2])),
+            (Arc::clone(&self.nodes[2]), Arc::clone(&self.nodes[0])),
         ];
 
         let handles: Vec<_> = configs
             .into_iter()
-            .map(|(src, snk, run)| {
-                let state = SeedThread {
-                    source: src,
-                    sink: snk,
-                    run,
-                };
-                thread::spawn(move || seed_thread_main(state))
+            .map(|(src, snk)| {
+                let run = Arc::clone(&run);
+                thread::spawn(move || {
+                    while run.load(Ordering::Acquire) {
+                        seed_modify_64(&src, &snk);
+                    }
+                })
             })
             .collect();
 
         thread::sleep(self.init_duration);
 
-        let mut last_pick = unsafe { self.read_state() };
+//        let mut last_pick = self.read_state();
 
         while i < 8 * blocks {
             thread::sleep(self.interval_duration);
-            let next_pick = unsafe { self.read_state() };
-            if next_pick != last_pick {
+            let next_pick = self.read_state();
+//            if next_pick != last_pick {
                 buffer[i..i + 8].copy_from_slice(&next_pick.to_ne_bytes());
-                last_pick = next_pick;
+//                last_pick = next_pick;
                 i += 8;
-            }
+//            }
         }
 
         let mut j = 0;
         while i < bytes {
             thread::sleep(self.interval_duration);
-            let next_pick = unsafe { self.read_state() };
-            if next_pick != last_pick {
+            let next_pick = self.read_state();
+//            if next_pick != last_pick {
                 buffer[i] = next_pick.to_ne_bytes()[j];
                 i += 1;
                 j += 1;
-                last_pick = next_pick;
-            }
+//                last_pick = next_pick;
+//            }
         }
 
-        for flag in &mut run_flags {
-            unsafe { write_volatile(flag, 0) };
-        }
+        run.store(false, Ordering::Release);
 
         for handle in handles {
             let _ = handle.join();
