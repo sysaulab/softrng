@@ -1,100 +1,158 @@
-# SEEDY64
+# Seedy64
 
-`Seedy64` is a **nondeterministic random bit generator** that harvests entropy from **uncontrolled thread interleaving over shared mutable state**, accessed via **volatile loads/stores** without synchronisation. It exploits the resulting **data races** to drive a **high-dimensional chaotic mixing process** whose output is statistically robust across different memory consistency models. Beyond being a chaotic oscillator, the system is best described as a **critical, self-referential topology** that sits in a metastable regime between order and disorder, amplifying microscopic nondeterminism into macroscopic randomness.
+A nondeterministic random bit generator that harvests entropy from thread
+interleaving over shared memory. It is an experimental tool for games,
+simulations, and demonstrations. **It is not cryptographically secure. Do not
+use it for keys, tokens, nonces, session IDs, or anything an attacker can
+observe.** See the warning at the end.
 
-## 1. System structure
+## The idea
 
-The generator maintains three shared `u64` words, `nodes[0..2]`, initially zero. Three threads are spawned, each executing an infinite loop that reads from one node (source) and writes to another (sink), forming a directed ring:
+Think of DNA and environment. Neither one alone determines an organism; the
+organism is what happens when the two interact. The same is true here.
 
-```
-Thread 0:  node0 → node1
-Thread 1:  node1 → node2
-Thread 2:  node2 → node0
-```
+The software alone is deterministic. Three threads reading and writing three
+shared 64-bit words according to a fixed rule will, in a quiet machine with a
+predictable scheduler, produce a predictable stream. The hardware alone is
+also deterministic at the level we can see: a CPU executing a fixed program
+on a fixed memory image does the same thing every time.
 
-All accesses use `read_volatile` / `write_volatile`. In Rust (and by analogy in C/C++), `volatile` **disables compiler optimisations**—preventing elimination, reordering, or caching in registers—but imposes **no hardware ordering or atomicity constraints**. This means the threads genuinely race: writes may be buffered, reordered, and interleaved arbitrarily according to the hardware memory model.
+What is not deterministic is the overlap. The store buffer decides when a
+write becomes visible. The cache coherence protocol decides which core sees
+what and when. The OS scheduler decides which thread runs on which core for
+how long. Each of these depends on physical details — voltage on the memory
+rail, thermal state, interrupt timing — that no one controls and no one
+records. When three threads race on shared state, those microscopic
+uncertainties get amplified into the output.
 
-> **Language semantics and portability.** In Rust, `read_volatile` and `write_volatile` do not provide atomicity or synchronization. Concurrent unsynchronized access to the same memory location where at least one access is a write constitutes a data race and is formally undefined behavior. The design intentionally exploits this to access the hardware’s relaxed memory behavior, but it is not a portable, language-guaranteed entropy source. It should be viewed as an experimental study in concurrency dynamics, not as a production-ready random generator.
+Seedy64 does not contain a chaotic map. It does not implement a cipher. It
+sets up a small ring of racing threads and lets the machine's hidden state
+supply the variation. The "chaos" is a property of the whole system —
+software plus hardware plus environment — not of the code by itself.
 
-## 2. The mixing function
+## How it works
 
-Each thread performs 64 iterations of a non-linear update on its private accumulator `acc` and on the shared nodes:
+Three threads, three shared `u64` nodes arranged in a ring:
 
-```
-acc  = 1
-for i in 0..63:
-    val     = volatile_read(source)
-    rotated = val.rotate_left(7)
-    volatile_write(source, rotated)
+    Thread 0:  node0 -> node1
+    Thread 1:  node1 -> node2
+    Thread 2:  node2 -> node0
 
-    acc = acc.rotate_left(i)
-         .wrapping_mul( PRIMES[ 2*i + (rotated & 1) ] )
+Each thread reads its source node, applies a nonlinear mixing step (rotate,
+look up a prime by a parity bit, multiply, add), and writes to its sink. All
+accesses are relaxed atomic loads and stores. There is no synchronization,
+no lock, no barrier. The threads genuinely race.
 
-    sink = volatile_read(sink) .wrapping_add( acc ^ rotated )
-           volatile_write(sink, ...)
-sink ^= acc   // finalisation
-```
+The main thread polls `node0 ^ node1 ^ node2` at fixed intervals and emits
+one 64-bit word per poll.
 
-The `PRIMES` table contains 128 distinct large primes, selected to provide strong non-linearity and diffusion. The loop couples `source`, `sink`, and the accumulator in a way that resembles a **chaotic map with expanding step-dependent rotations and modular multiplications**. The interleaving across threads creates cross-coupling because each thread’s source is another thread’s sink.
+Two modes are provided:
 
-## 3. Chaotic dynamics induced by races
+- **Streaming**: start the threads once, poll repeatedly. Fast.
+- **Reset-per-output**: start the threads, take one sample, tear down.
+  Slower, but each output is independent of every other — there is no
+  carried state between samples.
 
-From a dynamical systems viewpoint, the full state space is enormous: three shared nodes, three thread-local accumulators, plus the state of store buffers, caches, and scheduling. The threads form a **closed feedback loop** where:
+## What we have measured
 
-- The exact sequence of values each thread reads is **non-deterministic** due to store-buffer forwarding, cache-coherence traffic, and OS preemption.
-- Small timing differences (nanosecond granularity) cause different interleavings, which are amplified exponentially by the mixing function's sensitivity to initial conditions.
-- Because there are no barriers or locks, the hardware may reorder a thread’s own writes relative to later reads, and certainly reorder writes from different threads, giving rise to an effectively **nondeterministic interleaving space** that is sampled by the main thread.
+All results below are from the reset-per-output mode unless noted.
 
-The system therefore operates in a **chaotic regime** where the Lyapunov exponent is large enough to decorrelate the state extremely quickly, and the set of reachable trajectories is vast.
+**NIST STS (full suite, 199 tests per block, 10 blocks).**
+10 failures out of 1990 test runs, for a pass rate of **99.50%**. The
+expected failure rate at the 1% significance threshold is 1%. All ten
+failures were instances of `non_overlapping_template`, which is the test
+with the largest number of instantiations per block (~148 per block, 1480
+total). Within that test the failure rate was 10/1480 ≈ 0.68%, below the
+threshold. No other test produced a single failure across all ten blocks.
 
-> **Epistemic vs. ontic nondeterminism.** Strictly speaking, the system’s behavior is deterministic at the level of the entire hardware-software stack (assuming no quantum randomness in the CPU). However, from the program’s internal state, the exact interleaving is unpredictable and effectively random because it depends on hidden variables: OS scheduler decisions, cache-coherence traffic, and microarchitectural timing. The generator therefore harvests **epistemic randomness** — uncertainty that is irreducible from its own point of view. This is analogous to how a physical system can appear random even if the underlying laws are deterministic, because the observer lacks access to all microscopic degrees of freedom.
+**32-bit coupon collector.** Two to the power thirty-two 32-bit outputs.
+Fraction of distinct values seen matched the theoretical curve
+`1 - exp(-N/n)` to seven to nine significant figures at every stage. Final
+coverage 0.9999999998, i.e. one 32-bit value unobserved out of 4.29 billion,
+consistent with the expected Poisson tail.
 
-## 4. Fluid topology of information flow
+**PractRand.** Passed to 256 GB at time of writing. Longer runs are in
+progress.
 
-You described the topology as “fluid.” Formally, the **information flow graph** among the nodes is time-varying. In a static view:
+## What we have not measured
 
-```
-node0 ──Thread0──> node1 ──Thread1──> node2 ──Thread2──> node0
-```
+**Min-entropy per sample.** This is the number that determines how much
+useful randomness each output actually contains, and it has not been
+measured. Until it is, any claim about how many bits per sample the source
+provides is a guess. The nominal ceiling is high — three threads at GHz
+speeds racing on memory is a lot of potential coin flips — but the real
+number will be lower, and we do not yet know by how much. Running the
+NIST SP 800-90B estimators on a few million raw samples is the next step.
 
-But because each read may pick up a value written by any thread (or even an intermediate value due to partial cache-line visibility), the *effective* graph at any instant may have edges `node2→node1` (if Thread1 reads a write from Thread2 before Thread0’s write propagates), or `node0→node2`, etc. This turns the system into a **non-autonomous dynamical network** whose coupling topology shifts at every access. Such rewiring is a known mechanism for generating **high-dimensional chaos** in complex systems.
+**Adversarial robustness.** See below.
 
-> **Criticality.** The generator’s causal graph is a closed directed cycle with feedback. It is self-referential in the sense that each node’s output feeds back into its own future state through the other nodes. This structure is not merely cyclic — it is tuned to a critical point where:
-> - perturbations neither die out (stable fixed point) nor blow up (unbounded divergence);
-> - microscopic variations in thread interleaving are **amplified** into macroscopic differences in the output;
-> - the system remains bounded and persistently non-repeating, indicating a metastable chaotic attractor.
->
-> In the language of complex systems, this is a **critical topology**: a self-referential network poised at the edge of instability, where small fluctuations can determine large-scale outcomes. This property is what allows the system to continuously harvest entropy from the micro-environment without external reseeding.
+**Behavior across environments.** Idle, loaded, pinned, SMT on and off,
+bare metal and VM. The generator is expected to degrade in virtualized
+environments where the scheduler and memory subsystem are mediated by a
+hypervisor. We have not yet quantified that degradation.
 
-## 5. The “only-on-change” extraction and clock jitter
+## What it is for
 
-The main thread polls the system state (`nodes[0] ^ nodes[1] ^ nodes[2]`) at fixed intervals (`interval_ns`). It emits an output word **only when the state differs from the previous sample**. This serves two purposes:
+- Games and simulations where a fast, non-repeating stream is useful.
+- Procedural generation.
+- Demonstrations of how microscopic physical indeterminacy gets amplified
+  into macroscopic output.
+- Last-resort seeding of a proper DRBG when no other source is available
+  and the environment is trusted.
 
-1. It discards intervals where the chaotic trajectory happens to be quasi-stable (no observable change in the XOR-sum), ensuring that output is drawn only from **state transitions**.
-2. The sampling points are effectively **modulated by the system’s own dynamics**: the intervals between changes vary non-uniformly, introducing timing jitter that further decorrelates output from wall-clock time.
+## What it is not for
 
-## 6. Architectural independence (ARM vs. Intel)
+**Anything security related. Ever.**
 
-PractRand finds no statistical difference between outputs produced on ARM (weakly ordered) and Intel (TSO-x86) processors. This is notable because these memory models allow different hardware reorderings. The invariance indicates that the macroscopic statistical properties—namely, the bitstream’s uniformity and lack of correlation—are **independent of the fine-grained memory-ordering rules**. In dynamical terms, the system’s strange attractor has a structure that is **structurally stable** against the kinds of perturbations introduced by different memory models. The chaos is sufficiently strong to dominate over the specific microarchitectural reorderings.
+The entropy is real, but it is **shared**. Every source of variation that
+Seedy64 harvests — store-buffer timing, cache-coherence traffic, scheduler
+decisions, memory-controller queue depth — is also visible to any other
+process running on the same physical machine. An attacker who can run code
+on the same host can, in principle, observe the same physical channels that
+Seedy64 is riding and narrow the distribution of its output. This is not a
+theoretical concern: it is the standard threat model for cloud co-tenancy,
+shared CI runners, and any multi-tenant system.
 
-## 7. Metastability and amplification
+Concretely, this means:
 
-The system does not settle into a fixed point or cycle, but it also does not diverge. That is exactly **metastability** — a persistent far-from-equilibrium state that is stable on average but locally unstable. Small perturbations do not simply decay; they are fed back into the loop and magnified.
+- **Do not generate keys, tokens, nonces, IVs, passwords, or session IDs
+  with Seedy64.** Use the operating system's CSPRNG (getrandom, /dev/urandom,
+  BCryptGenRandom, SecRandomCopyBytes) or a standardized DRBG seeded from it.
+- **Do not use Seedy64 as a primary entropy source** in any system that has
+  a validated hardware or OS source available. It is a fallback of last
+  resort, not a replacement.
+- **Do not expose Seedy64 output to a remote observer** and assume it is
+  unpredictable just because it looks random. Statistical quality and
+  cryptographic security are different properties, and Seedy64 has only the
+  first.
 
-> **Amplification of microscopic fluctuations.** The three-thread cycle acts as a sensitive amplifier. A nanosecond-level preemption or cache-line delay changes the order of volatile reads/writes, which then propagates through 64 iterations of nonlinear mixing and around the feedback loop. The result is that a microscopic perturbation in the execution environment is converted into a macroscopic, fully decorrelated output word. This is the same structural principle by which quantum events in a critical physical system can be amplified into macroscopic outcomes — except here the “quantum” layer is replaced by the hidden micro-state of the memory hierarchy and scheduler.
+The project warns against cryptographic use because the design cannot
+support it. No amount of statistical testing changes that.
 
-## 8. Discussion: Relation to natural critical systems
+## Relationship to other generators
 
-The design resembles biological and neural systems that operate near criticality. For example, cortical networks maintain a balance between excitation and inhibition, allowing them to be sensitive to small inputs while remaining globally stable. Similarly, `Seedy64` uses three interacting feedback threads to stay in a regime where microscopic timing fluctuations are constantly amplified into macroscopic novelty. This suggests that self-referential critical topologies may be a general mechanism for converting low-level indeterminacy into high-level complexity. The generator is thus not only an engineering curiosity but also a small working model of how life and mind might exploit physical indeterminacy to generate genuine novelty and agency.
+Seedy64 is not a PRNG in the usual sense. A PRNG has a finite state and a
+deterministic transition; given the state, the future is fixed. Seedy64 has
+no fixed state — the relevant state includes the hardware's hidden
+micro-state, which is not accessible to the program. It is closer in spirit
+to a physical entropy source than to a PRNG, even though it is implemented
+entirely in software.
 
-## 9. Summary
+For parallel workloads that need reproducibility, jump-ahead, or a proven
+period, use a counter-based PRNG (SplitMix64, PCG, Philox). Seedy64 is for
+the cases where those properties do not matter and a small amount of
+genuine physical variation is useful.
 
-`Seedy64` is best understood as a **concurrency-driven chaotic oscillator** that operates at a **critical point** of a self-referential topology:
+## Building and running
 
-- **Shared mutable state** with volatile accesses creates uncontrolled data races.
-- **A nonlinear mixing function** with multiple feedback loops amplifies tiny interleaving differences.
-- **A circular dependency graph** with time-varying effective topology generates fluid, high-dimensional dynamics.
-- **Metastability** is maintained by the balance between mixing and bounded arithmetic, preventing both collapse and divergence.
-- **Architectural robustness** emerges because the chaotic regime is deep enough to absorb memory-model differences.
+    cargo build --release
+    ./target/release/seedy64 > stream.bin
 
-It is not a cryptographically verified CSPRNG, but as a study in **synthetic entropy generation from parallel non-determinism**, it elegantly illustrates how to push a memory subsystem into a statistically useful chaotic phase—and, more deeply, how a critical self-referential topology can transform microscopic unpredictability into macroscopic randomness.
+The binary writes raw 64-bit words to stdout. 
+There is no formatting.
+
+## Status
+
+Experimental. Interfaces may change. Test results are reported above as
+they stand, and the min-entropy measurement is the main open item. If you
+have a budget for it, run it.

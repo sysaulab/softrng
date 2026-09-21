@@ -1024,6 +1024,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "s-speedy64"
+version = "0.1.0"
+dependencies = [
+ "clap",
+]
+
+[[package]]
 name = "s-zeros"
 version = "0.1.0"
 dependencies = [
