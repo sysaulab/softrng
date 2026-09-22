@@ -220,7 +220,7 @@ Streams were produced by a single process writing to stdout, piped to a file. Ea
 ea_non_iid -i -a <slice> 8
 ```
 
-which reports `H_original`, `H_bitstring`, and the conservative bound `min(H_original, 8 × H_bitstring)` in bits per byte. All reported min-entropy values are bits per byte of raw output.
+which reports `H_original`, `H_bitstring`, and the conservative bound `min(H_original, 8 × H_bitstring)` in bits per byte. All reported min-entropy values are bits per byte of raw output. As a control, one hundred 1 MB slices of /dev/urandom were passed through the identical pipeline (ea_non_iid -i -a <slice> 8) on the same assessor. The results are reported in §4.9.
 
 The restart structure recommended by SP 800-90B (1000 restarts × 1000 samples) was not used. The measurements reported here are steady-state, not worst-case. A worst-case bound remains open.
 
@@ -316,13 +316,34 @@ Quality was not assessed; the throughput made 1 MB slice generation impractical 
 | Debian VM 4 vCPU | few MB/s | clean | 5.230 – 7.436 | 6.886 |
 | Debian VM 2 vCPU | low MB/s | Freq failing | 4.805 – 7.354 | 6.660 |
 | Debian VM 1 vCPU | 5 kB/s | not run | not run | not run |
+| **`/dev/urandom` (control, same assessor)** | n/a | n/a | **6.116 – 7.486** | **7.106** |
 
-Degradation in the floor and mean is monotone in decreasing concurrency from bare metal through 4 vCPUs to 2 vCPUs. The ceiling is preserved at every configuration above 1 vCPU.
+Degradation in the floor and mean is monotone in decreasing concurrency from bare metal through 4 vCPUs to 2 vCPUs. The ceiling is preserved at every configuration above 1 vCPU. The control row is included for reference; it is not a deployment of the generator and its throughput column is not meaningful.
 
 ### 4.8 A note on estimator quantisation
 
 Several slices across all environments report identical `min_bound` values to six decimal places: `6.638399`, `6.638405`, `7.353758`, `5.306249`, `4.804749`, `3.779874`, `2.421182`. These are not independent measurements of a varying source. They are the NIST non-IID estimator reporting at finite precision on slices whose byte histograms are close to preferred shapes. The estimator returns a value rounded to those shapes. The repeats are a property of the tool, not of the source, and they should not be counted as separate observations.
 
+### 4.9 Baseline: /dev/urandom
+
+The /dev/urandom control was run on the same assessor, with the same slice size, the same helper invocation, and the same hundred-slice count as the speedy64 runs.
+
+min_bound minimum :  6.116  
+min_bound maximum :  7.486  
+min_bound mean :     7.106  
+spread (max − min) : 1.370  
+
+Two properties of this baseline bear directly on the interpretation of the speedy64 numbers.
+
+First, the ceiling is the estimator's, not the source's. The /dev/urandom maximum of 7.485651 is indistinguishable from the M1-loaded maximum of 7.486 and sits above the M1-idle maximum of 7.452. A source that is uniform by construction does not score higher than speedy64 on the non-IID estimators. The number near 7.486 is where the estimators top out on 1 MB slices, not where the source does.
+
+Second, the floor is the estimator's, not the source's. The /dev/urandom minimum of 6.116 lies below the speedy64 floor of 6.638 in both bare-metal configurations. A source with no low tail in any physical sense produced the lowest single-slice value of any run reported here. This is the same phenomenon described in §4.8, seen from the opposite end: the estimator's low tail on 1 MB slices is wide enough to swallow the entire bare-metal spread of the yield-mode source.
+
+The practical consequence is that the estimator's resolution bounds the comparison. On a hundred 1 MB slices, the non-IID estimators cannot distinguish speedy64 under bare-metal concurrency from /dev/urandom, and they cannot distinguish either of them from the estimator's own noise floor. Claims about the two sources being equal in min-entropy are not supported by these numbers and are not made here. What is supported is the narrower claim that the estimator cannot see the difference at this slice size and slice count.
+
+The contrast with the polling predecessor in §5.2 is where the estimator's discriminating power is real. A source whose bitstring estimate collapses to 0.132 on a 1 MB slice is not at the estimator's ceiling, is not at its floor, and is not confusable with /dev/urandom in either direction. The estimator has plenty of resolution there. The relevant conclusion is not that the estimator is uninformative, but that the yield-mode source has moved past the range in which it has anything to say.
+
+The /dev/urandom control also confirms the timing figure in §8 item 3. One hundred slices took 1096.25 s, or approximately 11 s per slice, and this is the estimator's cost rather than the harness's or the source's. The full SP 800-90B restart structure (1000 restarts × 1000 samples) is on the order of three hours per configuration at this slice size, independent of which source is being measured.
 ---
 
 ## 5. Comparison with the polling predecessor
@@ -434,8 +455,7 @@ If the environment is trusted, the operating system’s CSPRNG is available and 
 
 7. **Thread placement experiments.** Pinning threads 0, 1, and 2 to distinct cores explicitly and re-measuring quality at fixed vCPU counts would separate the *number* of available cores from the *placement* of the mixing threads.
 
-8. **Adversarial prediction: an open contest.** The co-tenancy threat model has been stated but not measured. An experiment in which a co-resident process observes the same scheduling events and attempts to predict the generator’s output would give a concrete attacker-advantage number. The authors do not have the budget to run this experiment and are making it an open contest: the first person to demonstrate a co-resident attack against speedy64, with a documented method and a reproducible prediction advantage over random guessing, receives a beer of their choice, delivered in person, in the Downtown Eastside of Vancouver. Submissions should include the attack code, the measured advantage, and a description of the environment. The authors reserve the right to determine whether a submission counts. The contest has no deadline and no prize other than the beer.
-
+8. **Adversarial prediction: an open contest.** The co-tenancy threat model has been stated but not measured. An experiment in which a co-resident process observes the same scheduling events and attempts to predict the generator’s output would give a concrete attacker-advantage number. The authors do not have the budget to run this experiment and are making it an open contest: the first person to demonstrate a co-resident attack against speedy64, with a documented method and a reproducible prediction advantage over random guessing, receives a beer of their choice, delivered in person, in the Downtown Eastside of Vancouver. Submissions should include the attack code, the measured advantage, and a description of the environment. The authors reserve the right to determine whether a submission counts. The contest has no deadline and no prize other than the beer. The `/dev/urandom` baseline in §4.9 sets the bar the contest is against: a co-resident adversary must beat random guessing on a source that the non-IID estimators already cannot distinguish from uniform at 1 MB slices.
 ---
 
 ## Appendix A: On the collaboration
