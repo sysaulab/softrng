@@ -1007,14 +1007,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "s-seedier64"
-version = "0.1.0"
-dependencies = [
- "clap",
- "libc",
-]
-
-[[package]]
 name = "s-seedy64"
 version = "0.1.0"
 dependencies = [
@@ -1236,6 +1228,13 @@ name = "t-hole"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+]
+
+[[package]]
+name = "t-min-entropy"
+version = "0.1.0"
+dependencies = [
+ "clap",
 ]
 
 [[package]]

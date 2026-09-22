@@ -1,13 +1,13 @@
 
 # t-bits
 
-A high-performance bit spectrum tester for analyzing the distribution of low/high halves of 64-bit words in binary data streams. Designed to evaluate the quality of random number generators and detect biases in binary data.
+A high-performance bit spectrum tester for analyzing the distribution of n-bit words in binary data streams. Designed to evaluate the quality of random number generators and detect biases in binary data.
 
 **Default mode**: 24-bit space, stage 0 only — a quick sanity check that completes in seconds to minutes and provides a strong statistical profile of any generator.
 
 ## Overview
 
-This tool processes 64-bit words from standard input, extracting both the low and high 32-bit halves, and tracks unique values using a bitset. It calculates a statistical score based on the expected number of unique values (birthday problem/occupancy distribution) to determine if the input data exhibits uniform random distribution.
+This tool processes data from standard input, extract one word and tracks found unique values using a bitset. It calculates a statistical score based on the expected number of unique values (birthday problem/occupancy distribution) to determine if the input data exhibits uniform random distribution.
 
 The tester progresses through stages (0–10), where each stage represents increasingly stringent coverage requirements of the value space, from initial coverage (stage 0) to complete saturation of all possible values (stage 10).
 
