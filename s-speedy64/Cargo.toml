@@ -1,7 +1,8 @@
 [package]
 name = "s-speedy64"
-version = "0.1.0"
+description = "CLI wrapper for the speedy64 entropy source."
 edition = "2021"
 
 [dependencies]
-clap = { version = "4", features = ["derive"] }
+speedy64 = { path = "../speedy64", version = "0.1.0" }
+clap = { version = "4.6.7", features = ["derive"] }

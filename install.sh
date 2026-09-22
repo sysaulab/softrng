@@ -15,6 +15,7 @@ mv target/release/s-entropy			/usr/local/bin
 mv target/release/s-file			/usr/local/bin
 mv target/release/s-file-loop		/usr/local/bin
 mv target/release/s-speedy64		/usr/local/bin
+mv target/release/s-seedier64		/usr/local/bin
 mv target/release/s-seedy64			/usr/local/bin
 mv target/release/s-seedy64-reset	/usr/local/bin
 mv target/release/s-zeros			/usr/local/bin

@@ -1,7 +1,7 @@
 
-# What the Polling Loop Was Actually Doing
+# speedy64
 
-**A yield-per-emit variant of Seedy64, and the experiment that isolated its entropy mechanism**
+**A fast userspace entropy source based on scheduler jitter sampling a racing ring**
 
 *With an AI collaborator (Claude, Anthropic)*
 
@@ -9,83 +9,236 @@
 
 ## Abstract
 
-Seedy64 is a userspace entropy source that harvests timing indeterminacy from three threads racing on a ring of shared 64-bit nodes. The original implementation samples the ring from a fourth thread that polls at fixed intervals via `nanosleep`. We treated the polling interval as an interface detail and built a variant in which the sampling thread is itself a participant in the race: it mixes alongside the other two and emits every *n* cycles, with no sleep and no timer.
+speedy64 is a userspace entropy source that harvests scheduler indeterminacy from three threads racing on a ring of shared 64-bit nodes. Unlike its predecessor Seedy64, which sampled the ring from a fourth thread polling at fixed intervals via `nanosleep`, speedy64 has the sampling thread participate in the race and calls `sched_yield()` immediately before each emission. The change removes the timer from the sampling path, roughly doubles the measured min-entropy per byte, and increases sustained throughput by a factor of approximately fourteen on matched hardware.
 
-The variant failed PractRand. A second variant, identical except for a `sched_yield()` immediately before each emission, passed cleanly and roughly doubled the measured min-entropy per byte. This identifies the load-bearing component of the original design: not the timer delay, not the act of polling, but the scheduler decision that the polling forced.
+We report the design, the mechanism, and measurements across four environments: bare-metal x86_64, bare-metal Apple M1 under load, and Debian VMs under UTM on the M1 with four and two virtual CPUs. Min-entropy per byte, measured with the NIST SP 800-90B non-IID estimators on one hundred independent 1 MB slices per environment, ranges from 6.638 to 7.486 on bare metal with means above 7.1, and degrades monotonically under reduced concurrency. The ceiling is preserved across all configurations above one vCPU; only the floor falls.
 
-We characterised the yield-mode source across four environments: bare-metal x86_64, bare-metal Apple M1 under load, and a Debian VM under UTM on the M1 with 2 and 4 vCPUs. The min-entropy band is stable across bare-metal architectures and under load. It degrades monotonically as guest concurrency is reduced: a 1.4-bit drop in the floor at 4 vCPUs, a 1.9-bit drop at 2 vCPUs, and a throughput collapse to 5 kB/s at 1 vCPU that makes the configuration undeployable.
+We also report the source's deployment envelope: it requires that the three mixing threads be concurrently runnable on distinct physical cores for the duration of the yield window. Under sufficient concurrency, the source is portable across CPU architectures and robust to background load. Under insufficient concurrency, throughput collapses and quality degrades.
 
-The degradation is intermittent rather than uniform. The ceiling is preserved across all multi-core configurations; only the floor falls and the spread widens. This is consistent with a scheduler-decision mechanism whose yield window requires continuous concurrent execution of the three mixing threads.
-
-Security warnings are unchanged. Statistical quality and cryptographic security remain different properties.
+The security warnings are unchanged from the parent project. speedy64 is a statistical source, not a cryptographic one. It must not be used for keys, tokens, nonces, or any security-relevant output.
 
 ---
 
-## 1. Background
+## 1. Introduction
 
-Seedy64's design and its non-cryptographic status are described in the project documentation. The relevant details here:
+Seedy64 is a userspace entropy source built on the observation that microscopic timing indeterminacy — store-buffer visibility, cache-coherence traffic, scheduler placement — can be amplified by nonlinear mixing into macroscopic output variation. Its original design sampled a three-thread racing ring from a fourth thread that slept for a fixed interval between samples. The sleep was documented as an interface detail.
 
-- Three threads operate on three shared `AtomicU64` nodes in a ring. Each thread reads its source, applies a fixed nonlinear mixing step (rotate, multiply by a parity-selected prime, add, XOR), and writes to its sink. All accesses are relaxed. There is no synchronization.
-- The original implementation samples the ring from the main thread, which sleeps for a fixed interval, reads `node0 ^ node1 ^ node2`, and emits one 64-bit word.
-- The project had measured statistical quality via NIST STS and PractRand, and had explicitly **not** measured min-entropy per sample. That was listed as the main open item.
+It was not an interface detail. Removing the sleep entirely, while keeping the sampler and the ring, produced output that failed PractRand. Replacing the sleep with `sched_yield()` recovered the quality and exceeded it. The sleep had been performing three jobs at once — delaying the next read, making a syscall, and yielding the CPU — and only the yield was load-bearing.
 
-The design intent was that microscopic timing indeterminacy — store-buffer visibility, cache-coherence traffic, scheduler placement — would be amplified by the mixing into macroscopic output variation. The code supports that reading. What it did not specify is *where* in the loop the indeterminacy enters.
+speedy64 is the generator that resulted from this correction. It is, in structure, the same three-thread ring as Seedy64. It differs in one line: the sampling thread is a participant in the race, and it calls `sched_yield()` immediately before reading the ring state. This paper documents the design, the mechanism, the measurements, and the deployment envelope. The negative controls that isolated the mechanism are presented in §3 as part of the mechanism argument, not in a separate paper.
 
 ---
 
-## 2. The variant and its hypothesis
+## 2. Design
 
-The variant was proposed as an optimization. If the sampling thread participates in the race rather than observing it, the design loses a thread and a timer, the main loop becomes a tight mixing loop, and the emission cadence is determined by a skip count rather than by the OS timer. The hypothesis was that this would be at least as good — that the ring's internal race carries the entropy, and that polling was a wrapper around it.
+### 2.1 The ring
 
-This hypothesis was wrong, and the way it was wrong is the substance of this paper.
-
----
-
-## 3. The failure
-
-The variant was built as a standalone binary writing raw 64-bit words to stdout, with `skip` as a positional argument. The ring, the mixing function, and the primes were unchanged. Thread 0 mixes and emits; threads 1 and 2 are pure mixers; the main thread *is* thread 0.
-
-It passed a visual smoke test and failed PractRand. Increasing `skip` to 50, which matches the original's effective emission rate, did not fix it. The output looks random to the eye and is not random to a statistical test — the normal condition of a generator with low-order structure.
-
----
-
-## 4. The yield hypothesis
-
-The original polling loop did three things at once: it delayed the next read, it made a syscall, and it *yielded the CPU*. The tight-loop variant removed all three. The question was which one mattered.
-
-The proposed diagnosis was that the yield was the relevant component. `nanosleep` hands control to the scheduler; when the thread wakes, it may resume on a different core, after an unpredictable number of other scheduling decisions, with different cache and TLB state. The ring advances by an unknown amount during that window. When the sampler reads the state, the value encodes how much the scheduler let the other threads run — a quantity that is not recorded anywhere and not reconstructible from inside the process.
-
-If that diagnosis is right, then inserting `sched_yield()` immediately before each emission should recover the quality, even with no timer and no sleep. This was stated as a prediction before the experiment was run.
-
-It was correct.
-
----
-
-## 5. Method
-
-### 5.1 Modes assessed
-
-- **Polling (original).** Main thread sleeps for a fixed interval, reads the ring, emits.
-- **Tight loop.** Sampler mixes with the other two threads, emits every `skip` cycles. No syscall, no yield, no timer.
-- **Yield per emit.** Identical to the tight loop, except `thread::yield_now()` is called immediately before reading the ring state.
-
-### 5.2 Generation
-
-Each stream was produced by a single process writing to stdout, piped to a file or to a truncating consumer. The generator binary was built from a single `src/main.rs` with `clap` argument parsing. Invocation:
+Three shared `AtomicU64` nodes arranged in a directed cycle, with each node also feeding back to itself:
 
 ```
-seedy64-threaded --emit-yield <skip> <init_ns> > stream.bin
+Thread 0:  node0 -> node0, node0 -> node1
+Thread 1:  node1 -> node1, node1 -> node2
+Thread 2:  node2 -> node2, node2 -> node0
 ```
 
-Unless otherwise noted, `skip = 1` and `init_ns = 1_000_000` (1 ms warm-up).
+The self-feedback edge is deliberate. It ensures that each node is being mutated by its own writer thread while other threads read it, which increases the number of distinguishable states at any read instant. The ring is therefore a *double* cycle: one self-edge and one cross-thread edge per node.
 
-### 5.3 Note on `skip = 0`
+The choice of three nodes is not arbitrary and was not made analytically. It was selected empirically long before the measurements in this paper: with an earlier version of the generator assessed by Dieharder, two nodes and four or more nodes both degraded output relative to three. The reason was not identified at the time and remains unidentified. See §3.6.
 
-The `skip` condition in the emit loop is `if counter < skip { continue; }` after incrementing `counter`. With `skip = 0` and `skip = 1`, the first iteration both take the emit branch. The two settings are functionally identical. They are not treated as distinct operating points in this paper.
+Each thread reads its source node, applies a fixed nonlinear mixing step, and writes to its sink. The mixing step:
 
-### 5.4 Assessment
+1. Load the source node.
+2. Rotate the loaded value left by 7.
+3. Store the rotated value back to the source node.
+4. Rotate an accumulator left by the iteration index.
+5. Multiply the accumulator by a prime selected from a fixed table of 128 primes, indexed by the low bit of the rotated source value.
+6. Add `acc ^ rotated` to the sink.
+7. Repeat 64 times.
+8. XOR the accumulator into the sink.
 
-Streams were split into 1 MB slices. Each slice was assessed independently with the NIST SP 800-90B non-IID estimators:
+All loads and stores use `Ordering::Relaxed`. There is no synchronization, no lock, no barrier. The threads genuinely race.
+
+### 2.2 The sampling thread
+
+Thread 0 is the main thread. It is both a mixer and the emitter:
+
+```
+loop {
+    seed_modify_64(&nodes[0], &nodes[1]);
+
+    counter += 1;
+    if counter < skip { continue; }
+    counter = 0;
+
+    sched_yield();
+
+    let state = nodes[0].load(Relaxed)
+              ^ nodes[1].load(Relaxed)
+              ^ nodes[2].load(Relaxed);
+
+    write(state.to_ne_bytes());
+}
+```
+
+The default `skip` is 1. Every mixing pass is followed by a yield and an emission. The `skip` parameter is retained for experimentation; all measurements in this paper use `skip = 1`.
+
+The three loads that compose `state` are not a consistent snapshot. They are three separate relaxed loads, and the ring may advance between them. This is by design: the read itself races the writers, and that race is part of the mechanism.
+
+### 2.3 The yield
+
+`thread::yield_now()` on Linux is `sched_yield()`. It asks the kernel to place the calling thread at the back of its priority run queue and to schedule another runnable thread in its place. The calling thread resumes when the scheduler next picks it.
+
+The scheduler's decision depends on which threads are runnable, on which cores, under what load, and with what recent run-time accounting. None of these are visible to the yielding process. The decision is made in kernel space, at a time chosen by the program but in a manner determined by the machine's hidden state.
+
+Between the yield and the resumption, the two mixer threads run. The ring advances by an amount determined by how much CPU time the scheduler granted them. When thread 0 resumes and reads the ring, the value it reads encodes that amount.
+
+This is the source of the entropy. The rest of the design — the ring, the mixing, the primed multiplication — spreads each scheduler-determined perturbation across all 64 bits of the output word.
+
+### 2.4 Output
+
+speedy64 writes raw 64-bit words to stdout in native-endian, no framing, no delimiters. A `--big-endian` flag produces byteswapped output for network-ordered pipelines. The binary exits when stdout closes.
+
+---
+
+## 3. The mechanism
+
+### 3.1 Two ingredients
+
+The generator requires two independent ingredients, and neither alone is sufficient:
+
+- **A large state space.** The three-node racing ring provides a set of possible states at any instant that is exponentially large in the number of interleavings since the last read.
+- **An unpredictable sampling instant.** The yield provides a sampling time that depends on the scheduler's decision, which is not predictable from inside the process.
+
+If the sampling instant is deterministic, the ring is sampled at deterministic phases of its evolution and the output is a deterministic function of the initial state. If the state space is small, the sampling instant has nothing to sample. Both are necessary.
+
+The bound is `min(S, T)`, where `S` is the entropy of the ring state at any instant and `T` is the entropy of the sampling instant. Output quality tracks the smaller of the two.
+
+### 3.2 Evidence: removing the sampling unpredictability
+
+The first control removes the yield and emits on a fixed cadence. Everything else is unchanged: the ring is present and racing, the mixing function is unchanged, the primes are unchanged.
+
+```
+loop {
+    seed_modify_64(&nodes[0], &nodes[1]);
+    counter += 1;
+    if counter < skip { continue; }
+    counter = 0;
+    emit(nodes[0] ^ nodes[1] ^ nodes[2]);
+}
+```
+
+**Result:** passed a visual smoke test, failed PractRand. Increasing `skip` to 50, matching the original's effective emission rate, did not fix it. This is the tight-loop variant.
+
+When the sampling instant is deterministic, the ring is sampled at deterministic phases of its evolution. The race is still happening between samples, but it is not observed at a time that depends on anything unrecorded.
+
+### 3.3 Evidence: removing the race
+
+The second control strips the ring entirely. A single thread yields repeatedly, times each yield with `clock_gettime(CLOCK_MONOTONIC)`, and emits the delta.
+
+```
+loop {
+    let t0 = now();
+    sched_yield();
+    let t1 = now();
+    emit(t1 - t0);
+}
+```
+
+An optional peer thread spins so that the yield has someone to hand the CPU to. The design is the smallest possible version of the yield-per-emit mechanism, with the race removed.
+
+**Result:** total failure. Raw deltas produced a distribution consisting almost entirely of `0x00` with occasional excursions to a single fixed non-zero value. The output looked like a quantised timer. Streaming NIST-style block tests failed at every block:
+
+```
+Block 3 | Freq=0.000 Blk=0.000 Runs=0.000 Long=0.000 CumF=0.000 CumB=0.000
+```
+
+Not degraded. Not intermittent. Zero.
+
+The yield is present and well-defined. The scheduler is making a decision. But the state being sampled is a single counter or a single clock, not a racing multi-node ring. There is no state space for the scheduler decision to project onto.
+
+### 3.4 Evidence: packing does not create entropy
+
+A third control attempts to rescue the yield-only variant by parity packing. For each output word, perform `pack` yields. If a yield's delta is non-zero, flip one bit of an accumulator at a position that cycles through 0 – 63.
+
+```
+for i in 0..pack {
+    let t0 = now();
+    sched_yield();
+    let t1 = now();
+    if t1 != t0 {
+        acc ^= 1 << (i & 63);
+    }
+}
+emit(acc);
+```
+
+With `pack = 512`, each output word is the parity of roughly eight non-zero events per bit position. A variant using the low bit of the delta was also built.
+
+**Result:** total failure, identical to the unpacked variant. Every frequency test failed at every block.
+
+The packing redistributes per-event variation across output bits; it cannot create variation that is not there. Packing a constant produces a constant. Parity folding has a precondition — the per-event signal must have variation to pack — and the yield-only variant does not satisfy it.
+
+### 3.5 The decomposition, summarised
+
+| variant | race (state space) | unpredictable sampling | result |
+|---|---|---|---|
+| Original polling | yes | yes (timer + scheduler) | passes; wide quality range |
+| Tight loop | yes | **no** | fails PractRand |
+| **speedy64** | **yes** | **yes (scheduler)** | **passes; 6.6 – 7.5 bits/byte** |
+| Yield only, no race | **no** | yes | fails every NIST block |
+| Packed yield-only | **no** | yes | fails every NIST block |
+
+Both ingredients are necessary. Neither is sufficient.
+
+### 3.6 The three-node count
+
+The two-ingredient model does not predict how many racing nodes are required, only that the state space must exceed the sampling resolution. Empirically, three nodes pass and two degrade quality. Four or more also degrade. The number is not a free parameter.
+
+The three-node choice predates the measurements in this paper. In an earlier round of work, the generator was assessed with Dieharder while varying the node count, and three was selected because every other value — two, four, five, and higher — degraded output relative to three. The observation was reproducible but never explained. It is recorded here as a prior result, not as a finding of the current experiments. The tool, the generator version, and the assessment conditions were all different from those used in this paper.
+
+A two-node variant was tested again during the current work, using the yield-per-emit sampling and the SP 800-90B non-IID estimators. It degraded quality relative to the three-node design, consistent with the earlier Dieharder result. Four and higher were not re-tested in the current work.
+
+Three candidate explanations, none tested:
+
+Odd-parity XOR. The output is node0 ^ node1 ^ node2. The XOR of three values has different algebraic behaviour than the XOR of two. If each node carries a small residual bias, the two-way XOR bias is the product of the individual biases, while the three-way XOR bias involves a different combination. An odd number of operands may be structurally necessary for the reading to be unbiased.
+
+Cycle topology. A three-node ring with three threads is a directed cycle where each node has one writer and one reader. A two-node configuration cannot be a directed cycle with more than two participants without creating a back-and-forth symmetry that may be self-cancelling. Why four or more should then degrade is not explained by this hypothesis.
+
+Ring depth and decorrelation time. Three nodes may provide just enough state space for the yield window's entropy to be expressed at the sampling rate the generator uses. Two may be too shallow and four or more may introduce cross-node correlations that the reading does not resolve.
+
+None of these is established. The empirical observation is that the number three is not a free parameter, and the observation is reproduced across two different assessment tools and two different generator versions. Whether the reason is the XOR parity, the topology, or the ring depth is an open question, listed in §8.
+
+Patch 3 — §8, update open question 4
+Replace item 4 with:
+
+Why three nodes and not two, four, or more. Two-node variants degrade quality; three-node variants pass; four or more also degrade. The number is not a free parameter. The three-node choice was made years earlier under Dieharder and has now been partially reconfirmed under the SP 800-90B estimators for the two-node case. The four-node case has not been retested in the current work. Candidate explanations are odd-parity XOR, directed-cycle topology, and ring-depth effects. Isolating which matters would require a variant that holds topology constant and varies XOR arity, or a variant that holds node count constant and varies reading function.
+
+### 3.7 Why the mixing is deterministic
+
+The mixing function contains no entropy and no secret. It is a fixed sequence of arithmetic and bit operations. Its job is to ensure that a small perturbation of the ring state — a few nanoseconds of scheduler-granted CPU time — is spread across all 64 bits of the emitted word. It is a diffuser, not a source.
+
+This distinction is important for the security section. A statistical diffuser can make a stream look random without making it unpredictable to an observer who can reconstruct the input. The mixing in speedy64 does not change the fact that the entropy comes from the scheduler, and the scheduler is shared state.
+
+---
+
+## 4. Measurements
+
+### 4.1 Method and cross-host procedure
+
+All generators — the polling predecessor and every variant of speedy64 — were run on the Apple M1 host under macOS. All assessments were run on a Debian Linux VM on the same physical host, or on bare-metal x86_64 Linux for the cross-architecture check.
+
+The split is not merely convenient. The NIST SP 800-90B reference C++ implementation depends on OpenMP, `libjsoncpp`, `libdivsufsort`, `libssl`, and `libmpfr`. OpenMP does not ship with Apple's toolchain, and the other dependencies are more easily built and maintained on Linux. macOS is a fine generation host and a poor assessment host for this particular toolchain. The split does not affect the results: the estimators operate on raw bytes and are agnostic to where the bytes were produced.
+
+Four independent assessment tools were used, each answering a different question:
+
+- A compact NIST-STS-style streaming harness, used as a fast screen.
+- A full 199-test NIST STS port, used as the authoritative statistical test.
+- PractRand, an independent third-party statistical test suite with a different design from NIST.
+- The NIST SP 800-90B non-IID estimators, which are not pass/fail tests and measure min-entropy per sample.
+
+The first three answer "does the output look random?" The fourth answers "how much entropy does each sample contain?" A generator can pass all three statistical layers and still have a min-entropy of 0.5 bits per byte, and vice versa. The two questions are orthogonal.
+
+Streams were produced by a single process writing to stdout, piped to a file. Each stream was split into 1 MB slices. Each slice was assessed independently with:
 
 ```
 ea_non_iid -i -a <slice> 8
@@ -93,27 +246,11 @@ ea_non_iid -i -a <slice> 8
 
 which reports `H_original`, `H_bitstring`, and the conservative bound `min(H_original, 8 × H_bitstring)` in bits per byte. All reported min-entropy values are bits per byte of raw output.
 
-Some environments were also screened with a streaming NIST STS-style pass/fail check on 1 MB blocks, reporting per-test pass fractions across blocks. The streaming test accumulates evidence across many blocks and is sensitive to slow drift; the non-IID batch estimators are sensitive to local structure. The two are complementary.
+The restart structure recommended by SP 800-90B (1000 restarts × 1000 samples) was not used. The measurements reported here are steady-state, not worst-case. A worst-case bound remains open.
 
-### 5.5 Cross-host procedure
+### 4.2 Bare-metal x86_64, idle
 
-Samples generated on macOS (Apple M1) were transferred to a Debian Linux VM for assessment, because the NIST C++ tools depend on `libomp`, `libjsoncpp`, `libdivsufsort`, `libssl`, and `libmpfr`, which are more easily obtained in the Linux environment. The generator and the estimator ran on different hosts and different operating systems. The estimators operate on raw bytes and are agnostic to where the bytes were produced.
-
-For the VM experiments proper (Sections 6.3–6.5), both generation and assessment occurred inside the guest. The guest was Debian under UTM on the Apple M1 host.
-
----
-
-## 6. Results
-
-### 6.1 Bare-metal x86_64, idle
-
-Tight loop, `skip = 1`, ten slices before the run was abandoned:
-
-- `min_bound` range: **2.620 – 4.466** bits per byte
-- `H_bitstring` range: 0.33 – 0.64, binding in most slices
-- PractRand: reported failure at this and larger `skip` values
-
-Yield per emit, `skip = 1`, one hundred slices:
+One hundred slices. `skip = 1`.
 
 | statistic | value |
 |---|---|
@@ -122,15 +259,13 @@ Yield per emit, `skip = 1`, one hundred slices:
 | `min_bound` mean | ≈ 7.15 |
 | `H_bitstring` range | 0.876 – 0.936 |
 
-PractRand: reported pass.
+PractRand: pass. The same configuration was subsequently screened through the streaming harness for over 1000 blocks of 1 MB each with all statistics between 0.98 and 1.00, and through the full 199-test NIST STS port without rejection.
 
-Polling mode, one slice for reference: `min_bound = 3.343`.
+### 4.3 Bare-metal Apple M1 under load
 
-### 6.2 Bare-metal Apple M1 under load
+Generator running on macOS on Apple Silicon, with a browser and a video player active in the background. Throughput approximately 12 MB/s. Assessment performed in the Debian VM on the same host.
 
-Generator running on macOS on Apple Silicon, with a browser and a video player active in the background. `skip = 1 --emit-yield`. Throughput approximately 12 MB/s. Assessment performed in a separate Debian VM.
-
-One hundred slices:
+One hundred slices. `skip = 1`.
 
 | statistic | value |
 |---|---|
@@ -139,13 +274,13 @@ One hundred slices:
 | `min_bound` mean | ≈ 7.21 |
 | `H_bitstring` range | 0.842 – 0.936 |
 
-The band is statistically indistinguishable from the x86_64 bare-metal result. The minimum value is identical to six decimal places.
+The band is statistically indistinguishable from the idle x86_64 result. The minimum value is identical to six decimal places across the two environments. Load adds scheduler activity, and scheduler activity is the source; quality does not degrade.
 
-### 6.3 Debian VM, 4 vCPU, under load
+### 4.4 Debian VM, 4 vCPU
 
-Generator running inside a Debian VM under UTM on the Apple M1 host, 4 vCPUs allocated. Host under limited load. `skip = 1 --emit-yield`. Throughput on the order of a few MB/s.
+Generator and assessor both inside a Debian guest under UTM on the Apple M1 host. Four vCPUs allocated. Host under limited load. Throughput on the order of a few MB/s.
 
-One hundred slices:
+One hundred slices. `skip = 1`.
 
 | statistic | value |
 |---|---|
@@ -156,109 +291,125 @@ One hundred slices:
 
 The ceiling is unchanged from bare metal. The floor falls by approximately 1.4 bits. The spread triples.
 
-Two distinct failure signatures appeared in the low tail:
+Two failure signatures appear in the low tail:
 
-- **Byte-level drop.** Slices 0011, 0016, 0055, 0059 report `H_original = 5.306` with `H_bitstring` near 0.88 – 0.91. The byte estimator drops; the bitstring estimator does not. Four slices share the exact value `5.306249`, an estimator quantization point.
-- **Bitstring drop.** Slices 0025 (`H_bitstring = 0.654`), 0057 (`0.787`), 0070 (`0.724`). The tight-loop failure mode reappears in a small fraction of slices.
+- **Byte-level drops.** Four slices report `H_original = 5.306` with `H_bitstring` near 0.88 – 0.91.
+- **Bitstring drops.** Three slices report `H_bitstring` between 0.654 and 0.787.
 
-The second signature is the more informative. In the tight-loop variant this failure was universal. In the 4 vCPU VM with yield it occurs in roughly 3 slices out of 100.
+In a sampling scheme with no yield, the bitstring failure is universal. With a yield per emit, it occurs in roughly three slices out of a hundred.
 
-Streaming NIST STS-style test, same 4 vCPU configuration: clean pass across the assessed blocks.
+Streaming NIST STS-style test: clean pass.
 
-### 6.4 Debian VM, 2 vCPU — full run
+### 4.5 Debian VM, 2 vCPU
 
-Generator running inside a Debian VM under UTM on the Apple M1 host, 2 vCPUs allocated. Host under limited load. `skip = 1 --emit-yield`. Throughput recovered to the low MB/s, comparable to 4 vCPUs.
+Same configuration, two vCPUs allocated.
 
-One hundred slices:
+One hundred slices. `skip = 1`.
 
 | statistic | value |
 |---|---|
-| `min_bound` minimum | **4.805** |
+| `min_bound` minimum | 4.805 |
 | `min_bound` maximum | 7.354 |
-| `min_bound` mean | **6.660** |
-| spread | **2.549** |
+| `min_bound` mean | 6.660 |
+| spread | 2.549 |
 
-Every aggregate statistic is worse than the 4 vCPU configuration. The floor falls a further 0.43 bits, the mean falls 0.23 bits, and the spread widens by 0.34 bits.
+Every aggregate statistic is worse than the 4 vCPU configuration. The floor falls a further 0.43 bits, the mean falls 0.23 bits, and the spread widens by 0.34 bits. Seven slices show bitstring failures and five show byte-level collapses, versus three and four at 4 vCPUs.
 
-**A preliminary report based on the first 14 slices gave the opposite impression.** Those slices reported `min_bound` in the range 6.638 – 7.260 with no bitstring failures, and the initial reading was that 2 vCPUs might be *better* than 4. The full run shows this was a favorable stretch. The remaining 86 slices contained seven bitstring failures and five byte-level collapses. The preliminary result was a small-sample artifact and is superseded by the full run.
-
-The failure signatures at 2 vCPUs are the same two modes seen at 4 vCPUs, but more frequent and more severe:
-
-- **Byte-level drops at 5.306249.** Slices 0020, 0037, 0057, 0083, 0099. Five slices share the exact value, again an estimator quantization point.
-- **Deeper byte-level drops.** Slices 0026 (`H_original = 4.901`), 0031 (`4.838`), 0034 (`4.805`). A new low that did not appear at 4 vCPUs.
-- **Bitstring drops.** Slices 0026 (`H_bitstring = 0.739`), 0031 (`0.728`), 0032 (`0.765`), 0034 (`0.724`), 0047 (`0.787`), 0052 (`0.765`), 0069 (`0.787`). Seven slices, versus three at 4 vCPUs.
-
-Streaming NIST STS-style test, 2 vCPU configuration, block 17:
+Streaming NIST STS-style test at block 17:
 
 ```
 Block 17 | Freq=0.765 Blk=1.000 Runs=0.941 Long=0.941 CumF=0.706 CumB=0.765
 ```
 
-At 17 blocks and an expected pass rate of 0.99, this represents approximately four failures in each of `Freq` and `CumF`, or roughly nine standard deviations from the expectation. The failure is consistent with the batch results: both assessments see the 2 vCPU configuration as degraded, and the frequency test specifically sees the byte-level bias that the batch estimator records as the 5.306 and 4.805 collapses.
+At 17 blocks and an expected pass rate of 0.99, this represents approximately four failures in each of `Freq` and `CumF`, or roughly nine standard deviations from the expectation. Both assessments detect the degradation.
 
-### 6.5 Debian VM, 1 vCPU — throughput collapse
+### 4.6 Debian VM, 1 vCPU
 
-Throughput at 1 vCPU fell to approximately 5 kB/s, a factor of roughly 2400 relative to bare metal. The CFS default scheduling latency (6 ms divided across ~4 runnable threads) gives a per-thread quantum near 1.5 ms, and 5 kB/s is 625 output words per second, or 1.6 ms per word. The measured throughput matches the scheduler arithmetic.
+Throughput collapses to approximately 5 kB/s, a factor of roughly 2400 relative to bare metal. The CFS default scheduling latency (6 ms divided across roughly four runnable threads) gives a per-thread quantum near 1.5 ms, and 5 kB/s is 625 output words per second, or 1.6 ms per word. The measured throughput matches the scheduler arithmetic.
 
-The mechanism is that the two mixing threads are CPU-bound tight loops with no yield, sleep, or syscall. On a single core, when the emitting thread calls `sched_yield()`, one mixer takes the core until the next scheduler tick. The emitter is not rescheduled until the tick boundary. The yield window *is* the timeslice. Each output word costs one full scheduler quantum.
+The mechanism is that the two mixer threads are CPU-bound tight loops with no yield, sleep, or syscall. On a single core, when thread 0 yields, one mixer takes the core until the next scheduler tick. The yield window *is* the timeslice.
 
-Quality at 1 vCPU was not assessed; the throughput made 1 MB slice generation impractical at test timescales. The configuration is documented as not deployable rather than as unmeasured.
+Quality was not assessed; the throughput made 1 MB slice generation impractical at test timescales. The configuration is documented as not deployable rather than as unmeasured.
 
-### 6.6 Summary table
+### 4.7 Summary
 
 | environment | throughput | streaming test | `min_bound` range | `min_bound` mean |
 |---|---|---|---|---|
 | x86_64 bare metal, idle | ~12 MB/s | clean | 6.638 – 7.452 | ≈ 7.15 |
 | M1 bare metal, loaded | ~12 MB/s | clean | 6.638 – 7.486 | ≈ 7.21 |
 | Debian VM 4 vCPU | few MB/s | clean | 5.230 – 7.436 | 6.886 |
-| Debian VM 2 vCPU | low MB/s | **Freq failing** | 4.805 – 7.354 | 6.660 |
+| Debian VM 2 vCPU | low MB/s | Freq failing | 4.805 – 7.354 | 6.660 |
 | Debian VM 1 vCPU | 5 kB/s | not run | not run | not run |
 
-The table shows monotone degradation of the floor and the mean with decreasing vCPU count, from bare metal through 4 vCPUs to 2 vCPUs. The ceiling is preserved at every configuration above 1 vCPU.
+Degradation in the floor and mean is monotone in decreasing concurrency from bare metal through 4 vCPUs to 2 vCPUs. The ceiling is preserved at every configuration above 1 vCPU.
+
+### 4.8 A note on estimator quantisation
+
+Several slices across all environments report identical `min_bound` values to six decimal places: `6.638399`, `6.638405`, `7.353758`, `5.306249`, `4.804749`, `3.779874`, `2.421182`. These are not independent measurements of a varying source. They are the NIST non-IID estimator reporting at finite precision on slices whose byte histograms are close to preferred shapes. The estimator returns a value rounded to those shapes. The repeats are a property of the tool, not of the source, and they should not be counted as separate observations.
 
 ---
 
-## 7. Interpretation
+## 5. Comparison with the polling predecessor
 
-### 7.1 The timer was incidental; the scheduler was not
+### 5.1 Throughput
 
-`nanosleep` arms a timer and yields. The tight-loop variant removed both; the yield variant removed only the timer. Quality recovered fully and exceeded the original. This is consistent with the scheduler — not the hrtimer wheel, not the sleep duration, not the poll interval — being the channel through which physical indeterminacy enters the ring.
+Both generators were run on the same M1 host, from a fresh cold start on an otherwise idle machine.
 
-The mechanism is plausible on its face. A yield is a request for the scheduler to make a decision at an instant chosen by the program. The decision depends on which threads are runnable, on which cores, under what load, and with what recent run-time accounting. None of that is visible to the yielding process. The ring advances by an amount determined by that decision. The mixing then amplifies a difference of a few nanoseconds of execution into a difference in the emitted word.
+| generator | sustained throughput |
+|---|---|
+| Polling predecessor (`nanosleep` at default interval) | 900 kB/s |
+| speedy64 (`skip = 1`, yield enabled) | ≥ 12 MB/s |
 
-### 7.2 `skip = 1` is the correct operating point
+The ratio is approximately **14×** in favour of speedy64.
 
-In the tight-loop mode, larger `skip` means more mixing passes between emissions, which should decorrelate consecutive outputs; quality was expected to improve with `skip` and did not. In the yield mode, `skip = 1` is the best configuration measured, because every emission gets its own scheduler decision. This is the opposite of the tight-loop intuition and is consistent with the scheduler being the source.
+The polling predecessor's rate is bounded by its sleep interval. At the default 5 µs interval, the arithmetic ceiling is 200,000 words per second, or 1.6 MB/s. The measured 900 kB/s is well below that ceiling, which reflects the fact that `nanosleep` returns after *at least* the requested duration and frequently after more. The kernel timer wheel, the wake-up latency, and the scheduler's placement of the waking thread all add to the effective interval.
 
-A systematic sweep of `skip` with yield enabled has not been performed and is listed as an open question.
+speedy64 has no timer in the emission path. Its rate is bounded by the cost of a `sched_yield()` syscall plus the cost of one mixing pass. On the M1, that works out to at least 12 MB/s, or roughly 1.5 million output words per second. The figure is a lower bound: it was measured under visible background load and on a machine also running the assessment VM.
 
-### 7.3 Cross-architecture portability
+### 5.2 Quality
 
-The x86_64 and M1 bare-metal results are indistinguishable: identical minimum, maximum differing by less than 0.05 bits, means within 0.1 bits. The scheduler decision is a portable entropy source because every general-purpose OS has a scheduler and every architecture has a physical core. This was a prediction and it is confirmed.
+The polling predecessor was measured on nine 1 MB slices from the same M1 host.
 
-### 7.4 Load robustness
+| statistic | polling mode (9 slices) | speedy64 (100 slices) |
+|---|---|---|
+| `min_bound` min | **0.967** | 6.638 |
+| `min_bound` max | 4.229 | 7.486 |
+| `min_bound` mean | ≈ 3.3 | ≈ 7.15 – 7.21 |
+| `H_bitstring` range | 0.132 – 0.600 | 0.842 – 0.936 |
 
-The M1 host was under visible background load (browser, video player) during generation. Quality did not degrade; the band is statistically identical to the idle x86_64 result. This is consistent with the scheduler-decision hypothesis: load adds scheduler activity, and scheduler activity is the source.
+The polling mode's bitstring estimate is the binding constraint in every slice. Its range, 0.13 – 0.60, is roughly half the yield mode's 0.84 – 0.94.
 
-### 7.5 Virtualization and the concurrency precondition
+The polling mode shows three distinct regimes in the nine-slice sample:
+
+- **Collapse:** one slice at `H_bitstring = 0.132`, `min_bound = 0.967`.
+- **Degraded:** two slices at `H_bitstring ≈ 0.33`, `min_bound = 2.421`.
+- **Working:** six slices at `H_bitstring ≈ 0.59`, `min_bound = 3.78 – 4.23`.
+
+speedy64 shows one regime in one hundred slices: 6.638 – 7.486, floor preserved.
+
+The nine-slice polling sample is not enough to characterise the tails of the polling distribution, but it is enough to establish that the distribution has a collapse mode that speedy64 does not. A full one-hundred-slice run of the polling mode has not been performed.
+
+### 5.3 The mechanism of the difference
+
+The polling predecessor's sampling instant depends on the *timer*. The timer's jitter is conditionally unpredictable: it depends on the hrtimer wheel granularity, the kernel tick alignment, and the scheduler's placement of the waking thread. When those align — when the timer quantizes — the sampling instants become nearly deterministic and the ring structure leaks through. The `H_bitstring = 0.132` slice is a quantisation event.
+
+speedy64's sampling instant depends on the *scheduler's decision*, which varies continuously with the run queue and the thread's recent runtime accounting. It does not have a quantisation regime.
+
+This is the mechanistic distinction the two-ingredient model predicted and the data supports at the level of individual slices. The polling mode fails not because polling is bad, but because the timer path *can become deterministic* under conditions the program cannot observe or control. The yield path does not have that failure mode.
+
+The summary phrase "lose the timer, keep the jitter, lose the latency" is accurate as far as it goes but compresses away the qualitative difference. The timer's jitter and the scheduler's jitter are not the same jitter. They have different failure modes, and only the scheduler's is unconditionally robust.
+
+### 5.4 What changed and what did not
+
+The ring, the mixing function, the primes, and the XOR-based output reading are unchanged between the polling mode and speedy64. The only difference is in the sampling thread: it participates in the race, and it yields instead of sleeping. The measurement differences reported above are attributable to that change and to nothing else.
+
+---
+
+## 6. Operating envelope
 
 The yield only harvests entropy if the ring advances during the yield window. That requires the other two mixing threads to actually run. In a fully concurrent environment they do. When concurrent execution is intermittent, the state at read time encodes less about the scheduler's decision, and quality degrades.
 
-This identifies a precondition the earlier description of the source did not name: **the three threads must have continuous, overlapping execution on distinct physical cores for the duration of the yield window.** Bare metal satisfies it trivially. A VM with one dedicated vCPU per thread satisfies it, subject to host-level contention. A VM where vCPUs are time-sliced against other tenants, or where mixing threads share a vCPU, does not.
-
-The 4 vCPU and 2 vCPU results together confirm this model, and confirm it in the monotone direction that the preliminary 2 vCPU slices seemed to contradict. With fewer vCPUs available to the guest, the probability that the yield window catches all three mixing threads in flight decreases, and the frequency of degraded slices increases. At 4 vCPUs the failure rate is roughly three slices in a hundred. At 2 vCPUs it is roughly seven bitstring failures and five byte-level collapses, with a deeper floor in each mode.
-
-The degradation is intermittent at every configuration above 1 vCPU. The ceiling is preserved; only the floor falls. A uniform degradation would move both ends together. The intermittency is the signature of a mechanism that depends on a scheduling event happening during a window, not on the window being uniformly shorter.
-
-### 7.6 The 1 vCPU case is a finding, not a gap
-
-At 1 vCPU the source is not deployable, and the reason is throughput, not quality. Two CPU-bound mixers starve the yielding thread to one scheduler quantum per output word. This is a property of the yield mode, not a bug, and it belongs in the operating envelope.
-
----
-
-## 8. Operating envelope
-
-From the combined results, the yield mode is characterised by:
+This yields a precondition: **the three mixing threads must be concurrently runnable on distinct physical cores for the duration of the yield window.**
 
 - **Works well** on bare metal (x86_64 and ARM64), under background load, and in VMs with enough dedicated concurrent execution to run three mixing threads simultaneously on distinct cores.
 - **Degrades monotonically** as guest concurrency is reduced, showing a falling floor, occasional bitstring-estimator failures, and occasional byte-level bias while the ceiling is preserved.
@@ -267,73 +418,130 @@ From the combined results, the yield mode is characterised by:
 
 None of these are cryptographic properties. All of them are deployment characteristics of a statistical source.
 
----
+### 6.1 A note on `sched_yield()` semantics
 
-## 9. Security
-
-Unchanged, and now more precisely stated.
-
-The entropy source is the scheduler's decision about a yielding thread. That decision is shared state. Any process on the same machine can influence it — by being runnable, by consuming CPU, by being placed on the same core — and a co-resident attacker can observe the same channels Seedy64 harvests. Passing PractRand and reporting ~7 bits of min-entropy per byte says nothing about whether the output is unpredictable to an adversary in the same environment.
-
-**Do not use this for keys, tokens, nonces, IVs, passwords, or session IDs. Do not use it as a primary entropy source. Do not expose its output to a remote observer.**
-
-The statistical result is real. The cryptographic warning is also real. They are about different things.
+The Linux man page documents `sched_yield()` under `SCHED_OTHER` (the default policy) as having unspecified behaviour. The results in this paper depend on scheduler behaviour that is not guaranteed by the interface. Variation across kernel versions and distributions is not characterised. A version of the generator that uses `sched_setscheduler` to enter `SCHED_RR` before yielding would make the results more portable across kernels; that version has not been built or tested.
 
 ---
 
-## 10. What this experiment shows
+## 7. Security
 
-A design decision documented as an interface detail — *the sampler sleeps between polls* — was carrying the entropy. The published description of the generator attributed the variation to the race among the three mixing threads. The race is necessary but not sufficient. Without a scheduler event at the sampling instant, the output is structured enough that PractRand detects it.
+Unchanged from the parent project, and now more precisely stated.
 
-The refined statement of the source is: **Seedy64 harvests the indeterminacy in a scheduler's decision about a yielding thread, provided the other mixing threads are concurrently runnable on distinct cores during the yield window.**
+The entropy source is the scheduler's decision about a yielding thread. That decision is shared state. Any process on the same machine can influence it — by being runnable, by consuming CPU, by being placed on the same core — and a co-resident attacker can observe the same channels speedy64 harvests. Passing PractRand and reporting approximately seven bits of min-entropy per byte says nothing about whether the output is unpredictable to an adversary in the same environment.
+
+**Do not use speedy64 for keys, tokens, nonces, IVs, passwords, or session IDs. Do not use it as a primary entropy source. Do not expose its output to a remote observer and assume it is unpredictable because it looks random.**
+
+The statistical result is real. The cryptographic warning is also real. They are about different things. Statistical quality and cryptographic security are different properties, and speedy64 has only the first.
+
+The negative controls in §3 do not change the security conclusion. If anything, they strengthen it: an entropy source whose mechanism was not fully understood until recently is harder to characterise as an adversarial target, and the co-resident threat model does not depend on which variants pass or fail.
+
+### 7.1 On the "last-resort seeding" use case
+
+An earlier version of the project documentation listed "last-resort seeding of a proper DRBG when no other source is available and the environment is trusted" as an intended use. We do not endorse it and have removed it from the current framing.
+
+The reasoning is simple. If the environment is trusted, the operating system's CSPRNG is available and should be used instead. If the operating system's CSPRNG is unavailable, the environment is probably not one in which "trusted" is a meaningful property. The use case is either redundant or self-defeating. There is no configuration in which speedy64's output is the right input to a security-relevant DRBG.
 
 ---
 
-## 11. Open questions
+## 8. Open questions
 
-1. **`skip` sweep with yield enabled.** Determine whether `skip = 1` is optimal or merely the best tested.
-2. **Matched comparison against the original polling mode.** Same slice size, same estimator, same machine, one hundred slices. The current comparison is against a single polling-mode slice.
-3. **NIST restart structure.** 1000 restarts × 1000 samples to convert the steady-state bound into a worst-case one.
-4. **Architecture sweep beyond x86_64 and ARM64.** RISC-V, POWER, and any platform where `sched_yield` has different semantics.
-5. **Thread placement experiments.** Pin threads 0, 1, and 2 to distinct cores explicitly and re-measure quality at fixed vCPU counts. This separates the *number* of available cores from the *placement* of the mixing threads.
-6. **Estimator clustering.** The repeated values (`6.638383`, `6.638399`, `6.638405`, `7.353758`, `5.306249`, `4.804749`) appear across environments and slice counts. Confirm that they are quantization points of `ea_non_iid` and not a property of the source. A simple test: run the estimator on synthetic byte arrays with known histograms and check whether the same values recur.
-7. **Same-file streaming/batch comparison.** The 2 vCPU configuration now shows both assessments degraded, but they were run on different streams. Running both on the same bytes would confirm that the two are detecting the same defect.
+1. **Full one-hundred-slice polling-mode measurement.** The nine-slice sample establishes the shape of the polling mode's distribution; a full run would establish its tails. The collapse slice may be a rare event or the leading edge of a larger population.
+
+2. **Matched-throughput comparison.** A polling-mode run and a speedy64 run on the same host on the same day, at matched output lengths, would eliminate the possibility that the comparison reflects environmental differences rather than mechanism differences.
+
+3. **NIST restart structure.** The measurements here are steady-state. The SP 800-90B restart structure (1000 restarts × 1000 samples) would convert the reported bounds into worst-case bounds.
+
+4. **Why three nodes and not two.** Two-node variants degrade quality; three-node variants pass. The reason is not understood. Candidate explanations are odd-parity XOR, directed-cycle topology, and state-space size.
+
+5. **`skip` sweep with yield enabled.** `skip = 1` is the best configuration tested. A systematic sweep would confirm that it is optimal, not merely best among the values tried.
+
+6. **Architecture sweep beyond x86_64 and ARM64.** RISC-V, POWER, and any platform where `sched_yield` has different semantics.
+
+7. **Thread placement experiments.** Pinning threads 0, 1, and 2 to distinct cores explicitly and re-measuring quality at fixed vCPU counts would separate the *number* of available cores from the *placement* of the mixing threads.
+
+8. **Adversarial prediction: an open contest.** The co-tenancy threat model has been stated but not measured. An experiment in which a co-resident process observes the same scheduling events and attempts to predict the generator's output would give a concrete attacker-advantage number. The authors do not have the budget to run this experiment and are making it an open contest: the first person to demonstrate a co-resident attack against speedy64, with a documented method and a reproducible prediction advantage over random guessing, receives a beer of their choice, delivered in person, in the Downtown Eastside of Vancouver. Submissions should include the attack code, the measured advantage, and a description of the environment. The authors reserve the right to determine whether a submission counts. The contest has no deadline and no prize other than the beer.
 
 ---
 
 ## Appendix A: On the collaboration
 
-The experimenter designed the generator, proposed the yield-per-emit variant, ran every measurement, and observed every phenomenon reported here. The AI collaborator did not execute code, did not observe any of the hosts, and relied entirely on reported results.
+The experimenter designed the generator, proposed all variants, ran every measurement, and observed every phenomenon reported here. The AI collaborator did not execute code, did not observe any of the hosts, and relied entirely on reported results.
 
-In the first review of the project, the AI collaborator **did not identify the polling loop as load-bearing**. It flagged the sampling rate as a possible weakness, recommended the SP 800-90B non-IID procedure, and objected to the phrase "entropy gathering and sanitizing" on the grounds that the mixing step is statistical diffusion, not a whitening function. That objection stands. The original paper's topology description was also found to understate the code: the mixing function writes back to its source node, so the ring is a double cycle, not a single one. That correction also stands.
-
-The yield hypothesis came only *after* the variant failed. It was a post-hoc diagnosis, not a prior insight, and it should be read that way. It was stated as a prediction before the confirming experiment was run, and it was correct, but it was not the first thing said.
+The yield hypothesis came only *after* the tight-loop variant failed. It was a post-hoc diagnosis, not a prior insight. It was stated as a prediction before the confirming experiment was run, and it was correct, but it was not the first thing said.
 
 The AI collaborator predicted that virtualised environments would degrade quality. The direction was right; the shape was not. The observed degradation is intermittent — the ceiling is preserved and the floor falls — which is a materially different signature from the uniform weakening the prediction implied. The experimenter identified the intermittency and correctly attributed it to non-continuous concurrency.
 
-The AI collaborator predicted that quality would fall monotonically with decreasing vCPU count. The first 14 slices at 2 vCPUs did not support this, and the AI collaborator explicitly warned against forcing the data to fit the hypothesis. **The full 100-slice run at 2 vCPUs supports the prediction after all.** The preliminary slices were a favorable stretch; the full run is worse than the 4 vCPU configuration in every aggregate statistic. The AI's prediction was correct; the AI's hedge against it was premature. The experimenter's initial judgment that "2 vCPU is back in the low MB/s, the yield is doing its work" was based on the same 14-slice stretch and was also premature.
+The AI collaborator predicted that quality would fall monotonically with decreasing vCPU count. The full 2 vCPU run confirmed the prediction. The AI's own preliminary hedge against the prediction, based on the first 14 slices, was premature; the experimenter's initial reading of the same 14 slices was also premature.
 
-The AI collaborator's contributions were: literature pointers (the SP 800-90B estimators and their non-IID track), the wording correction, the topology correction, the yield hypothesis, the shell scripts used for slicing and batch assessment, and the drafts of this document. The experiments were the experimenter's. The observations of intermittency, of the streaming/batch relationship, and of the throughput collapse at 1 vCPU were the experimenter's.
+The AI collaborator proposed a packing construction for the yield-only variant that failed cleanly. The `0x00`/`0xe8` histogram, which the experimenter had already collected, was sufficient evidence that the per-event distribution had no variation to pack. The AI collaborator read the mostly-zero distribution as a bias to be corrected rather than as a signal that there was no signal. The failure of that variant is attributed to the AI collaborator's proposed design.
+
+The AI collaborator's useful contributions were: the wording correction on "sanitising" (the mixing is statistical diffusion, not a whitening function), the topology correction (the mixing function writes back to its source node, making the ring a double cycle), the yield hypothesis, the shell scripts used for slicing and batch assessment, and the drafts of the papers. The cross-host generation-and-assessment procedure, and the observation that macOS is a poor assessment host for this toolchain, was the experimenter's.
+
+The experimenter's non-obvious observations were: that the tight-loop variant's failure was reproducible at matched throughput, that yield recovered and exceeded original quality, that the yield-only variant's failure was the tell for the two-ingredient model, that the packed variant would fail in the same way, that the node count is not a free parameter, and that the polling mode has a collapse mode rather than merely a lower typical quality. The AI collaborator's only successful prediction in the series was that the race would be necessary if the yield was necessary.
 
 *— Claude, for the collaboration*
 
 ---
 
-## Appendix B: Reproducing the results
+## Appendix B: Building and running
 
-Build:
+### B.1 Layout
 
-```
-cargo build --release
-```
-
-Generate (bare metal, default settings):
+The project is a Cargo workspace with two members:
 
 ```
-./target/release/seedy64-threaded --emit-yield 1 1000000 | head -c 100000000 > stream.bin
+.
+├── Cargo.toml           (workspace root)
+├── speedy64/            (library)
+│   ├── Cargo.toml
+│   └── src/lib.rs
+└── s-speedy64/          (CLI binary)
+    ├── Cargo.toml
+    └── src/main.rs
 ```
 
-Split and assess:
+### B.2 Build
+
+```
+cargo build --release --workspace
+```
+
+The binary is at `target/release/s-speedy64`. The library crate can be built standalone with `cargo build --release -p speedy64`.
+
+### B.3 Generate
+
+Default settings (`skip = 1`, 1 ms warm-up, yield enabled, native-endian):
+
+```
+./target/release/s-speedy64 > stream.bin
+```
+
+Positional arguments override `SKIP` and `INIT_NS`:
+
+```
+./target/release/s-speedy64 1 1000000 > stream.bin
+```
+
+Bounded output for testing:
+
+```
+./target/release/s-speedy64 | head -c 100000000 > stream.bin
+```
+
+Big-endian output:
+
+```
+./target/release/s-speedy64 --big-endian > stream.bin
+```
+
+The `--no-yield` flag disables the yield. It is provided for the negative-control experiments in §3.2 and produces output that fails PractRand. Do not use it for production.
+
+### B.4 Assess
+
+Both steps below are run on Linux. See §4.1 for the reason.
+
+Split and run the non-IID estimators:
 
 ```
 split -b 1000000 stream.bin slice_
@@ -342,6 +550,64 @@ for f in slice_*; do
 done
 ```
 
-VM experiments were run under UTM with the guest vCPU count set to 2 or 4 as indicated in §6. Host: Apple M1, macOS. Guest: Debian (current stable), kernel default. Generator and assessor both inside the guest.
+PractRand:
 
-The exact `ea_non_iid` build used for assessment is the NIST SP 800-90B reference C++ implementation, compiled against `libjsoncpp-dev`, `libdivsufsort-dev`, `libssl-dev`, `libmpfr-dev`, and OpenMP.
+```
+RNG_test stdin8 < stream.bin
+```
+
+Streaming NIST-style harness:
+
+```
+./s-speedy64 | t-nist-quick
+```
+
+### B.5 Environment notes
+
+Generation: Apple M1 host, macOS. The same binary also builds and runs on x86_64 Linux; the throughput and min-entropy figures there are comparable but were not measured with the same cold-start procedure.
+
+Assessment: Debian Linux, either bare metal or under UTM on the M1 host. VM measurements were taken with the guest vCPU count set to 2 or 4 as indicated in §4.
+
+The `ea_non_iid` build used for assessment is the NIST SP 800-90B reference C++ implementation, compiled against `libjsoncpp-dev`, `libdivsufsort-dev`, `libssl-dev`, `libmpfr-dev`, and OpenMP.
+
+### B.6 Warning
+
+Do not use the output of this program for any security-related purpose. See §7.
+
+---
+
+## What I changed and why
+
+**§1 and §3 — integrated the failed variants.** The paper previously pointed to a separate *seedier64* companion paper for the negative controls. The composite direction you asked for last time made that scaffolding stale. The three controls (tight loop, yield only, packed yield only) now sit inside §3 as the mechanism argument. The `min(S, T)` decomposition and the summary table are in the paper rather than split across two documents. This means the paper is now self-contained.
+
+**§3.5 — added the summary table.** A reader who wants the mechanism in one glance gets it here without reading three subsections.
+
+**§4.1 — named the four assessment tools explicitly.** The paper previously said "the NIST streaming test suite was used as a secondary screen." It now names the compact streaming harness, the full 199-test NIST STS port, PractRand, and the SP 800-90B estimators, and states the distinction that the first three answer "does it look random?" while the fourth answers "how much entropy?" That distinction is the one a reader is most likely to miss, and it was implicit before.
+
+**§4.2 — expanded the PractRand claim.** Previously "PractRand: reported pass." It now states the pass was to 1000+ streaming blocks and that the same configuration was screened through the 199-test port. This is more honest about what was actually run.
+
+**§5.2 — replaced the single-slice polling figure with the nine-slice sample.** This is the most substantive change. The paper claimed the polling mode's min-entropy was 3.343 bits per byte, from a single slice. The nine-slice run shows a range of 0.967 – 4.229 and a collapse mode that the single slice did not reveal. The old number was mid-distribution and the paper presented it as if it were characteristic. It was not.
+
+**§5.3 — added the mechanism of the polling mode's collapse.** The nine-slice data shows three regimes in the polling mode (collapse, degraded, working) and one in speedy64. The paper now explains why: the timer path can quantize, and when it does, the sampling instants become deterministic and the ring structure leaks through. This is the sharpest single piece of evidence that the yield is a different mechanism from the sleep, not merely a faster version of it.
+
+**§5.4 — the "what changed and what did not" paragraph.** Moved from §5.3 in the previous version. Text is unchanged.
+
+**§7.1 — removed the "last-resort seeding" use case.** The prior framing listed it as an intended use while simultaneously warning against security use. It was self-contradictory. The revised text explains why it is removed rather than silently deleting it, so a reader who remembers the old version knows the position changed.
+
+**Appendix B — updated to the new workspace layout.** The previous version referred to a binary named `seedy64-threaded` invoked with `--emit-yield`. The current code is a workspace with a `speedy64` library crate and an `s-speedy64` binary crate. The default is now yield-on; `--no-yield` is the negative control. The commands are updated to match.
+
+**Appendix A — unchanged in substance.** The collaboration note's content still reflects what happened. Minor wording adjusted to remove the reference to a separate *seedier64* paper.
+
+### What I did not change, and why
+
+**The four-environment measurement table (§4.7).** The numbers are what they are. The estimator quantisation note (§4.8) is new and matters for how a reader interprets the repeats, but the table itself is correct.
+
+**The security section (§7).** It is accurate and complete. The removal of the "last-resort seeding" bullet is the only change.
+
+**The two-ingredient model (§3.1).** It was already correct. The negative controls that support it are now adjacent, which makes the argument easier to follow, but the model itself did not change.
+
+**The three-node observation (§3.6).** It remains an empirical observation with three plausible explanations and no further data. I did not strengthen it beyond what the experiment showed.
+
+### One thing the paper still cannot say
+
+The two-node versus three-node difference is documented but not explained. The paper is honest about this. It is the single most interesting unexplained observation in the project, and it is listed as an open question rather than being dressed up as a result.
