@@ -19,7 +19,7 @@ use std::time::Instant;
 )]
 struct Cli {
     /// Number of slices to assess.
-    #[arg(short = 'n', long, default_value_t = 1000, value_name = "N")]
+    #[arg(short = 'n', long, default_value_t = 10, value_name = "N")]
     count: usize,
 
     /// Bytes per slice read from stdin.
@@ -31,7 +31,7 @@ struct Cli {
     bits_per_symbol: u8,
 
     /// Path to (or name of) the ea_non_iid helper.
-    #[arg(long, default_value = "./ea_non_iid", value_name = "PATH")]
+    #[arg(long, default_value = "ea_non_iid", value_name = "PATH")]
     tool: PathBuf,
 
     /// Output directory (slice files, run.log).
@@ -39,7 +39,7 @@ struct Cli {
     outdir: PathBuf,
 
     /// Optional CSV file to append the per-slice results to.
-    #[arg(long, value_name = "PATH")]
+    #[arg(long, default_value = "results/results.csv", value_name = "PATH")]
     csv: Option<PathBuf>,
 
     /// Keep slice files after assessment.

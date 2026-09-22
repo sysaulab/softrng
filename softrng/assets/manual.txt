@@ -21,6 +21,7 @@ Pipelines are built by connecting these tools. For example:
 | `s-entropy` | High‑quality entropy from the kernel (`getrandom`). Outputs raw binary. |
 | `s-seedy64` | Continuous chaotic stream from the SEEDY64 mixer. |
 | `s-seedy64-reset` | Outputs one 64‑bit value from a *fresh* SEEDY64 instance each iteration. Designed specifically for testing. |
+| `s-speedy64` | Continuous chaotic stream from the SPEEDY64 mixer, a better variant of SEEDY64, faster and better min-entropy. |
 | `s-file <FILE> [OFFSET]` | Outputs raw content of `FILE`, starting at `OFFSET` (default 0). |
 | `s-file-loop <FILE>` | Outputs raw content of `FILE`, in a loop. |
 | `s-zeros` | Infinite stream of zero bytes (as little‑endian 64‑bit words). |
@@ -43,8 +44,9 @@ Pipelines are built by connecting these tools. For example:
 
 | Command | Description |
 |---------|-------------|
-| `t-hole` | Discard all input (like `/dev/null`). |
 | `t-bits [BITS]` | Bit‑spectrum test: reads n‑bit words and counts unique. |
+| `t-hole` | Discard all input (like `/dev/null`). |
+| `t-min-entropy` | Harness program, requires the NIST SP800-90B to be installed. |
 | `t-nist-all -r [runs]` | NIST tests, all of them. |
 | `t-nist-quick -r [runs]` | NIST tests, fast subset. |
 
