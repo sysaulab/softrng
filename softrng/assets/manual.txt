@@ -50,6 +50,14 @@ Pipelines are built by connecting these tools. For example:
 | `t-nist-all -r [runs]` | NIST tests, all of them. |
 | `t-nist-quick -r [runs]` | NIST tests, fast subset. |
 
+## UTILITIES ()
+
+| Command | Description |
+|---------|-------------|
+| randfs | ChaCha20 backed read only filesystem. Serves files of 9EB in size. |
+| softrng | Print this manual. |
+| timer-profile | System time profiler. See the PAPER.md for details. |
+
 ## EXAMPLES
 
 ```bash
