@@ -1,0 +1,10 @@
+[package]
+name = "randfs"
+version = "0.1.1"
+edition = "2021"
+
+[dependencies]
+fuser = "0.18.0"
+clap ={ version = "4", features = ["derive"]}
+zerocopy = "0.8.57"
+chacha20 = "0.9"

@@ -11,6 +11,7 @@ mv target/release/f-reduce			/usr/local/bin
 mv target/release/f-sirius64		/usr/local/bin
 mv target/release/f-qxo64			/usr/local/bin
 mv target/release/f-xoshiro			/usr/local/bin
+mv target/release/randfs			/usr/local/bin
 mv target/release/s-entropy			/usr/local/bin
 mv target/release/s-file			/usr/local/bin
 mv target/release/s-file-loop		/usr/local/bin
